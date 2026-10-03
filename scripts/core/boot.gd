@@ -13,6 +13,10 @@ func _ready() -> void:
 			var driver: Node = load("res://tests/tour_driver.gd").new()
 			driver.name = "TourDriver"
 			get_tree().root.add_child.call_deferred(driver)
+		if arg == "--gtour" and ResourceLoader.exists("res://tests/genetics_tour.gd"):
+			var gdriver: Node = load("res://tests/genetics_tour.gd").new()
+			gdriver.name = "GeneticsTour"
+			get_tree().root.add_child.call_deferred(gdriver)
 		if arg == "--scene=park":
 			target = SceneRouter.PARK
 		elif arg == "--scene=battle":

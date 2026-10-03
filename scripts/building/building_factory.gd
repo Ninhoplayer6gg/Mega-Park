@@ -6,6 +6,8 @@ const TYPES := {
 	&"generic": preload("res://scripts/building/building_node.gd"),
 	&"habitat": preload("res://scripts/building/habitat_node.gd"),
 	&"incubator": preload("res://scripts/building/incubator_node.gd"),
+	&"lab": preload("res://scripts/building/lab_node.gd"),
+	&"entrance": preload("res://scripts/building/entrance_node.gd"),
 }
 
 

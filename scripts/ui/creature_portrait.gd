@@ -4,6 +4,9 @@ extends Control
 ## undiscovered species.
 
 var data: CreatureData
+## Big-mutation anatomy sheet (null = species sheet).
+var sheet: Texture2D
+var mutation: MutationData
 var silhouette := false
 var flip := false
 var anim := "idle"
@@ -24,6 +27,14 @@ static func make(species: CreatureData, min_size := Vector2(160, 120), as_silhou
 	return p
 
 
+## Portrait of an individual: uses its mutation form sheet and palette.
+static func of_creature(c: CreatureInstance, min_size := Vector2(160, 120), animated := true) -> CreaturePortrait:
+	var p := make(c.data, min_size, false, animated)
+	p.sheet = c.form_sheet()
+	p.mutation = c.mutation()
+	return p
+
+
 func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	if silhouette:
@@ -37,6 +48,8 @@ func _ready() -> void:
 	_rect.flip_h = flip
 	if silhouette:
 		_rect.modulate = Color(0.06, 0.05, 0.16, 1.0)
+	elif CreatureLook.has_palette(mutation):
+		_rect.material = CreatureLook.material_for(mutation)
 	add_child(_rect)
 	if silhouette:
 		var q := TextureRect.new()
@@ -115,7 +128,7 @@ func _show_frame() -> void:
 	if data == null or _rect == null:
 		return
 	var spec: Array = data.anim_layout.get(anim, [0, 1, 4.0, true])
-	_rect.texture = DataRegistry.frame_texture(data, spec[0], _frame % spec[1])
+	_rect.texture = DataRegistry.frame_texture(data, spec[0], _frame % spec[1], sheet)
 	if silhouette:
 		for c in get_children():
 			if c.name.begins_with("Rim"):

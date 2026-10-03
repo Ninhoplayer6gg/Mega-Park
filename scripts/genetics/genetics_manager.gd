@@ -107,6 +107,12 @@ func lab_level() -> int:
 	return lvl
 
 
+## Level of one specific lab building (0 when it is not a synthesis lab).
+func lab_level_of(lab_uid: String) -> int:
+	var b := ParkState.get_building(lab_uid)
+	return int(b.data.params.get("lab_level", 0)) if b else 0
+
+
 func lab_stability_bonus() -> float:
 	var total := 0.0
 	for b in ParkState.buildings.values():
@@ -206,6 +212,8 @@ func default_donors(recipe: HybridRecipe) -> Array:
 func check_recipe(recipe: HybridRecipe, donors: Array, lab_uid := "") -> String:
 	if lab_level() < recipe.required_lab_level:
 		return "Requer laboratório nível %d (%s)." % [recipe.required_lab_level, _lab_name(recipe.required_lab_level)]
+	if lab_uid != "" and lab_level_of(lab_uid) < recipe.required_lab_level:
+		return "Este laboratório é nível %d: use %s." % [lab_level_of(lab_uid), _lab_name(recipe.required_lab_level)]
 	for rid in recipe.required_research:
 		if not ResearchManager.is_done(rid):
 			var r := DataRegistry.get_research(rid)

@@ -10,6 +10,10 @@ var actors := {}             # creature uid -> CreatureActor
 var bubble: Node2D
 var _bubble_label: Label
 var _ground: Node2D
+var _origin := Vector2.ZERO
+var _feeder: Sprite2D
+var _decor: Array = []          # [{"node": Sprite2D, "cell": Vector2i}]
+var _upgrade_nodes := {}        # upgrade id -> Sprite2D
 
 
 func _build_visual() -> void:
@@ -17,6 +21,7 @@ func _build_visual() -> void:
 	var w := data.size.x
 	var h := data.size.y
 	var origin := Vector2(-w * ParkGrid.TILE * 0.5, -h * ParkGrid.TILE)
+	_origin = origin
 	_ground = HabitatGround.new()
 	_ground.setup(habitat_type, data.size, origin)
 	_ground.z_index = -5
@@ -53,12 +58,13 @@ func _build_visual() -> void:
 	gate.offset = Vector2(-gate.texture.get_width() * 0.5, -gate.texture.get_height())
 	gate.position = origin + Vector2((gate_x0 + GATE_WIDTH * 0.5) * ParkGrid.TILE, h * ParkGrid.TILE)
 	add_child(gate)
-	_add_prop(habitat_type.feeder_texture, origin, Vector2i(1, 1))
+	_feeder = _add_prop(habitat_type.feeder_texture, origin, Vector2i(1, 1))
 	var decor_cells := [Vector2i(w - 2, 1), Vector2i(1, h - 3), Vector2i(w - 3, h - 3)]
 	for i in decor_cells.size():
 		if habitat_type.decor_textures.is_empty():
 			break
-		_add_prop(habitat_type.decor_textures[i % habitat_type.decor_textures.size()], origin, decor_cells[i])
+		var d := _add_prop(habitat_type.decor_textures[i % habitat_type.decor_textures.size()], origin, decor_cells[i])
+		_decor.append({"node": d, "cell": decor_cells[i]})
 	content = Node2D.new()
 	content.name = "Content"
 	content.y_sort_enabled = true
@@ -67,15 +73,85 @@ func _build_visual() -> void:
 		_build_bubble(origin)
 
 
-func _add_prop(tex: Texture2D, origin: Vector2, c: Vector2i) -> void:
+func _add_prop(tex: Texture2D, origin: Vector2, c: Vector2i) -> Sprite2D:
 	if tex == null:
-		return
+		return null
 	var s := Sprite2D.new()
 	s.texture = tex
 	s.centered = false
 	s.offset = Vector2(-tex.get_width() * 0.5, -tex.get_height())
 	s.position = origin + Vector2(c.x * ParkGrid.TILE + 16, (c.y + 1) * ParkGrid.TILE - 2)
 	add_child(s)
+	return s
+
+
+## Ecosystem features (pond, shelter, vegetation, premium feeder) installed in this habitat.
+func refresh_upgrades() -> void:
+	if preview or instance == null:
+		return
+	var installed: Array = ParkState.habitat_upgrades(instance)
+	var premium := false
+	for uid in installed:
+		var u: HabitatUpgradeData = DataRegistry.habitat_upgrades.get(StringName(uid))
+		if u == null:
+			continue
+		if u.kind == &"food":
+			premium = true
+		if _upgrade_nodes.has(uid):
+			continue
+		var tex := u.texture_for(data.habitat_type)
+		var node := _add_prop(tex, _origin, u.slot)
+		if node == null:
+			continue
+		if u.kind == &"water":
+			node.z_index = -4
+			node.offset.y += 8
+		_upgrade_nodes[uid] = node
+		# Make room: hide decorations sitting on the feature's spot.
+		for d in _decor:
+			if d.node and absi(d.cell.x - u.slot.x) <= 1 and absi(d.cell.y - u.slot.y) <= 1:
+				d.node.visible = false
+	if _feeder:
+		_feeder.visible = not premium
+
+
+func _upgrade_node_of_kind(kind: StringName) -> Sprite2D:
+	for uid in _upgrade_nodes:
+		var u: HabitatUpgradeData = DataRegistry.habitat_upgrades.get(StringName(uid))
+		if u and u.kind == kind:
+			return _upgrade_nodes[uid]
+	return null
+
+
+## Spot in front of the feeder (premium feeder when installed).
+func feeder_point() -> Vector2:
+	var n := _upgrade_node_of_kind(&"food")
+	if n == null:
+		n = _feeder
+	return (n.position if n else wander_rect().get_center()) + Vector2(randf_range(-10, 22), 12)
+
+
+## Pond edge, or Vector2.INF when the habitat has no water feature.
+func water_point() -> Vector2:
+	var n := _upgrade_node_of_kind(&"water")
+	if n == null:
+		return Vector2.INF
+	return n.position + Vector2(randf_range(-20, 20), 10)
+
+
+## Shelter entrance when installed, otherwise a quiet corner.
+func rest_point() -> Vector2:
+	var n := _upgrade_node_of_kind(&"shelter")
+	if n:
+		return n.position + Vector2(randf_range(-12, 12), 14)
+	var r := wander_rect()
+	return Vector2(r.position.x + randf() * r.size.x * 0.3, r.position.y + randf() * r.size.y * 0.4)
+
+
+## Near the front fence, where visitors watch.
+func front_point() -> Vector2:
+	var r := wander_rect()
+	return Vector2(randf_range(r.position.x, r.end.x), r.end.y)
 
 
 func _build_bubble(origin: Vector2) -> void:
@@ -112,8 +188,12 @@ func _build_bubble(origin: Vector2) -> void:
 func _ready() -> void:
 	super._ready()
 	if not preview:
+		refresh_upgrades()
 		sync_creatures()
 		tick()
+		EventBus.eco_upgrade_installed.connect(func(uid: String, _u):
+			if instance and uid == instance.uid:
+				refresh_upgrades())
 
 
 ## Inner walkable area in local coordinates (inside the fence ring).
@@ -131,9 +211,13 @@ func sync_creatures() -> void:
 	var wanted := {}
 	for c in CreatureRoster.in_habitat(instance.uid):
 		wanted[c.uid] = c
+		# Evolutions and induced mutations change the look: rebuild the actor.
+		if actors.has(c.uid) and actors[c.uid].look_key != CreatureActor.look_key_of(c):
+			actors[c.uid].queue_free()
+			actors.erase(c.uid)
 		if not actors.has(c.uid):
 			var actor := CreatureActor.new()
-			actor.setup(c, wander_rect())
+			actor.setup(c, wander_rect(), self)
 			content.add_child(actor)
 			actors[c.uid] = actor
 	for uid in actors.keys():

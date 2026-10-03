@@ -466,12 +466,14 @@ func test_three_and_four_species() -> void:
 	check(GeneticsManager.check_recipe(aurorax, [null, null, null, null]).contains("nível 3"), "4 species needs Câmara Quimérica")
 	var s2 := GeneticsManager.stability_for(DataRegistry.get_recipe(&"xenorex"), [null, null])
 	var s3 := GeneticsManager.stability_for(astro, [null, null, null])
-	ParkState.place(DataRegistry.get_building(&"chimera_chamber"), _find_free_cell(DataRegistry.get_building(&"chimera_chamber")))
+	var chamber: BuildingInstance = ParkState.place(DataRegistry.get_building(&"chimera_chamber"), _find_free_cell(DataRegistry.get_building(&"chimera_chamber")))
 	var s4 := GeneticsManager.stability_for(aurorax, [null, null, null, null])
 	print("  stability 2/3/4: %d / %d / %d" % [s2, s3, s4])
 	check(s2 > s3 and s3 > s4 - 6, "complexity lowers stability")
 	check(GeneticsManager.lab_level() == 3, "chimera chamber -> level 3")
-	var lab: BuildingInstance = b[&"genetic_lab"]
+	var small_lab: BuildingInstance = b[&"genetic_lab"]
+	check(GeneticsManager.check_recipe(aurorax, [null, null, null, null], small_lab.uid).contains("Câmara"), "level-1 lab redirects to the Câmara Quimérica")
+	var lab := chamber
 	check(GeneticsManager.check_recipe(aurorax, [null, null, null, null], lab.uid) == "", "aurorax ready: " + GeneticsManager.check_recipe(aurorax, [null, null, null, null], lab.uid))
 	GeneticsManager.start_synthesis(lab.uid, aurorax, [null, null, null, null])
 	GeneticsManager.jobs[lab.uid].outcome = "success"
