@@ -91,13 +91,14 @@ func _run() -> void:
 	await wait(1.5)
 	var park := scene()
 	expect(park.name == "Park", "park scene loaded")
-	await _park_world(park)
+	var ctx := await _park_world(park)
+	await _lab_ui(park, ctx)
 	print("GTOUR finished with %d failures" % failures.size())
 	get_tree().quit(1 if failures.size() > 0 else 0)
 
 
 # ------------------------------------------------------------------ phase 1: park world
-func _park_world(park: Node) -> void:
+func _park_world(park: Node) -> Dictionary:
 	var anchor := ParkGrid.world_to_cell(park.camera.position)
 	for i in 3:
 		place(&"generator", anchor + Vector2i(12, -6 + i * 2))
@@ -178,3 +179,119 @@ func _park_world(park: Node) -> void:
 	await wait(1.4)
 	expect(ln.ready_icon.visible, "lab shows ready marker")
 	await shot("lab_synthesis_ready")
+	return {"hab": hab, "glacial": glacial, "lab": lab, "rex": rex, "xeno": xeno, "tri": tri, "anchor": anchor}
+
+
+func current_panel(park: Node) -> GamePanel:
+	return park.hud._current_panel
+
+
+func continue_presentation(park: Node) -> void:
+	var guard := 0
+	while park.hud.is_presenting() and guard < 6:
+		press(park.hud._presenting, "Continuar")
+		await wait(0.5)
+		guard += 1
+
+
+# ------------------------------------------------------------------ phase 2: lab UI
+func _lab_ui(park: Node, ctx: Dictionary) -> void:
+	var lab: BuildingInstance = ctx.lab
+	park.hud.close_all()
+	park.hud.open_building(lab)
+	await wait(0.6)
+	await shot("lab_job_ready")
+	expect(press(current_panel(park), "Revelar resultado"), "reveal button")
+	await wait(2.0)
+	await shot("presentation_new_species")
+	expect(park.hud.is_presenting(), "new species presentation shown")
+	var hybrid: CreatureInstance = null
+	for c in CreatureRoster.all():
+		if c.species_id == &"xenorex":
+			hybrid = c
+	expect(hybrid != null and ArchiveManager.knows(&"xenorex", &"owned"), "Xenorex created and in the Arquivo")
+	await continue_presentation(park)
+	# a second synthesis through the recipe UI
+	GeneticsManager.add_species_dna(&"rex_primordial", 60)
+	GeneticsManager.add_species_dna(&"xenoraptor", 60)
+	var panel := current_panel(park)
+	panel.selected_recipe = &"xenorex"
+	panel.refresh()
+	await wait(0.4)
+	await shot("lab_recipes")
+	expect(press(panel, "Iniciar síntese"), "start synthesis via UI")
+	await wait(0.6)
+	await shot("lab_job_running")
+	expect(GeneticsManager.jobs.has(lab.uid), "synthesis job running")
+	GeneticsManager.jobs[lab.uid].outcome = "failure"
+	GameClock.advance(DataRegistry.get_recipe(&"xenorex").creation_time + 1)
+	await wait(1.4)
+	press(current_panel(park), "Revelar resultado")
+	await wait(2.0)
+	await shot("presentation_failure")
+	expect(GeneticsManager.material(&"mat_unstable") > 0, "failure gives unstable material")
+	await continue_presentation(park)
+	panel = current_panel(park)
+	panel.tab = "extract"
+	panel.refresh()
+	await wait(0.4)
+	var dna_before := GeneticsManager.dna_of(&"triceratopo_ancestral")
+	var tri: CreatureInstance = ctx.tri
+	panel._extract_card(tri)
+	var extracted := GeneticsManager.extract_dna(tri)
+	panel.refresh()
+	await wait(0.3)
+	await shot("lab_extraction")
+	expect(extracted > 0 and GeneticsManager.dna_of(&"triceratopo_ancestral") > dna_before and CreatureRoster.get_creature(tri.uid) != null, "extraction is non-destructive")
+	panel.tab = "bank"
+	panel.refresh()
+	await wait(0.4)
+	await shot("lab_gene_bank")
+	ResearchManager.completed[&"gen_sequencing"] = true
+	ResearchManager.add_rp(60, false)
+	panel.tab = "genes"
+	panel.selected_creature = hybrid.uid
+	panel.refresh()
+	await wait(0.3)
+	expect(press(panel, "Sequenciar (%d PP)" % GeneticsManager.SEQUENCE_RP), "sequence via UI")
+	await wait(0.4)
+	await shot("lab_genes_sequenced")
+	expect(hybrid.sequenced, "hybrid sequenced")
+	expect(press(current_panel(park), "Árvore genética"), "open genetic tree")
+	await wait(0.8)
+	await shot("genetic_tree")
+	park.hud.close_all()
+	# paleontology: pure restoration
+	ResearchManager.completed[&"paleo_methods"] = true
+	var paleo := place(&"paleo_center", ctx.anchor + Vector2i(-12, 6))
+	GeneticsManager.add_fossils(&"glaciadon", 10)
+	park.hud.open_building(paleo)
+	await wait(0.6)
+	await shot("paleo_center")
+	expect(press(current_panel(park), "Restauração pura"), "start pure restoration")
+	GameClock.advance(GeneticsManager.RESTORE_TIME + 1)
+	await wait(1.4)
+	expect(press(current_panel(park), "Concluir restauração"), "collect restoration")
+	await wait(1.6)
+	await shot("presentation_restored")
+	await continue_presentation(park)
+	park.hud.close_all()
+	# mutagen
+	ResearchManager.completed[&"mutation_studies"] = true
+	var mut := place(&"mutagen_center", ctx.anchor + Vector2i(10, 6))
+	GeneticsManager.add_material(&"mat_serum", 2)
+	ArchiveManager.note_mutation(&"xenoraptor", &"eletrica")
+	park.hud.open_building(mut)
+	await wait(0.6)
+	var mp := current_panel(park)
+	mp.selected_creature = ctx.xeno.uid
+	mp.refresh()
+	await wait(0.4)
+	await shot("mutagen_center")
+	seed(4)
+	press(mp, "Induzir mutação")
+	await wait(1.6)
+	await shot("mutagen_result")
+	print("GTOUR induced mutation: ", ctx.xeno.mutation_id)
+	await continue_presentation(park)
+	park.hud.close_all()

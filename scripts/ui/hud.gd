@@ -16,6 +16,10 @@ const PANELS := {
 	"settings": preload("res://scripts/ui/panels/settings_panel.gd"),
 	"habitat_picker": preload("res://scripts/ui/panels/habitat_picker_panel.gd"),
 	"rewards": preload("res://scripts/ui/panels/reward_panel.gd"),
+	"lab": preload("res://scripts/ui/panels/lab_panel.gd"),
+	"paleo": preload("res://scripts/ui/panels/paleo_panel.gd"),
+	"mutagen": preload("res://scripts/ui/panels/mutagen_panel.gd"),
+	"genetic_tree": preload("res://scripts/ui/panels/genetic_tree_panel.gd"),
 }
 
 var park: Node
@@ -35,6 +39,9 @@ var panel_layer: Control
 var mission_badge: Label
 var _current_panel: GamePanel
 var _panel_stack: Array = []
+var presentation_layer: Control
+var _present_queue: Array = []
+var _presenting: Presentation
 var _shown := {"credits": 0.0, "dna": 0.0}
 
 
@@ -55,6 +62,10 @@ func setup(park_node: Node) -> void:
 	_on_resources_changed()
 	_update_energy()
 	_update_missions()
+	EventBus.mutation_found.connect(func(c): present("mutation", {"creature": c}))
+	EventBus.recipe_detected.connect(func(rid): present("detected", {"recipe": DataRegistry.get_recipe(rid)}))
+	EventBus.species_restored.connect(func(c): present("restored", {"creature": c}))
+	EventBus.creature_evolved.connect(func(c, from): present("evolved", {"creature": c, "from": from}))
 	if SaveManager.load_warning != "":
 		show_toast(SaveManager.load_warning, "save", "bad")
 		SaveManager.load_warning = ""
@@ -148,6 +159,10 @@ func _build() -> void:
 	panel_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
 	panel_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	add_child(panel_layer)
+	presentation_layer = Control.new()
+	presentation_layer.set_anchors_preset(Control.PRESET_FULL_RECT)
+	presentation_layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(presentation_layer)
 
 
 func _resource_pill(icon_name: String, min_w: int) -> PanelContainer:
@@ -292,6 +307,43 @@ func show_toast(text: String, icon_name := "info", kind := "info") -> void:
 	tw.tween_callback(p.queue_free)
 
 
+# ------------------------------------------------------------------ presentations
+## Queues a full-screen reveal (one at a time).
+func present(kind: String, payload: Dictionary) -> void:
+	_present_queue.append([kind, payload])
+	if not is_instance_valid(_presenting):
+		_next_presentation()
+
+
+func _next_presentation() -> void:
+	if _present_queue.is_empty():
+		_presenting = null
+		return
+	var item: Array = _present_queue.pop_front()
+	var p := Presentation.new()
+	p.kind = item[0]
+	p.payload = item[1]
+	p.hud = self
+	p.finished.connect(_next_presentation)
+	_presenting = p
+	presentation_layer.add_child(p)
+
+
+func is_presenting() -> bool:
+	return is_instance_valid(_presenting)
+
+
+## Result of a hybrid synthesis (called by the lab panel after "Revelar resultado").
+func show_synthesis_result(res: Dictionary) -> void:
+	match res.get("outcome", &""):
+		&"success":
+			present("new_species" if res.new_species else "hybrid", {"creature": res.creature, "recipe": res.recipe})
+		&"prototype":
+			present("prototype", {"creature": res.creature, "recipe": res.recipe, "consolation": res.consolation})
+		_:
+			present("failure", {"recipe": res.recipe, "consolation": res.consolation})
+
+
 # ------------------------------------------------------------------ build mode
 func open_build_menu() -> void:
 	close_panel()
@@ -319,7 +371,7 @@ func _on_build_mode(active: bool) -> void:
 
 # ------------------------------------------------------------------ panels
 func has_modal() -> bool:
-	return is_instance_valid(_current_panel)
+	return is_instance_valid(_current_panel) or is_instance_valid(_presenting)
 
 
 func open_panel(kind: String, args := {}) -> GamePanel:
