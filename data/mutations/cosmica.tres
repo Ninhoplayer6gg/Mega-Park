@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Cósmica"
+description = "Pontos estelares na pele: +3% de ataque e velocidade e tipo Cósmico."
+rarity = 3
+base_chance = 0.008
+tint = Color(0.7, 0.55, 1, 1)
+tint_amount = 0.5
+pulse = 0.5
+stat_modifiers = {"attack": 0.03, "speed": 0.03}
+types_added = Array[StringName]([&"cosmic"])
+id = &"cosmica"

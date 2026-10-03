@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1")
-id = &"basic_attack"
 display_name = "Ataque"
 description = "Golpe básico. Não custa energia."
 icon_name = "attack"
@@ -12,3 +11,4 @@ kind = 0
 power = 1.0
 vfx = &"hit"
 sfx = &"hit"
+id = &"basic_attack"

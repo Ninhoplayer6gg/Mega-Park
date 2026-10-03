@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ResearchData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/research_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"stabilizers_2"
+display_name = "Matriz de Estabilização"
+description = "+7 pontos de estabilidade genética em todas as sínteses."
+icon_name = "stability"
+order = 12
+cost_rp = 45
+cost_credits = 0
+duration = 50.0
+prerequisites = Array[StringName]([&"advanced_hybrid"])
+required_building = &""
+effects = {"stability": 7.0}

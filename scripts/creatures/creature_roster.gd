@@ -64,10 +64,69 @@ func discover(species_id: StringName) -> bool:
 
 func add_new(species: CreatureData) -> CreatureInstance:
 	var c := CreatureInstance.create(species)
-	creatures[c.uid] = c
-	discover(species.id)
-	roster_changed.emit()
+	adopt(c)
 	return c
+
+
+## Registers an already-built instance (hybrids, restorations, prototypes...).
+func adopt(c: CreatureInstance) -> void:
+	creatures[c.uid] = c
+	discover(c.species_id)
+	roster_changed.emit()
+
+
+## Evolution routes available for a creature (only implemented routes exist as data).
+func evolution_routes(c: CreatureInstance) -> Array:
+	return DataRegistry.evolutions_from(c.species_id)
+
+
+func check_evolution(c: CreatureInstance, evo: EvolutionData) -> String:
+	for rid in evo.required_research:
+		if not ResearchManager.is_done(rid):
+			var r := DataRegistry.get_research(rid)
+			return "Requer a pesquisa %s." % (r.display_name if r else String(rid))
+	if c.level < evo.min_level:
+		return "Requer nível %d." % evo.min_level
+	if c.genetic_stability < evo.min_stability:
+		return "Estabilidade genética abaixo de %d%%." % int(evo.min_stability)
+	if not Economy.can_afford(evo.credit_cost, evo.generic_dna):
+		return "Créditos ou DNA insuficientes."
+	if not GeneticsManager.has_materials(evo.required_materials):
+		return "Materiais insuficientes."
+	return ""
+
+
+## Turns the creature into the evolved species, keeping uid, level, genes and lineage.
+func evolve(c: CreatureInstance, evo: EvolutionData) -> bool:
+	var reason := check_evolution(c, evo)
+	if reason != "":
+		EventBus.toast(reason, "evolve", "bad")
+		AudioManager.play_sfx(&"error")
+		return false
+	Economy.spend(evo.credit_cost, evo.generic_dna)
+	GeneticsManager.spend_materials(evo.required_materials)
+	var from := c.species_id
+	c.species_id = evo.to_species.id
+	c.data = evo.to_species
+	c.lineage["evolved_from"] = String(from)
+	c.lineage["evolution_route"] = String(evo.id)
+	discover(c.species_id)
+	if c.state == &"habitat" and check_assign(c, c.habitat_uid) != "":
+		move_to_storage(c)
+	creature_changed.emit(c)
+	roster_changed.emit()
+	EventBus.creature_evolved.emit(c, from)
+	AudioManager.play_sfx(&"level_up")
+	return true
+
+
+## Relations of a creature with the other residents of its (or a target) habitat.
+func relations_in(c: CreatureInstance, habitat_uid: String) -> Array:
+	var out := []
+	for other in in_habitat(habitat_uid):
+		if other != c:
+			out.append({"creature": other, "relation": SocialLogic.relation(c, other)})
+	return out
 
 
 ## Checks whether a creature may live in a habitat. Returns "" when valid, otherwise the reason.

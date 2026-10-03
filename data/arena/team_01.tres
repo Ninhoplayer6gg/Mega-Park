@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="ArenaOpponentData" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/arena_opponent_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/creatures/xenoraptor.tres" id="2"]
+[ext_resource type="Resource" path="res://data/environments/alienigena.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="4"]
+[ext_resource type="Resource" path="res://data/creatures/compsolux.tres" id="5"]
+
+[resource]
+script = ExtResource("1")
+order = 10
+title = "Desafio da Matilha"
+mode = &"team"
+level = 4
+required_research = &"team_tactics"
+intro = "Três adversários em sequência. Monte uma equipe de até 3 criaturas!"
+reward_credits = 900
+reward_dna = 50
+reward_creature_xp = 120
+reward_player_xp = 120
+reward_rp = 15
+id = &"team_01"
+creature = ExtResource("2")
+environment = ExtResource("3")
+team = Array[ExtResource("4")]([ExtResource("5"), ExtResource("2"), ExtResource("2")])
+team_levels = Array[int]([4, 4, 5])

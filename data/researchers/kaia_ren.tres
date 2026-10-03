@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ResearcherData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/researcher_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/portraits/xenobiologist.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"kaia_ren"
+display_name = "Dra. Kaia Ren"
+specialty = &"xenobiology"
+specialty_name = "Xenobióloga"
+description = "Estuda vida de outras dimensões. Cada nível: +10% de pesquisa e +2 de estabilidade em receitas alienígenas."
+portrait = ExtResource("2")
+hire_cost = 1100
+level_cost_credits = 600
+level_cost_rp = 15
+max_level = 5
+bonus_per_level = {"rp_gain": 0.1, "alien_stability": 2.0}

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PersonalityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/personality_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"sociavel"
+display_name = "Sociável"
+description = "Adora companhia; relações melhores com todos."
+wander = 1.0
+rest = 1.0
+play = 1.3
+roar = 0.8
+social = 6
+happiness = 3
+stat_modifiers = {}

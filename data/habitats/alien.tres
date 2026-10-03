@@ -12,7 +12,7 @@
 script = ExtResource("1")
 id = &"alien"
 display_name = "Habitat Alienígena"
-description = "Solo cristalino contido por um campo de força de energia."
+description = "Regolito de outro mundo contido por um campo de força de energia."
 ui_color = Color(0.37, 0.31, 0.6, 1)
 ground_texture = ExtResource("2")
 fence_texture = ExtResource("3")

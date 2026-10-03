@@ -13,6 +13,42 @@ extends Resource
 ## Key of GameEnums.ROLES.
 @export var role: StringName = &"predator"
 @export_multiline var description := ""
+@export_multiline var lore := ""
+## Elemental/biological types (biological, cosmic, glacial, electric, fire, toxic, psychic, aquatic).
+@export var types: Array[StringName] = [&"biological"]
+@export var icon: Texture2D
+
+@export_group("Arquivo Mega")
+## Archive code shown in the Arquivo Mega, e.g. "MG-001".
+@export var archive_code := "MG-???"
+## small | medium | large | giant
+@export var size_class: StringName = &"large"
+@export var size_text := ""
+@export var diet := ""
+@export_multiline var behavior_notes := ""
+@export var photo_value := 30
+
+@export_group("Genetics")
+@export var default_genes: Array[GeneData] = []
+@export var recessive_pool: Array[GeneData] = []
+## 0 = base species, 2/3/4 = hybrid tier.
+@export var hybrid_tier := 0
+## "", alpha, regional, evolution, prototype
+@export var variant_kind: StringName = &""
+@export var variant_of: CreatureData
+## How the species is first discovered: start, research, expedition, clues, restoration, hybrid, boss
+@export var discovery_mode: StringName = &"start"
+@export var clues_required := 0
+## Fossil fragments needed for a pure restoration (0 = not restorable).
+@export var fossil_fragments_required := 0
+## Research needed before incubation (in addition to required_building).
+@export var required_research: StringName = &""
+
+@export_group("Ecology")
+## Ecosystem needs: water, shelter, vegetation, food
+@export var needs: Array[StringName] = []
+## herd | pack | solitary
+@export var social_style: StringName = &"solitary"
 
 @export_group("Stats")
 @export var base_health := 400
@@ -51,7 +87,8 @@ extends Resource
 ## anim name -> [row, frame_count, fps, loop]
 @export var anim_layout := {
 	"idle": [0, 4, 4.0, true], "walk": [1, 6, 10.0, true], "attack": [2, 4, 10.0, false],
-	"hurt": [3, 2, 8.0, false], "defeat": [4, 4, 6.0, false],
+	"hurt": [3, 2, 8.0, false], "defeat": [4, 4, 6.0, false], "eat": [5, 4, 4.0, true],
+	"sleep": [6, 2, 1.5, true], "ability": [7, 4, 8.0, false],
 }
 @export var battle_scale := 2.0
 @export var egg_texture: Texture2D
@@ -83,6 +120,18 @@ func income_cap_at_level(level: int) -> int:
 
 func feed_cost_at_level(level: int) -> int:
 	return feed_cost * level
+
+
+func is_hybrid() -> bool:
+	return hybrid_tier >= 2
+
+
+func base_species() -> CreatureData:
+	return variant_of if variant_of else self
+
+
+func type_names() -> String:
+	return " / ".join(types.map(func(t): return GameEnums.type_name(t)))
 
 
 func rarity_name() -> String:

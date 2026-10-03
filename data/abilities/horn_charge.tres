@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1")
-id = &"horn_charge"
 display_name = "Investida de Chifres"
 description = "Carga frontal que causa 190% do ataque como dano."
 icon_name = "attack"
@@ -14,3 +13,4 @@ cooldown = 2
 power = 1.9
 vfx = &"hit"
 sfx = &"hit_heavy"
+id = &"horn_charge"

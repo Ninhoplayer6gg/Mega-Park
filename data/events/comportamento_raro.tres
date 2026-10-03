@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/event_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"comportamento_raro"
+title = "Comportamento Raro"
+description = "Uma criatura está fazendo algo nunca registrado! Fotografe agora para recompensas triplas."
+icon_name = "camera"
+kind = &"rare_behavior"
+weight = 0.8
+min_player_level = 1
+duration = 120.0
+resolve_cost = 0
+resolve_label = "Ver criatura"
+params = {"photo_mult": 3.0}

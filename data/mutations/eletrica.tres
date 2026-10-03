@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/static_discharge.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Elétrica"
+description = "Bioeletricidade instintiva: +4% de velocidade e a habilidade Descarga Estática."
+rarity = 3
+base_chance = 0.01
+tint = Color(1, 0.95, 0.48, 1)
+tint_amount = 0.32
+pulse = 0.45
+stat_modifiers = {"speed": 0.04}
+types_added = Array[StringName]([&"electric"])
+id = &"eletrica"
+ability = ExtResource("2")

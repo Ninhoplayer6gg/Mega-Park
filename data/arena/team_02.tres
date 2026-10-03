@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="ArenaOpponentData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/arena_opponent_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/creatures/rex_primordial.tres" id="2"]
+[ext_resource type="Resource" path="res://data/environments/glacial.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="4"]
+[ext_resource type="Resource" path="res://data/creatures/triceratopo_ancestral.tres" id="5"]
+[ext_resource type="Resource" path="res://data/creatures/glaciadon.tres" id="6"]
+
+[resource]
+script = ExtResource("1")
+order = 11
+title = "Torneio Primordial"
+mode = &"team"
+level = 6
+required_research = &"team_tactics"
+intro = "O trio mais forte do Vale Primordial."
+reward_credits = 1400
+reward_dna = 80
+reward_creature_xp = 180
+reward_player_xp = 160
+reward_rp = 20
+id = &"team_02"
+creature = ExtResource("2")
+environment = ExtResource("3")
+team = Array[ExtResource("4")]([ExtResource("5"), ExtResource("6"), ExtResource("2")])
+team_levels = Array[int]([6, 6, 6])

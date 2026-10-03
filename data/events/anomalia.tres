@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/event_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"anomalia"
+title = "Anomalia Dimensional"
+description = "Um portal temporário se abriu! Uma expedição especial à Fenda Dimensional está disponível enquanto ele durar."
+icon_name = "portal"
+kind = &"dimensional_anomaly"
+weight = 0.6
+min_player_level = 3
+duration = 420.0
+resolve_cost = 0
+resolve_label = "Investigar"
+params = {"expedition": "fenda_dimensional"}

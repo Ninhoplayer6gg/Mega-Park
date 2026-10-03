@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MaterialData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/material_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"mat_serum"
+display_name = "Soro Mutagênico"
+description = "Catalisador usado no Centro Mutagênico para induzir mutações conhecidas."
+icon_name = "mat_serum"
+rarity = 3

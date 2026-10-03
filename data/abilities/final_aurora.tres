@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Aurora Final"
+description = "Descarga de luz glacial e cósmica: 320% do ataque."
+icon_name = "type_cosmic"
+kind = 3
+energy_cost = 8
+cooldown = 5
+power = 3.2
+damage_type = &"cosmic"
+vfx = &"zap"
+sfx = &"zap"
+id = &"final_aurora"

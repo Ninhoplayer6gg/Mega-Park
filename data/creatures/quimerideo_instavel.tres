@@ -1,0 +1,63 @@
+[gd_resource type="Resource" script_class="CreatureData" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/unstable_discharge.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/erratic_regen.tres" id="4"]
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="5"]
+[ext_resource type="Resource" path="res://data/genes/gene_toxico.tres" id="6"]
+[ext_resource type="Resource" path="res://data/genes/gene_velocidade.tres" id="7"]
+[ext_resource type="Resource" path="res://data/genes/gene_regeneracao.tres" id="8"]
+[ext_resource type="Resource" path="res://data/genes/gene_carapaca.tres" id="9"]
+[ext_resource type="Resource" path="res://data/genes/gene_psiquico.tres" id="10"]
+[ext_resource type="Resource" path="res://data/genes/gene_voo.tres" id="11"]
+[ext_resource type="Texture2D" path="res://assets/creatures/quimerideo_instavel.png" id="12"]
+[ext_resource type="Texture2D" path="res://assets/creatures/egg_quimerideo_instavel.png" id="13"]
+[ext_resource type="Texture2D" path="res://assets/creatures/icons/quimerideo_instavel.png" id="14"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Quimerídeo Instável"
+species = "Protótipo genético P-01"
+category = &"anomalous"
+origin = "Experimento de hibridização instável"
+rarity = 2
+role = &"striker"
+description = "Protótipo genético nascido de uma síntese que não se estabilizou. Assimétrico, com fissuras que brilham em verde."
+lore = "Cada protótipo é ligeiramente diferente. Pesquisadores os consideram janelas raras para entender como sequências incompatíveis se acomodam."
+types = Array[StringName]([&"biological", &"toxic"])
+archive_code = "MG-P01"
+size_class = &"medium"
+size_text = "3 m · 300 kg"
+diet = "Onívoro"
+behavior_notes = "Imprevisível: alterna entre surtos de energia e longos cochilos."
+photo_value = 60
+base_health = 500
+base_attack = 66
+base_defense = 30
+base_speed = 100
+income_amount = 26
+income_interval = 12.0
+income_cap = 240
+walk_speed = 28.0
+feed_cost = 60
+feed_xp = 30
+dna_cost = 0
+start_discovered = false
+discovery_mode = &"prototype"
+variant_kind = &"prototype"
+habitat_type = &"prehistoric"
+needs = Array[StringName]([&"shelter"])
+social_style = &"solitary"
+frame_size = Vector2i(92, 66)
+foot_y = 63
+battle_scale = 2.5
+accent_color = Color(0.49, 1, 0.42, 1)
+cry_sfx = &"screech_xeno"
+abilities = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4")])
+default_genes = Array[ExtResource("5")]([ExtResource("6"), ExtResource("7")])
+recessive_pool = Array[ExtResource("5")]([ExtResource("8"), ExtResource("9"), ExtResource("10"), ExtResource("11")])
+sprite_sheet = ExtResource("12")
+egg_texture = ExtResource("13")
+icon = ExtResource("14")
+id = &"quimerideo_instavel"

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Albina"
+description = "Ausência de pigmento: escamas claras e olhos rosados."
+rarity = 2
+base_chance = 0.018
+saturation = 0.12
+value = 1.35
+incompatible_with = Array[StringName]([&"melanistica"])
+id = &"albina"

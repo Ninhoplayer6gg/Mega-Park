@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MaterialData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/material_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"mat_unstable"
+display_name = "Material Genético Instável"
+description = "Resíduo de sínteses que não se estabilizaram. Útil em Quimeras."
+icon_name = "mat_unstable"
+rarity = 1

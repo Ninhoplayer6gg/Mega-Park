@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Regeneração Errática"
+description = "Recupera 15% da vida."
+icon_name = "health"
+kind = 3
+energy_cost = 3
+cooldown = 3
+heal_ratio = 0.15
+vfx = &"sparkle"
+sfx = &"buff"
+id = &"erratic_regen"

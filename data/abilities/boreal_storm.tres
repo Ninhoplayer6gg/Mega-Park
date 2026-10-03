@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/status_effect_data.gd" id="2"]
+
+[sub_resource type="Resource" id="sub_1"]
+script = ExtResource("2")
+target = &"enemy"
+stat = &"attack"
+multiplier = 0.8
+duration = 2
+label = "Ataque -20%"
+
+[sub_resource type="Resource" id="sub_2"]
+script = ExtResource("2")
+target = &"enemy"
+stat = &"speed"
+multiplier = 0.8
+duration = 2
+label = "Velocidade -20%"
+
+[resource]
+script = ExtResource("1")
+display_name = "Tempestade Boreal"
+description = "Nevasca (140%) que reduz ataque e velocidade inimigos em 20%."
+icon_name = "type_glacial"
+kind = 3
+energy_cost = 5
+cooldown = 4
+power = 1.4
+vfx = &"sparkle"
+sfx = &"zap"
+effects = Array[ExtResource("2")]([SubResource("sub_1"), SubResource("sub_2")])
+id = &"boreal_storm"

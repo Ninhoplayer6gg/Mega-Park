@@ -321,6 +321,60 @@ def banner_crater():
     return img
 
 
+def banner_glacier():
+    w = h = 56
+    img = new(w, h)
+    for y in range(h):
+        rect(img, 0, y, w - 1, y, mix(hexc("1a2a4a"), hexc("8ac8e8"), y / 30) if y < 30 else hexc("8ac8e8"))
+    for i in range(3):
+        line(img, [(0, 8 + i * 4), (56, 4 + i * 5)], hexc("6bffb8", 140), 1)
+    poly(img, [(0, 40), (12, 18), (22, 30), (34, 12), (48, 30), (56, 22), (56, 56), (0, 56)], hexc("b8e4f6"))
+    poly(img, [(8, 26), (12, 18), (16, 26)], hexc("f4fbff"))
+    poly(img, [(29, 20), (34, 12), (39, 20)], hexc("f4fbff"))
+    rect(img, 0, 44, 55, 55, hexc("dce9f2"))
+    # fossil in the ice
+    rect(img, 18, 47, 38, 53, hexc("a8dcf0"))
+    line(img, [(21, 50), (35, 50)], hexc("e8dcc0"), 2)
+    for x in (24, 28, 32):
+        line(img, [(x, 48), (x, 52)], hexc("e8dcc0"), 1)
+    outline(img, color=K)
+    return img
+
+
+def banner_trail():
+    w = h = 56
+    img = new(w, h)
+    rng = seeded(4)
+    for y in range(h):
+        rect(img, 0, y, w - 1, y, mix(hexc("0e1a22"), hexc("1d3a2a"), y / h))
+    for x in range(-4, 60, 9):
+        ellipse(img, x, 26, 7, 14, hexc("173a22"))
+    rect(img, 0, 38, 55, 55, hexc("2a4a2a"))
+    for i, (x, y) in enumerate([(8, 50), (16, 46), (24, 50), (32, 45), (40, 49), (48, 44)]):
+        ellipse(img, x, y, 2, 1.4, hexc("fff27a"))
+        px(img, x, y, hexc("ffffff"))
+    for _ in range(14):
+        px(img, rng.randrange(w), rng.randrange(36), hexc("fff27a", rng.randint(120, 255)))
+    outline(img, color=K)
+    return img
+
+
+def banner_rift():
+    w = h = 56
+    img = new(w, h)
+    for y in range(h):
+        rect(img, 0, y, w - 1, y, mix(hexc("0a0820"), hexc("2a1a5a"), y / h))
+    for i in range(70):
+        a = i * 0.45
+        r = 2 + i * 0.32
+        c = mix(hexc("b38cff"), hexc("5ef6ff"), (i % 9) / 9)
+        px(img, round(28 + math.cos(a) * r), round(26 + math.sin(a) * r * 0.85), c)
+    ellipse(img, 28, 26, 5, 4, hexc("ffffff"))
+    poly(img, [(0, 50), (14, 44), (28, 48), (42, 43), (56, 47), (56, 56), (0, 56)], hexc("3a2a6a"))
+    outline(img, color=K)
+    return img
+
+
 # ------------------------------------------------------------------ building preview icons
 def creature_mini(name, frame_w, frame_h, factor=2):
     sheet = Image.open(os.path.join(ASSETS, "creatures", name + ".png"))
@@ -342,6 +396,8 @@ def creature_mini(name, frame_w, frame_h, factor=2):
 
 def habitat_icon(style):
     w, h = 96, 72
+    if style == "glacial":
+        return habitat_icon_glacial()
     img = new(w, h)
     ground_tex = Image.open(os.path.join(ASSETS, "environment", "ground_%s.png" % style)).crop((0, 0, 32, 32))
     x0, y0, x1, y1 = 6, 14, 89, 63
@@ -394,6 +450,37 @@ def habitat_icon(style):
     return img
 
 
+def habitat_icon_glacial():
+    w, h = 96, 72
+    img = new(w, h)
+    ground = Image.open(os.path.join(ASSETS, "environment", "ground_glacial.png")).crop((0, 0, 32, 32))
+    x0, y0, x1, y1 = 6, 14, 89, 63
+    for yy in range(y0, y1 + 1):
+        for xx in range(x0, x1 + 1):
+            img.putpixel((xx, yy), ground.getpixel(((xx - x0) % 32, (yy - y0) % 32)))
+    post, rail = hexc("7fb8d8"), hexc("c8f2ff")
+    rect(img, x0, y0 - 2, x1, y0 - 1, rail)
+    for x in (x0, x1):
+        rect(img, x - 1, y0, x, y1, rail)
+    for (x, hh) in [(76, 14), (80, 10)]:
+        poly(img, [(x - 3, 36), (x, 36 - hh), (x + 3, 36)], hexc("a8e6ff"))
+    mini = creature_mini("glaciadon", 124, 92)
+    img.alpha_composite(mini, (w // 2 - mini.width // 2 - 6, y1 - mini.height - 4))
+    for x in range(x0, x1 + 1, 8):
+        if 40 <= x <= 56:
+            continue
+        rect(img, x, y1 - 6, x + 2, y1 + 2, post)
+    rect(img, x0, y1 - 4, 40, y1 - 3, rail)
+    rect(img, 56, y1 - 4, x1, y1 - 3, rail)
+    rect(img, 40, y1 - 10, 43, y1 + 3, post)
+    rect(img, 53, y1 - 10, 56, y1 + 3, post)
+    rect(img, 40, y1 - 12, 56, y1 - 10, rail)
+    rect(img, 44, y1 - 8, 52, y1 + 3, hexc("5a8aa8"))
+    ellipse(img, 48, y1 - 11, 2, 2, hexc("7ff8ff"))
+    outline(img, color=K)
+    return img
+
+
 def incubator_icon():
     base = Image.open(os.path.join(ASSETS, "buildings", "incubator.png"))
     dome = Image.open(os.path.join(ASSETS, "buildings", "incubator_dome.png"))
@@ -428,8 +515,12 @@ def generate():
     save(mystery_bg(), "ui", "mystery_bg.png")
     save(banner_vale(), "ui", "banners", "vale_primordial.png")
     save(banner_crater(), "ui", "banners", "cratera_estelar.png")
+    save(banner_glacier(), "ui", "banners", "geleira_eterna.png")
+    save(banner_trail(), "ui", "banners", "trilha_luminosa.png")
+    save(banner_rift(), "ui", "banners", "fenda_dimensional.png")
     save(habitat_icon("prehistoric"), "buildings", "icon_habitat_prehistoric.png")
     save(habitat_icon("alien"), "buildings", "icon_habitat_alien.png")
+    save(habitat_icon("glacial"), "buildings", "icon_habitat_glacial.png")
     save(incubator_icon(), "buildings", "icon_incubator.png")
 
 

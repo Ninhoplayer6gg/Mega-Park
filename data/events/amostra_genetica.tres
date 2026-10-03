@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/event_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"amostra_genetica"
+title = "Amostra Genética"
+description = "Uma amostra genética rara foi encontrada no parque."
+icon_name = "dna"
+kind = &"genetic_sample"
+weight = 1.0
+min_player_level = 1
+duration = 300.0
+resolve_cost = 0
+resolve_label = "Coletar"
+params = {"species_dna": 30}

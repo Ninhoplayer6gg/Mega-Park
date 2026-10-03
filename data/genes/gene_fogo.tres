@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="GeneData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+group = &"elemental"
+id = &"gene_fogo"
+display_name = "Fogo"
+description = "Glândulas térmicas: +4% de ataque. Elemento fogo."
+icon_name = "gene_elemental"
+rarity = 1
+stat_modifiers = {"attack": 0.04}
+element = &"fire"
+behavior_tag = &""

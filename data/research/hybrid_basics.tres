@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ResearchData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/research_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"hybrid_basics"
+display_name = "Fundamentos de Hibridização"
+description = "Permite construir o Laboratório Genético e sintetizar híbridos de 2 espécies."
+icon_name = "lab"
+order = 2
+cost_rp = 20
+cost_credits = 0
+duration = 25.0
+prerequisites = Array[StringName]([])
+required_building = &""
+effects = {"unlock": "hybrid_2"}

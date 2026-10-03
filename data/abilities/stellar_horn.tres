@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Chifrada Estelar"
+description = "Chifres carregados de energia cósmica: 200% do ataque."
+icon_name = "type_cosmic"
+kind = 3
+energy_cost = 4
+cooldown = 2
+power = 2.0
+damage_type = &"cosmic"
+vfx = &"hit"
+sfx = &"hit_heavy"
+id = &"stellar_horn"

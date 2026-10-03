@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ResearchData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/research_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"alpha_protocol"
+display_name = "Protocolo Alfa"
+description = "Permite incubar variantes Alfa cujo DNA já foi obtido."
+icon_name = "boss"
+order = 11
+cost_rp = 50
+cost_credits = 0
+duration = 60.0
+prerequisites = Array[StringName]([&"mutation_studies"])
+required_building = &""
+effects = {"unlock": "alpha"}

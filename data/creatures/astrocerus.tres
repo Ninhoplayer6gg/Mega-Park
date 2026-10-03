@@ -1,0 +1,63 @@
+[gd_resource type="Resource" script_class="CreatureData" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/stellar_horn.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/radiant_crown.tres" id="4"]
+[ext_resource type="Resource" path="res://data/abilities/cosmic_pulse.tres" id="5"]
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="6"]
+[ext_resource type="Resource" path="res://data/genes/gene_forca.tres" id="7"]
+[ext_resource type="Resource" path="res://data/genes/gene_resistencia.tres" id="8"]
+[ext_resource type="Resource" path="res://data/genes/gene_cosmico.tres" id="9"]
+[ext_resource type="Resource" path="res://data/genes/gene_sentidos.tres" id="10"]
+[ext_resource type="Resource" path="res://data/genes/gene_eletricidade.tres" id="11"]
+[ext_resource type="Texture2D" path="res://assets/creatures/astrocerus.png" id="12"]
+[ext_resource type="Texture2D" path="res://assets/creatures/egg_astrocerus.png" id="13"]
+[ext_resource type="Texture2D" path="res://assets/creatures/icons/astrocerus.png" id="14"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Astrocerus"
+species = "Astrocerus triplex"
+category = &"prehistoric"
+origin = "Núcleo de Hibridização — Rex Primordial × Tricerátopo Ancestral × Xenoraptor"
+rarity = 4
+role = &"predator"
+description = "Híbrido avançado bípede com babado-coroa e chifres de marfim. Une a força do Rex, a armadura do Tricerátopo e a energia do Xenoraptor."
+lore = "O babado laranja tem bordas que brilham em ciano antes de cada investida. Primeiro híbrido de três espécies estabilizado no parque."
+types = Array[StringName]([&"biological", &"cosmic"])
+archive_code = "MG-031"
+size_class = &"large"
+size_text = "10 m · 4,5 t"
+diet = "Onívoro"
+behavior_notes = "Confiante e exibicionista; adora plateia."
+photo_value = 85
+base_health = 600
+base_attack = 80
+base_defense = 40
+base_speed = 110
+income_amount = 60
+income_interval = 15.0
+income_cap = 520
+walk_speed = 26.0
+feed_cost = 110
+feed_xp = 25
+dna_cost = 0
+start_discovered = false
+discovery_mode = &"hybrid"
+hybrid_tier = 3
+habitat_type = &"alien"
+needs = Array[StringName]([&"food", &"vegetation"])
+social_style = &"solitary"
+frame_size = Vector2i(140, 100)
+foot_y = 96
+battle_scale = 2.0
+accent_color = Color(0.88, 0.47, 0.23, 1)
+cry_sfx = &"roar_rex"
+abilities = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4"), ExtResource("5")])
+default_genes = Array[ExtResource("6")]([ExtResource("7"), ExtResource("8"), ExtResource("9")])
+recessive_pool = Array[ExtResource("6")]([ExtResource("10"), ExtResource("11")])
+sprite_sheet = ExtResource("12")
+egg_texture = ExtResource("13")
+icon = ExtResource("14")
+id = &"astrocerus"

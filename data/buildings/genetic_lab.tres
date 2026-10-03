@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/building_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/buildings/genetic_lab.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"genetic_lab"
+display_name = "Laboratório Genético"
+description = "Extrai DNA, sequencia genes e sintetiza híbridos de 2 espécies (laboratório nível 1)."
+category = &"lab"
+node_type = &"lab"
+panel_type = &"lab"
+sort_order = 10
+size = Vector2i(3, 3)
+cost_credits = 2500
+energy_use = 6
+max_count = 1
+required_research = &"hybrid_basics"
+params = {"lab_level": 1}
+sprite = ExtResource("2")

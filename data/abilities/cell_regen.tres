@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Regeneração Celular"
+description = "Mutação regenerativa: recupera 20% da vida."
+icon_name = "health"
+kind = 3
+energy_cost = 3
+cooldown = 4
+heal_ratio = 0.2
+vfx = &"sparkle"
+sfx = &"buff"
+id = &"cell_regen"

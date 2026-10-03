@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ResearcherData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/researcher_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/portraits/ecologist.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"lia_moraes"
+display_name = "Lia Moraes"
+specialty = &"ecology"
+specialty_name = "Ecologista"
+description = "Projeta ecossistemas equilibrados. Cada nível: +5% de ecossistema e +5% de visitantes."
+portrait = ExtResource("2")
+hire_cost = 800
+level_cost_credits = 600
+level_cost_rp = 15
+max_level = 5
+bonus_per_level = {"ecosystem": 0.05, "visitors": 0.05}

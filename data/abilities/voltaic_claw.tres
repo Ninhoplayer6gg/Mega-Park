@@ -13,7 +13,6 @@ label = "Velocidade -20%"
 
 [resource]
 script = ExtResource("1")
-id = &"voltaic_claw"
 display_name = "Garra Voltaica"
 description = "Golpe elétrico (150%) que ignora 30% da defesa e reduz a velocidade inimiga em 20%."
 icon_name = "energy"
@@ -25,3 +24,4 @@ damage_type = &"electric"
 vfx = &"zap"
 sfx = &"zap"
 effects = Array[ExtResource("2")]([SubResource("sub_1")])
+id = &"voltaic_claw"

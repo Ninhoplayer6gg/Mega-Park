@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/status_effect_data.gd" id="2"]
+
+[sub_resource type="Resource" id="sub_1"]
+script = ExtResource("2")
+target = &"enemy"
+stat = &"speed"
+multiplier = 0.75
+duration = 2
+label = "Velocidade -25%"
+
+[resource]
+script = ExtResource("1")
+display_name = "Nova Glacial"
+description = "Ataque combinado Xenorex + Cryoceratops (parceiro na reserva): 300% de dano e velocidade inimiga -25%."
+icon_name = "team"
+kind = 3
+energy_cost = 6
+cooldown = 5
+power = 3.0
+damage_type = &"cosmic"
+vfx = &"zap"
+sfx = &"zap"
+combo_partners = Array[StringName]([&"xenorex", &"cryoceratops"])
+effects = Array[ExtResource("2")]([SubResource("sub_1")])
+id = &"combo_nova_glacial"

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Glacial"
+description = "Pele azulada e sangue frio: +4% de defesa e tipo Glacial."
+rarity = 2
+base_chance = 0.012
+tint = Color(0.66, 0.9, 1, 1)
+tint_amount = 0.45
+value = 1.08
+stat_modifiers = {"defense": 0.04}
+types_added = Array[StringName]([&"glacial"])
+incompatible_with = Array[StringName]([&"vulcanica"])
+id = &"glacial"

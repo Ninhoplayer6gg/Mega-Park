@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Descarga Instável"
+description = "Energia genética descontrolada: 190% do ataque como dano tóxico."
+icon_name = "type_toxic"
+kind = 3
+energy_cost = 4
+cooldown = 2
+power = 1.9
+vfx = &"zap"
+sfx = &"zap"
+id = &"unstable_discharge"

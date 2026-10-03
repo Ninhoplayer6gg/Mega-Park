@@ -13,8 +13,18 @@ func reset() -> void:
 	expeditions_changed.emit()
 
 
+## Expeditions currently offered: tracking ones need enough clues, temporary ones need an open portal.
 func list() -> Array:
-	return DataRegistry.sorted(DataRegistry.expeditions)
+	return DataRegistry.sorted(DataRegistry.expeditions).filter(func(e): return is_available(e) or active.has(e.id))
+
+
+func is_available(e: ExpeditionData) -> bool:
+	if e.temporary and not EventManager.portal_open():
+		return false
+	if e.tracking_species:
+		var sp := e.tracking_species
+		return not CreatureRoster.is_discovered(sp.id) and GeneticsManager.clues_of(sp.id) >= sp.clues_required
+	return true
 
 
 func is_active(id: StringName) -> bool:
@@ -42,6 +52,8 @@ func is_ready(id: StringName) -> bool:
 func check_start(data: ExpeditionData) -> String:
 	if active.has(data.id):
 		return "Expedição em andamento."
+	if not is_available(data):
+		return "Indisponível no momento."
 	if Economy.player_level < data.unlock_player_level:
 		return "Requer nível %d do parque." % data.unlock_player_level
 	if not Economy.can_afford(data.cost_credits):
@@ -78,6 +90,21 @@ func roll_rewards(data: ExpeditionData, seed_value: int) -> Dictionary:
 		var species: CreatureData = data.species_pool[rng.randi_range(0, data.species_pool.size() - 1)]
 		rewards.species = species.id
 		rewards.species_dna = data.species_sample_dna
+	rewards["rp"] = data.rp_reward
+	var mats := {}
+	for mid in data.material_rewards:
+		var spec: Array = data.material_rewards[mid]
+		if rng.randf() < float(spec[2]):
+			mats[mid] = rng.randi_range(int(spec[0]), int(spec[1]))
+	rewards["materials"] = mats
+	rewards["fossils"] = 0
+	if data.fossil_species:
+		rewards.fossils = rng.randi_range(data.fossil_range.x, data.fossil_range.y)
+		rewards["fossil_species"] = data.fossil_species.id
+	rewards["clues"] = 0
+	if data.clue_species and rng.randf() < data.clue_chance:
+		rewards.clues = 1
+		rewards["clue_species"] = data.clue_species.id
 	return rewards
 
 
@@ -92,9 +119,23 @@ func collect(id: StringName) -> Dictionary:
 		return {}
 	var rewards := roll_rewards(data, a.seed)
 	rewards["new_species"] = false
+	if data.tracking_species:
+		rewards.species = data.tracking_species.id
 	if rewards.species != &"":
-		rewards.new_species = CreatureRoster.discover(rewards.species)
-	Economy.add(rewards.credits, rewards.dna + rewards.species_dna)
+		# Samples discover the species only for tracking expeditions or already-known regions.
+		if data.tracking_species or data.temporary or CreatureRoster.is_discovered(rewards.species) \
+				or DataRegistry.get_creature(rewards.species).discovery_mode in [&"expedition", &"research"]:
+			rewards.new_species = CreatureRoster.discover(rewards.species)
+		GeneticsManager.add_species_dna(rewards.species, rewards.species_dna)
+	for mid in rewards.materials:
+		GeneticsManager.add_material(StringName(mid), int(rewards.materials[mid]))
+	if rewards.fossils > 0:
+		rewards.fossils += int(Bonuses.get_value(&"fossil_bonus"))
+		GeneticsManager.add_fossils(rewards.fossil_species, rewards.fossils)
+	if rewards.clues > 0:
+		GeneticsManager.add_clue(rewards.clue_species, rewards.clues)
+	rewards.rp = ResearchManager.add_rp(rewards.rp)
+	Economy.add(rewards.credits, rewards.dna)
 	Economy.add_player_xp(rewards.player_xp)
 	completed_count += 1
 	expeditions_changed.emit()

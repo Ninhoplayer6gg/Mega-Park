@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Psíquica"
+description = "Atividade neural incomum: +3% de defesa e velocidade e tipo Psíquico."
+rarity = 4
+base_chance = 0.006
+tint = Color(1, 0.42, 0.84, 1)
+tint_amount = 0.4
+pulse = 0.3
+stat_modifiers = {"defense": 0.03, "speed": 0.03}
+types_added = Array[StringName]([&"psychic"])
+id = &"psiquica"

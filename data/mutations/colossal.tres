@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Colossal"
+description = "Gigantismo: 25% maior, +10% de vida e -4% de velocidade."
+rarity = 4
+base_chance = 0.006
+visual_scale = 1.25
+stat_modifiers = {"health": 0.1, "speed": -0.04}
+id = &"colossal"

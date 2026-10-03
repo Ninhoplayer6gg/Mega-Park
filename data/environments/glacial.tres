@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ArenaEnvironmentData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/arena_environment_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/battle/arena_glacial.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"glacial"
+display_name = "Arena Glacial"
+description = "Frio extremo: Glacial +8% de defesa; Fogo -5% de ataque."
+background = ExtResource("2")
+type_modifiers = {"glacial": {"defense": 1.08}, "fire": {"attack": 0.95}}

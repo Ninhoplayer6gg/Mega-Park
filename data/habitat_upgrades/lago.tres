@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="HabitatUpgradeData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/habitat_upgrade_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/buildings/eco/pond_prehistoric.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/buildings/eco/pond_alien.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/buildings/eco/pond_glacial.png" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = &"lago"
+display_name = "Lago"
+description = "Fonte de água para beber e se refrescar."
+kind = &"water"
+icon_name = "type_aquatic"
+cost_credits = 400
+textures = {"prehistoric": ExtResource("2"), "alien": ExtResource("3"), "glacial": ExtResource("4")}
+slot = Vector2i(2, 4)

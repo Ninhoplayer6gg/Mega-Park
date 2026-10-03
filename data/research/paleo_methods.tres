@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ResearchData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/research_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"paleo_methods"
+display_name = "Paleogenética"
+description = "Permite construir o Centro Paleontológico e o Habitat Glacial; +3% de pureza em restaurações."
+icon_name = "paleo"
+order = 4
+cost_rp = 20
+cost_credits = 0
+duration = 25.0
+prerequisites = Array[StringName]([])
+required_building = &""
+effects = {"unlock": "paleo", "purity": 3.0}

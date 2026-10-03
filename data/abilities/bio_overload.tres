@@ -21,7 +21,6 @@ label = "Próximo ataque +60%"
 
 [resource]
 script = ExtResource("1")
-id = &"bio_overload"
 display_name = "Sobrecarga Biológica"
 description = "Acelera o metabolismo: velocidade +40% por 3 rodadas e próximo ataque +60%."
 icon_name = "speed"
@@ -31,3 +30,4 @@ cooldown = 4
 vfx = &"buff"
 sfx = &"buff"
 effects = Array[ExtResource("2")]([SubResource("sub_1"), SubResource("sub_2")])
+id = &"bio_overload"

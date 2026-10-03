@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/status_effect_data.gd" id="2"]
+
+[sub_resource type="Resource" id="sub_1"]
+script = ExtResource("2")
+target = &"self"
+stat = &"defense"
+multiplier = 1.4
+duration = 3
+label = "Defesa +40%"
+
+[sub_resource type="Resource" id="sub_2"]
+script = ExtResource("2")
+target = &"self"
+stat = &"speed"
+multiplier = 1.2
+duration = 3
+label = "Velocidade +20%"
+
+[resource]
+script = ExtResource("1")
+display_name = "Coroa Radiante"
+description = "O babado brilha: defesa +40% e velocidade +20% por 3 rodadas."
+icon_name = "skill"
+kind = 3
+energy_cost = 3
+cooldown = 4
+vfx = &"buff"
+sfx = &"buff"
+effects = Array[ExtResource("2")]([SubResource("sub_1"), SubResource("sub_2")])
+id = &"radiant_crown"

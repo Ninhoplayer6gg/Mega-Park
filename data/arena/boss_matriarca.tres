@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="ArenaOpponentData" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/arena_opponent_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/creatures/xenoraptor_alfa.tres" id="2"]
+[ext_resource type="Resource" path="res://data/environments/alienigena.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="4"]
+[ext_resource type="Resource" path="res://data/abilities/stellar_fury.tres" id="5"]
+[ext_resource type="Script" path="res://scripts/data/boss_phase_data.gd" id="6"]
+
+[sub_resource type="Resource" id="sub_1"]
+script = ExtResource("6")
+hp_threshold = 0.6
+title = "FASE 2 · FÚRIA ESTELAR"
+stat_multipliers = {"attack": 1.2}
+new_abilities = Array[ExtResource("4")]([ExtResource("5")])
+energy_bonus = 3
+
+[sub_resource type="Resource" id="sub_2"]
+script = ExtResource("6")
+hp_threshold = 0.3
+title = "FASE 3 · ÚLTIMO BRILHO"
+stat_multipliers = {"speed": 1.25}
+heal_ratio = 0.1
+
+[resource]
+script = ExtResource("1")
+order = 20
+title = "Matriarca Estelar"
+mode = &"boss"
+level = 6
+boss_hp_multiplier = 2.6
+intro = "A Matriarca da Cratera Estelar desafia o parque. Derrote-a para obter seu DNA Alfa."
+unlock_species = ExtResource("2")
+reward_species_dna = 60
+reward_materials = {"mat_cosmic": 2}
+reward_credits = 1500
+reward_dna = 80
+reward_creature_xp = 220
+reward_player_xp = 200
+reward_rp = 30
+id = &"boss_matriarca"
+creature = ExtResource("2")
+environment = ExtResource("3")
+phases = Array[ExtResource("6")]([SubResource("sub_1"), SubResource("sub_2")])

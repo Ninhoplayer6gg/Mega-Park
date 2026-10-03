@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="HybridRecipe" load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/hybrid_recipe.gd" id="1"]
+[ext_resource type="Resource" path="res://data/creatures/astrocerus.tres" id="2"]
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="3"]
+[ext_resource type="Resource" path="res://data/creatures/rex_primordial.tres" id="4"]
+[ext_resource type="Resource" path="res://data/creatures/triceratopo_ancestral.tres" id="5"]
+[ext_resource type="Resource" path="res://data/creatures/xenoraptor.tres" id="6"]
+[ext_resource type="Resource" path="res://data/genes/gene_forca.tres" id="7"]
+[ext_resource type="Resource" path="res://data/genes/gene_resistencia.tres" id="8"]
+[ext_resource type="Resource" path="res://data/genes/gene_cosmico.tres" id="9"]
+[ext_resource type="Resource" path="res://data/genes/gene_sentidos.tres" id="10"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Astrocerus"
+generic_dna = 120
+required_lab_level = 2
+required_research = Array[StringName]([&"advanced_hybrid"])
+minimum_stability = 35.0
+creation_time = 60.0
+credit_cost = 3000
+required_materials = {"mat_cosmic": 1}
+hidden_recipe = true
+discovery_requirements = {"research": "advanced_hybrid"}
+lore = "Três sequências estabilizadas pelo Núcleo de Hibridização."
+id = &"astrocerus"
+result_species = ExtResource("2")
+required_species = Array[ExtResource("3")]([ExtResource("4"), ExtResource("5"), ExtResource("6")])
+required_dna_amounts = Array[int]([50, 50, 50])
+primary_gene = ExtResource("7")
+secondary_gene = ExtResource("8")
+elemental_gene = ExtResource("9")
+special_gene = ExtResource("10")

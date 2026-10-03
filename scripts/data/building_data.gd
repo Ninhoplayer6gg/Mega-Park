@@ -34,6 +34,7 @@ extends Resource
 @export var max_count := 0
 @export var unlock_player_level := 1
 @export var required_building: StringName = &""
+@export var required_research: StringName = &""
 
 @export_group("Economy")
 @export var cost_credits := 100

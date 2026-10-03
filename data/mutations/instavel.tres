@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Instável"
+description = "Genoma em fluxo: +8% de ataque, -6% de defesa. A pele tremeluz."
+rarity = 4
+base_chance = 0.006
+tint = Color(0.49, 1, 0.42, 1)
+tint_amount = 0.25
+unstable = true
+stat_modifiers = {"attack": 0.08, "defense": -0.06}
+id = &"instavel"

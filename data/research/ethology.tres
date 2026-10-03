@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ResearchData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/research_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"ethology"
+display_name = "Etologia"
+description = "Estudo do comportamento: fotos valem +25% e as criaturas ficam um pouco mais felizes."
+icon_name = "camera"
+order = 3
+cost_rp = 15
+cost_credits = 0
+duration = 20.0
+prerequisites = Array[StringName]([])
+required_building = &""
+effects = {"photo_bonus": 0.25, "happiness": 3.0}

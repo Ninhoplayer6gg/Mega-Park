@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/building_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/buildings/chimera_chamber.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"chimera_chamber"
+display_name = "Câmara Quimérica"
+description = "Câmara de fusão de quatro genomas. Laboratório nível 3: necessária para Quimeras Supremas."
+category = &"lab"
+node_type = &"lab"
+panel_type = &"lab"
+sort_order = 12
+size = Vector2i(4, 3)
+cost_credits = 8000
+energy_use = 10
+max_count = 1
+required_building = &"hybrid_core"
+required_research = &"chimera_synthesis"
+params = {"lab_level": 3, "stability_bonus": 5.0}
+sprite = ExtResource("2")

@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="CreatureData" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/rupture_bite.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/hunting_roar.tres" id="4"]
+[ext_resource type="Resource" path="res://data/abilities/brutal_fury.tres" id="5"]
+[ext_resource type="Resource" path="res://data/abilities/stellar_collapse.tres" id="6"]
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="7"]
+[ext_resource type="Resource" path="res://data/genes/gene_forca.tres" id="8"]
+[ext_resource type="Resource" path="res://data/genes/gene_tamanho.tres" id="9"]
+[ext_resource type="Resource" path="res://data/genes/gene_cosmico.tres" id="10"]
+[ext_resource type="Resource" path="res://data/genes/gene_resistencia.tres" id="11"]
+[ext_resource type="Resource" path="res://data/genes/gene_sentidos.tres" id="12"]
+[ext_resource type="Texture2D" path="res://assets/creatures/xenorex_brutal.png" id="13"]
+[ext_resource type="Texture2D" path="res://assets/creatures/egg_xenorex_brutal.png" id="14"]
+[ext_resource type="Texture2D" path="res://assets/creatures/icons/xenorex_brutal.png" id="15"]
+[ext_resource type="Resource" path="res://data/creatures/xenorex.tres" id="16"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Xenorex Brutal"
+species = "Xenotyrannus hybridus · Rota Brutal"
+category = &"prehistoric"
+origin = "Evolução artificial do Xenorex"
+rarity = 4
+role = &"predator"
+description = "Rota Brutal da evolução artificial: mais massa, mandíbula reforçada e placas carmesim. Troca agilidade por força bruta."
+lore = "O tratamento evolutivo ativa genes de crescimento adormecidos. As cicatrizes claras são de microfraturas que se fecharam mais fortes."
+types = Array[StringName]([&"biological", &"cosmic"])
+archive_code = "MG-021β"
+size_class = &"giant"
+size_text = "13 m · 7 t"
+diet = "Carnívoro"
+behavior_notes = "Extremamente territorial. Prefere ficar sozinho."
+photo_value = 90
+base_health = 600
+base_attack = 84
+base_defense = 30
+base_speed = 106
+income_amount = 55
+income_interval = 14.0
+income_cap = 480
+walk_speed = 24.0
+feed_cost = 110
+feed_xp = 25
+dna_cost = 0
+start_discovered = false
+discovery_mode = &"evolution"
+hybrid_tier = 2
+variant_kind = &"evolution"
+variant_of = ExtResource("16")
+habitat_type = &"prehistoric"
+needs = Array[StringName]([&"food", &"shelter", &"water"])
+social_style = &"solitary"
+frame_size = Vector2i(156, 108)
+foot_y = 104
+battle_scale = 2.0
+accent_color = Color(0.63, 0.19, 0.29, 1)
+cry_sfx = &"roar_rex"
+abilities = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4"), ExtResource("5"), ExtResource("6")])
+default_genes = Array[ExtResource("7")]([ExtResource("8"), ExtResource("9"), ExtResource("10")])
+recessive_pool = Array[ExtResource("7")]([ExtResource("11"), ExtResource("12")])
+sprite_sheet = ExtResource("13")
+egg_texture = ExtResource("14")
+icon = ExtResource("15")
+id = &"xenorex_brutal"

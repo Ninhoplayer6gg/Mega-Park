@@ -1,0 +1,65 @@
+[gd_resource type="Resource" script_class="CreatureData" load_steps=17 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/aurora_jaws.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/crystal_crown.tres" id="4"]
+[ext_resource type="Resource" path="res://data/abilities/final_aurora.tres" id="5"]
+[ext_resource type="Resource" path="res://data/abilities/glacial_howl.tres" id="6"]
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="7"]
+[ext_resource type="Resource" path="res://data/genes/gene_forca.tres" id="8"]
+[ext_resource type="Resource" path="res://data/genes/gene_gelo.tres" id="9"]
+[ext_resource type="Resource" path="res://data/genes/gene_cosmico.tres" id="10"]
+[ext_resource type="Resource" path="res://data/genes/gene_regeneracao.tres" id="11"]
+[ext_resource type="Resource" path="res://data/genes/gene_carapaca.tres" id="12"]
+[ext_resource type="Resource" path="res://data/genes/gene_sentidos.tres" id="13"]
+[ext_resource type="Texture2D" path="res://assets/creatures/aurorax.png" id="14"]
+[ext_resource type="Texture2D" path="res://assets/creatures/egg_aurorax.png" id="15"]
+[ext_resource type="Texture2D" path="res://assets/creatures/icons/aurorax.png" id="16"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Aurorax"
+species = "Aurorax supremus"
+category = &"prehistoric"
+origin = "Câmara Quimérica — Rex × Tricerátopo × Xenoraptor × Glaciadon"
+rarity = 5
+role = &"predator"
+description = "Quimera Suprema: um colosso quadrúpede com coroa de cristais aurorais, juba de geada e mandíbulas de predador."
+lore = "Não é uma soma de partes: a Câmara Quimérica deixou as quatro sequências reescreverem umas às outras. O resultado é uma espécie própria que lembra uma aurora viva."
+types = Array[StringName]([&"biological", &"glacial", &"cosmic"])
+archive_code = "MG-041"
+size_class = &"giant"
+size_text = "14 m · 12 t"
+diet = "Carnívoro"
+behavior_notes = "Solitário e majestoso. Os cristais da coroa mudam de cor com o clima."
+photo_value = 150
+base_health = 740
+base_attack = 82
+base_defense = 46
+base_speed = 102
+income_amount = 110
+income_interval = 16.0
+income_cap = 1000
+walk_speed = 18.0
+feed_cost = 160
+feed_xp = 25
+dna_cost = 0
+start_discovered = false
+discovery_mode = &"hybrid"
+hybrid_tier = 4
+habitat_type = &"glacial"
+needs = Array[StringName]([&"water", &"shelter", &"food", &"vegetation"])
+social_style = &"solitary"
+frame_size = Vector2i(172, 120)
+foot_y = 116
+battle_scale = 2.0
+accent_color = Color(0.54, 1, 0.85, 1)
+cry_sfx = &"roar_rex"
+abilities = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4"), ExtResource("5"), ExtResource("6")])
+default_genes = Array[ExtResource("7")]([ExtResource("8"), ExtResource("9"), ExtResource("10")])
+recessive_pool = Array[ExtResource("7")]([ExtResource("11"), ExtResource("12"), ExtResource("13")])
+sprite_sheet = ExtResource("14")
+egg_texture = ExtResource("15")
+icon = ExtResource("16")
+id = &"aurorax"

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="GeneData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+group = &"special"
+id = &"gene_sentidos"
+display_name = "Sentidos Avançados"
+description = "Visão e olfato aguçados: +2% de ataque e velocidade."
+icon_name = "gene_special"
+rarity = 1
+stat_modifiers = {"attack": 0.02, "speed": 0.02}
+element = &""
+behavior_tag = &"alert"

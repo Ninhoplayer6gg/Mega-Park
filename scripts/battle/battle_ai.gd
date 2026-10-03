@@ -12,6 +12,8 @@ static func choose(state: BattleState, me: Combatant, noise := NOISE) -> Ability
 	var best: AbilityData = null
 	var best_score := -INF
 	for a in me.usable_actions():
+		if a.kind == AbilityData.Kind.SWAP:
+			continue
 		var score := score_action(me, foe, a)
 		score += absf(score) * state.rng.randf_range(-noise, noise)
 		if score > best_score:
@@ -41,7 +43,7 @@ static func score_action(me: Combatant, foe: Combatant, a: AbilityData) -> float
 		AbilityData.Kind.RESERVE:
 			score = 0.02
 			var next_energy := me.energy + BattleRules.ENERGY_PER_ROUND
-			for ab in me.data.abilities:
+			for ab in me.own_abilities:
 				var cd := int(me.cooldowns.get(ab.id, 0))
 				if cd <= 1 and ab.energy_cost > next_energy and ab.energy_cost <= next_energy + a.energy_gain:
 					score = maxf(score, my_basic_value * 0.55)
@@ -55,6 +57,9 @@ static func score_action(me: Combatant, foe: Combatant, a: AbilityData) -> float
 			score += 1.0
 	for eff in a.effects:
 		score += _effect_value(me, foe, eff, incoming)
+	if a.heal_ratio > 0.0:
+		var missing := 1.0 - me.hp_ratio()
+		score += minf(a.heal_ratio, missing) * (1.2 if me.hp_ratio() < 0.5 else 0.6)
 	return (score - a.energy_cost * energy_value) * a.ai_weight
 
 
@@ -74,7 +79,8 @@ static func _effect_value(me: Combatant, foe: Combatant, eff: StatusEffectData, 
 	match eff.stat:
 		&"defense":
 			if eff.target != &"self":
-				return 0.0
+				var basic_dmg := BattleRules.expected_damage(me, foe, BattleRules.basic(AbilityData.Kind.ATTACK))
+				return basic_dmg * (1.0 - eff.multiplier) * 0.6 * turns / float(foe.max_hp)
 			var def := me.defense()
 			var factor := (BattleRules.DEFENSE_CONSTANT + def) / (BattleRules.DEFENSE_CONSTANT + def * eff.multiplier)
 			return incoming * (1.0 - factor) * turns / float(me.max_hp)

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="GeneData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+group = &"physical"
+id = &"gene_forca"
+display_name = "Força"
+description = "Musculatura densa: +6% de ataque."
+icon_name = "gene_physical"
+rarity = 0
+stat_modifiers = {"attack": 0.06}
+element = &""
+behavior_tag = &""

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PersonalityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/personality_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"agressiva"
+display_name = "Agressiva"
+description = "Pavio curto. +3% de ataque, mais conflitos."
+wander = 1.1
+rest = 0.8
+play = 0.6
+roar = 1.6
+social = -6
+happiness = -2
+stat_modifiers = {"attack": 0.03}

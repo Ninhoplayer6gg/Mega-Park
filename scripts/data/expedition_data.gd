@@ -25,3 +25,16 @@ extends Resource
 @export_range(0.0, 1.0) var species_sample_chance := 0.3
 @export var species_sample_dna := 25
 @export var species_pool: Array[CreatureData] = []
+@export var rp_reward := 5
+## material_id -> [min, max, chance]
+@export var material_rewards := {}
+## Fossil fragments brought back (restoration).
+@export var fossil_species: CreatureData
+@export var fossil_range := Vector2i(0, 0)
+## Clues (footprints/signals) for species discovered through tracking.
+@export var clue_species: CreatureData
+@export_range(0.0, 1.0) var clue_chance := 0.0
+## Tracking expeditions: listed only when enough clues exist; completion discovers the species.
+@export var tracking_species: CreatureData
+## Temporary expeditions only exist while a dimensional portal event is active.
+@export var temporary := false

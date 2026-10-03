@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="ExpeditionData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/expedition_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="2"]
+[ext_resource type="Texture2D" path="res://assets/ui/banners/geleira_eterna.png" id="3"]
+[ext_resource type="Resource" path="res://data/creatures/glaciadon.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Geleira Eterna"
+description = "Campos de gelo milenar com fósseis congelados de Glaciadon e Cristais Criogênicos."
+region_type = &"fossil_site"
+order = 3
+duration = 45.0
+cost_credits = 300
+unlock_player_level = 2
+banner_color = Color(0.55, 0.78, 0.9, 1)
+credits_min = 150
+credits_max = 300
+dna_min = 20
+dna_max = 40
+player_xp = 35
+species_sample_chance = 0.0
+rp_reward = 8
+id = &"geleira_eterna"
+species_pool = Array[ExtResource("2")]([])
+banner_texture = ExtResource("3")
+material_rewards = {"mat_cryo": [1, 2, 0.7]}
+fossil_species = ExtResource("4")
+fossil_range = Vector2i(2, 4)

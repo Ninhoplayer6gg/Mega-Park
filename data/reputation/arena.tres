@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ReputationStyleData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/reputation_style_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"arena"
+display_name = "Arena Suprema"
+description = "Campeões de batalha. Bônus: +10% de créditos em batalhas."
+icon_name = "battle"
+metric = &"arena"
+bonus = {"battle_credits": 0.1}

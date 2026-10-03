@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MissionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"m17_archive"
+order = 17
+title = "Catalogador"
+description = "Registre 6 espécies no Arquivo Mega."
+objective = &"archive_entries"
+objective_param = &""
+target = 6
+icon_name = "archive"
+reward_credits = 600
+reward_dna = 50
+reward_player_xp = 150

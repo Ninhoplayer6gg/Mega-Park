@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Melanística"
+description = "Excesso de melanina: coloração quase negra e +2% de ataque."
+rarity = 2
+base_chance = 0.018
+saturation = 0.55
+value = 0.5
+stat_modifiers = {"attack": 0.02}
+incompatible_with = Array[StringName]([&"albina"])
+id = &"melanistica"
