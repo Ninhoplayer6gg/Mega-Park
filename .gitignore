@@ -1,0 +1,10 @@
+# Godot 4
+.godot/
+/android/
+*.translation
+export_credentials.cfg
+*.apk
+*.aab
+# Python
+__pycache__/
+*.pyc

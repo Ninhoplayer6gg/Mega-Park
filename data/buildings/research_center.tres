@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/building_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/buildings/research_center.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"research_center"
+display_name = "Centro de Pesquisa"
+description = "Laboratório que sequencia DNA e decodifica sinais de outras dimensões."
+category = &"research"
+panel_type = &"research"
+sort_order = 7
+size = Vector2i(3, 3)
+cost_credits = 1500
+energy_use = 6
+max_count = 1
+params = {"dna_exchange_credits": 200, "dna_exchange_amount": 15, "research_cost": 400, "research_species": "xenoraptor"}
+sprite = ExtResource("2")

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/building_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/buildings/habitat_gate_prehistoric.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"habitat_prehistoric"
+display_name = "Habitat Pré-histórico"
+description = "Recinto cercado com terreno próprio, portão e comedouro. Abriga até 3 criaturas pré-históricas."
+category = &"habitat"
+node_type = &"habitat"
+panel_type = &"habitat"
+sort_order = 4
+size = Vector2i(10, 7)
+cost_credits = 1200
+habitat_type = &"prehistoric"
+habitat_capacity = 3
+icon = ExtResource("2")

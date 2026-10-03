@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"basic_reserve"
+display_name = "Reservar"
+description = "Não ataca, mas armazena +2 de energia extra para a próxima rodada."
+icon_name = "reserve"
+kind = 2
+energy_gain = 2
+priority = 1
+vfx = &"energy"
+sfx = &"buff"

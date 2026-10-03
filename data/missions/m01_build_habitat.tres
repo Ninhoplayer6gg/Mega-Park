@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MissionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"m01_build_habitat"
+order = 1
+title = "Lar dos Gigantes"
+description = "Abra o menu Construir e posicione um Habitat Pré-histórico em uma área livre."
+objective = &"building_placed"
+objective_param = &"habitat"
+target = 1
+icon_name = "build"
+reward_credits = 300
+reward_dna = 20
+reward_player_xp = 50

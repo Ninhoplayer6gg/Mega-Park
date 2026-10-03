@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/status_effect_data.gd" id="2"]
+
+[sub_resource type="Resource" id="sub_1"]
+script = ExtResource("2")
+target = &"enemy"
+stat = &"speed"
+multiplier = 0.8
+duration = 2
+label = "Velocidade -20%"
+
+[resource]
+script = ExtResource("1")
+id = &"voltaic_claw"
+display_name = "Garra Voltaica"
+description = "Golpe elétrico (150%) que ignora 30% da defesa e reduz a velocidade inimiga em 20%."
+icon_name = "energy"
+kind = 3
+energy_cost = 3
+cooldown = 1
+power = 1.5
+damage_type = &"electric"
+vfx = &"zap"
+sfx = &"zap"
+effects = Array[ExtResource("2")]([SubResource("sub_1")])

@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="CreatureData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/horn_charge.tres" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/fortified_stance.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="4"]
+[ext_resource type="Texture2D" path="res://assets/creatures/triceratopo_ancestral.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/creatures/egg_triceratopo_ancestral.png" id="6"]
+
+[resource]
+script = ExtResource("1")
+id = &"triceratopo_ancestral"
+display_name = "Tricerátopo Ancestral"
+species = "Triceratops antiquus"
+category = &"prehistoric"
+origin = "Planícies de musgo do Vale Primordial"
+rarity = 1
+role = &"tank"
+description = "Herbívoro blindado com um escudo ósseo cor de bronze. Defende a manada com investidas poderosas e quase nunca recua."
+base_health = 640
+base_attack = 50
+base_defense = 46
+base_speed = 98
+income_amount = 15
+income_interval = 10.0
+income_cap = 160
+walk_speed = 18.0
+feed_cost = 45
+feed_xp = 25
+dna_cost = 60
+incubation_time = 15.0
+start_discovered = true
+habitat_type = &"prehistoric"
+frame_size = Vector2i(120, 80)
+foot_y = 77
+battle_scale = 2.0
+accent_color = Color(0.31, 0.54, 0.42, 1)
+cry_sfx = &"roar_trike"
+abilities = Array[ExtResource("4")]([ExtResource("2"), ExtResource("3")])
+sprite_sheet = ExtResource("5")
+egg_texture = ExtResource("6")

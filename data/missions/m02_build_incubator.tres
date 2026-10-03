@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MissionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"m02_build_incubator"
+order = 2
+title = "Berçário Tecnológico"
+description = "Construa uma Incubadora para transformar DNA em criaturas."
+objective = &"building_placed"
+objective_param = &"incubator"
+target = 1
+icon_name = "egg"
+reward_credits = 200
+reward_dna = 30
+reward_player_xp = 50

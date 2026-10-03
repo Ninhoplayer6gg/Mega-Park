@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MissionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"m09_expedition"
+order = 9
+title = "Além dos Muros"
+description = "Conclua uma expedição ao Vale Primordial."
+objective = &"expedition_completed"
+objective_param = &""
+target = 1
+icon_name = "expedition"
+reward_credits = 300
+reward_dna = 40
+reward_player_xp = 100

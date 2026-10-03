@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="ExpeditionData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/expedition_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="2"]
+[ext_resource type="Resource" path="res://data/creatures/rex_primordial.tres" id="3"]
+[ext_resource type="Resource" path="res://data/creatures/triceratopo_ancestral.tres" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = &"vale_primordial"
+display_name = "Vale Primordial"
+description = "Planícies vulcânicas cheias de fósseis recentes. Uma ótima fonte de DNA pré-histórico."
+region_type = &"fossil_site"
+order = 1
+duration = 30.0
+cost_credits = 150
+banner_color = Color(0.25, 0.6, 0.42, 1)
+credits_min = 120
+credits_max = 260
+dna_min = 15
+dna_max = 35
+player_xp = 25
+species_sample_chance = 0.35
+species_sample_dna = 30
+species_pool = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4")])

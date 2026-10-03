@@ -1,0 +1,63 @@
+class_name ParkMap
+extends Node2D
+## Renders the static terrain of a MapLayout with TileMapLayers (ground + autotiled water).
+
+const TERRAIN_TEX := "res://assets/environment/terrain_tiles.png"
+const WATER_TEX := "res://assets/environment/water_tiles.png"
+const GRASS_PLAIN := [Vector2i(0, 0), Vector2i(1, 0), Vector2i(3, 0), Vector2i(5, 0), Vector2i(6, 0), Vector2i(7, 0)]
+const GRASS_FLOWERS := [Vector2i(2, 0), Vector2i(4, 0)]
+
+var ground: TileMapLayer
+var water: TileMapLayer
+
+
+func build(layout: MapLayout) -> void:
+	var ts := TileSet.new()
+	ts.tile_size = Vector2i(ParkGrid.TILE, ParkGrid.TILE)
+	ts.add_source(_atlas(load(TERRAIN_TEX), Vector2i(8, 2)), 0)
+	ts.add_source(_atlas(load(WATER_TEX), Vector2i(4, 4)), 1)
+	ground = TileMapLayer.new()
+	ground.name = "Ground"
+	ground.tile_set = ts
+	ground.z_index = -20
+	add_child(ground)
+	water = TileMapLayer.new()
+	water.name = "Water"
+	water.tile_set = ts
+	water.z_index = -19
+	add_child(water)
+	for y in layout.height:
+		for x in layout.width:
+			var cell := Vector2i(x, y)
+			var h := _hash(cell)
+			match layout.terrain_at(cell):
+				"dirt":
+					ground.set_cell(cell, 0, Vector2i(h % 2, 1))
+				"sand":
+					ground.set_cell(cell, 0, Vector2i(2, 1))
+				"flowers":
+					ground.set_cell(cell, 0, GRASS_FLOWERS[h % GRASS_FLOWERS.size()])
+				_:
+					ground.set_cell(cell, 0, GRASS_PLAIN[h % GRASS_PLAIN.size()])
+			if layout.is_water(cell):
+				var mask := 0
+				var dirs := [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]
+				for i in 4:
+					var n: Vector2i = cell + dirs[i]
+					if not layout.in_bounds(n) or layout.is_water(n):
+						mask |= 1 << i
+				water.set_cell(cell, 1, Vector2i(mask % 4, mask / 4))
+
+
+func _atlas(tex: Texture2D, grid: Vector2i) -> TileSetAtlasSource:
+	var src := TileSetAtlasSource.new()
+	src.texture = tex
+	src.texture_region_size = Vector2i(ParkGrid.TILE, ParkGrid.TILE)
+	for y in grid.y:
+		for x in grid.x:
+			src.create_tile(Vector2i(x, y))
+	return src
+
+
+static func _hash(cell: Vector2i) -> int:
+	return absi((cell.x * 73856093) ^ (cell.y * 19349663)) % 9973

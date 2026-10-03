@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MissionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"m06_collect"
+order = 6
+title = "Primeira Receita"
+description = "Toque na bolha de moedas sobre o habitat para coletar créditos."
+objective = &"credits_collected"
+objective_param = &""
+target = 1
+icon_name = "credits"
+reward_credits = 200
+reward_dna = 0
+reward_player_xp = 60

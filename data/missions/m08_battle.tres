@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MissionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"m08_battle"
+order = 8
+title = "Estreia na Arena"
+description = "Vença sua primeira batalha na Arena."
+objective = &"battle_won"
+objective_param = &""
+target = 1
+icon_name = "battle"
+reward_credits = 400
+reward_dna = 50
+reward_player_xp = 120

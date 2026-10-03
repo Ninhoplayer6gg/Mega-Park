@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/building_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/buildings/habitat_gate_alien.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"habitat_alien"
+display_name = "Habitat Alienígena"
+description = "Recinto com campo de contenção energético para criaturas de outras dimensões. Abriga até 2 criaturas."
+category = &"habitat"
+node_type = &"habitat"
+panel_type = &"habitat"
+sort_order = 5
+size = Vector2i(10, 7)
+cost_credits = 1800
+energy_use = 4
+required_building = &"research_center"
+habitat_type = &"alien"
+habitat_capacity = 2
+icon = ExtResource("2")

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"basic_attack"
+display_name = "Ataque"
+description = "Golpe básico. Não custa energia."
+icon_name = "attack"
+kind = 0
+power = 1.0
+vfx = &"hit"
+sfx = &"hit"

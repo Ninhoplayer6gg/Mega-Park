@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"basic_guard"
+display_name = "Defesa"
+description = "Age primeiro e reduz em 60% o dano recebido nesta rodada."
+icon_name = "defense"
+kind = 1
+energy_cost = 1
+guard_reduction = 0.6
+priority = 2
+vfx = &"guard"
+sfx = &"guard"

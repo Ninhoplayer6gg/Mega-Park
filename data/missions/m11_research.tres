@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MissionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"m11_research"
+order = 11
+title = "Ciência de Fronteira"
+description = "Construa o Centro de Pesquisa."
+objective = &"building_placed"
+objective_param = &"research"
+target = 1
+icon_name = "research"
+reward_credits = 300
+reward_dna = 50
+reward_player_xp = 100
