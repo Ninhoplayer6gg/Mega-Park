@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/status_effect_data.gd" id="2"]
+
+[sub_resource type="Resource" id="sub_1"]
+script = ExtResource("2")
+target = &"enemy"
+stat = &"attack"
+multiplier = 0.65
+duration = 3
+label = "Ataque -35%"
+
+[resource]
+script = ExtResource("1")
+id = &"dominant_roar"
+display_name = "Rugido Dominante"
+description = "Intimida o oponente: ataque inimigo -35% por 3 rodadas."
+icon_name = "skill"
+kind = 3
+energy_cost = 3
+cooldown = 4
+vfx = &"roar"
+sfx = &"roar_rex"
+ai_weight = 1.0
+effects = Array[ExtResource("2")]([SubResource("sub_1")])

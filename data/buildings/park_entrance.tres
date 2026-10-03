@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/building_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/buildings/park_entrance.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"park_entrance"
+display_name = "Entrada do Mega Park"
+description = "O portal de entrada do parque. Fornece a energia base (+10)."
+category = &"landmark"
+sort_order = 99
+size = Vector2i(4, 2)
+buildable = false
+removable = false
+cost_credits = 0
+energy_output = 10
+max_count = 1
+sprite = ExtResource("2")

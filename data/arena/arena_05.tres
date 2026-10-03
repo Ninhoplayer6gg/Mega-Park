@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="ArenaOpponentData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/arena_opponent_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/creatures/rex_primordial.tres" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"arena_05"
+order = 5
+title = "Tirano Primordial"
+creature = ExtResource("2")
+level = 7
+reward_credits = 800
+reward_dna = 60
+reward_creature_xp = 180
+reward_player_xp = 120

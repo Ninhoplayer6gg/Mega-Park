@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="CreatureData" load_steps=7 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/abilities/brutal_bite.tres" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/dominant_roar.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="4"]
+[ext_resource type="Texture2D" path="res://assets/creatures/rex_primordial.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/creatures/egg_rex_primordial.png" id="6"]
+
+[resource]
+script = ExtResource("1")
+id = &"rex_primordial"
+display_name = "Rex Primordial"
+species = "Tyrannosaurus primordialis"
+category = &"prehistoric"
+origin = "Vale Primordial — uma era cretácea que nunca terminou"
+rarity = 2
+role = &"predator"
+description = "Predador colossal de mandíbulas capazes de partir rochas. Lento para começar, devastador quando chega perto. As placas ósseas alaranjadas nas costas brilham quando ele está irritado."
+base_health = 560
+base_attack = 72
+base_defense = 30
+base_speed = 92
+income_amount = 25
+income_interval = 12.0
+income_cap = 220
+walk_speed = 22.0
+feed_cost = 60
+feed_xp = 25
+dna_cost = 100
+incubation_time = 20.0
+start_discovered = true
+habitat_type = &"prehistoric"
+frame_size = Vector2i(136, 96)
+foot_y = 92
+battle_scale = 2.0
+accent_color = Color(0.71, 0.32, 0.23, 1)
+cry_sfx = &"roar_rex"
+abilities = Array[ExtResource("4")]([ExtResource("2"), ExtResource("3")])
+sprite_sheet = ExtResource("5")
+egg_texture = ExtResource("6")

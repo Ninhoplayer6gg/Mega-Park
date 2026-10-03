@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/building_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/buildings/generator.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"generator"
+display_name = "Gerador de Energia"
+description = "Bobina de fusão compacta. Fornece +12 de energia ao parque."
+category = &"generator"
+sort_order = 8
+size = Vector2i(2, 2)
+cost_credits = 600
+energy_output = 12
+hframes = 2
+anim_fps = 3.0
+sprite = ExtResource("2")

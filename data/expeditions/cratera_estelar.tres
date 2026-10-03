@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="ExpeditionData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/expedition_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="2"]
+[ext_resource type="Resource" path="res://data/creatures/xenoraptor.tres" id="3"]
+[ext_resource type="Texture2D" path="res://assets/ui/banners/cratera_estelar.png" id="4"]
+
+[resource]
+script = ExtResource("1")
+id = &"cratera_estelar"
+display_name = "Cratera Estelar"
+description = "Fenda dimensional onde um meteoro trouxe vida de outro mundo. Pode render amostras alienígenas."
+region_type = &"dimension"
+order = 2
+duration = 60.0
+cost_credits = 400
+unlock_player_level = 3
+banner_color = Color(0.36, 0.3, 0.6, 1)
+icon_name = "research"
+credits_min = 200
+credits_max = 450
+dna_min = 30
+dna_max = 60
+player_xp = 50
+species_sample_chance = 0.5
+species_sample_dna = 40
+species_pool = Array[ExtResource("2")]([ExtResource("3")])
+banner_texture = ExtResource("4")

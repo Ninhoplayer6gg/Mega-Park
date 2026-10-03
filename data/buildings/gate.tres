@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/building_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/buildings/gate.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"gate"
+display_name = "Portão de Habitat"
+description = "Portão de madeira reforçada. Deve ser colocado ao lado de uma cerca."
+category = &"gate"
+sort_order = 3
+placement_rule = &"adjacent_fence"
+cost_credits = 60
+sprite = ExtResource("2")

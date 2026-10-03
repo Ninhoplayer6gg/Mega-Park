@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MissionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"m04_hatch"
+order = 4
+title = "Chocou!"
+description = "Aguarde a incubação terminar e colete a criatura."
+objective = &"creature_hatched"
+objective_param = &""
+target = 1
+icon_name = "egg"
+reward_credits = 150
+reward_dna = 20
+reward_player_xp = 50

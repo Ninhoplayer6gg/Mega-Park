@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/status_effect_data.gd" id="2"]
+
+[sub_resource type="Resource" id="sub_1"]
+script = ExtResource("2")
+target = &"self"
+stat = &"speed"
+multiplier = 1.4
+duration = 3
+label = "Velocidade +40%"
+
+[sub_resource type="Resource" id="sub_2"]
+script = ExtResource("2")
+target = &"self"
+stat = &"next_attack"
+multiplier = 1.6
+duration = 1
+label = "Próximo ataque +60%"
+
+[resource]
+script = ExtResource("1")
+id = &"bio_overload"
+display_name = "Sobrecarga Biológica"
+description = "Acelera o metabolismo: velocidade +40% por 3 rodadas e próximo ataque +60%."
+icon_name = "speed"
+kind = 3
+energy_cost = 3
+cooldown = 4
+vfx = &"buff"
+sfx = &"buff"
+effects = Array[ExtResource("2")]([SubResource("sub_1"), SubResource("sub_2")])

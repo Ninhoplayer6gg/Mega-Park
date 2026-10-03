@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="HabitatTypeData" load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/habitat_type_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/environment/ground_prehistoric.png" id="2"]
+[ext_resource type="Texture2D" path="res://assets/buildings/fence_wood.png" id="3"]
+[ext_resource type="Texture2D" path="res://assets/buildings/habitat_gate_prehistoric.png" id="4"]
+[ext_resource type="Texture2D" path="res://assets/buildings/feeder_prehistoric.png" id="5"]
+[ext_resource type="Texture2D" path="res://assets/environment/cycad.png" id="6"]
+[ext_resource type="Texture2D" path="res://assets/environment/rock_small.png" id="7"]
+[ext_resource type="Texture2D" path="res://assets/environment/bush.png" id="8"]
+
+[resource]
+script = ExtResource("1")
+id = &"prehistoric"
+display_name = "Habitat Pré-histórico"
+description = "Terreno de vegetação primitiva com cercas de troncos reforçados."
+ui_color = Color(0.55, 0.6, 0.29, 1)
+ground_texture = ExtResource("2")
+fence_texture = ExtResource("3")
+gate_texture = ExtResource("4")
+feeder_texture = ExtResource("5")
+decor_textures = Array[Texture2D]([ExtResource("6"), ExtResource("7"), ExtResource("8")])
