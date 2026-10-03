@@ -9,13 +9,14 @@ const GRASS_FLOWERS := [Vector2i(2, 0), Vector2i(4, 0)]
 
 var ground: TileMapLayer
 var water: TileMapLayer
+var shore: TileMapLayer
 
 
 func build(layout: MapLayout) -> void:
 	var ts := TileSet.new()
 	ts.tile_size = Vector2i(ParkGrid.TILE, ParkGrid.TILE)
 	ts.add_source(_atlas(load(TERRAIN_TEX), Vector2i(8, 2)), 0)
-	ts.add_source(_atlas(load(WATER_TEX), Vector2i(4, 4)), 1)
+	ts.add_source(_atlas(load(WATER_TEX), Vector2i(4, 5)), 1)
 	ground = TileMapLayer.new()
 	ground.name = "Ground"
 	ground.tile_set = ts
@@ -26,6 +27,11 @@ func build(layout: MapLayout) -> void:
 	water.tile_set = ts
 	water.z_index = -19
 	add_child(water)
+	shore = TileMapLayer.new()
+	shore.name = "Shore"
+	shore.tile_set = ts
+	shore.z_index = -18
+	add_child(shore)
 	for y in layout.height:
 		for x in layout.width:
 			var cell := Vector2i(x, y)
@@ -47,6 +53,19 @@ func build(layout: MapLayout) -> void:
 					if not layout.in_bounds(n) or layout.is_water(n):
 						mask |= 1 << i
 				water.set_cell(cell, 1, Vector2i(mask % 4, mask / 4))
+				_inner_corner(layout, cell, mask)
+
+
+## Concave corners (water on two sides, land on the diagonal) get a small rounded shore overlay.
+func _inner_corner(layout: MapLayout, cell: Vector2i, mask: int) -> void:
+	var corners := [[1, 2, Vector2i(1, -1)], [4, 2, Vector2i(1, 1)], [4, 8, Vector2i(-1, 1)], [1, 8, Vector2i(-1, -1)]]
+	for i in corners.size():
+		var c: Array = corners[i]
+		if mask & c[0] and mask & c[1]:
+			var diag: Vector2i = cell + c[2]
+			if layout.in_bounds(diag) and not layout.is_water(diag):
+				shore.set_cell(cell, 1, Vector2i(i, 4))
+				return
 
 
 func _atlas(tex: Texture2D, grid: Vector2i) -> TileSetAtlasSource:

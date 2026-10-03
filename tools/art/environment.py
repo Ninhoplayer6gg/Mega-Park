@@ -122,6 +122,27 @@ def water_tiles():
     return tiles
 
 
+def inner_corner_tiles():
+    """Overlays for concave shore corners: NE, SE, SW, NW (water on both sides, land on the diagonal)."""
+    tiles = []
+    for (cx, cy) in [(T - 1, 0), (T - 1, T - 1), (0, T - 1), (0, 0)]:
+        img = new(T, T)
+        for y in range(T):
+            for x in range(T):
+                d = math.hypot(x - cx, y - cy)
+                if d < 3.2:
+                    c = SAND
+                elif d < 4.4:
+                    c = FOAM
+                elif d < 7.0:
+                    c = WATER_LIGHT
+                else:
+                    continue
+                img.putpixel((x, y), c)
+        tiles.append(img)
+    return tiles
+
+
 def path_tiles():
     tiles = []
     stone = hexc("d9bc85")
@@ -375,9 +396,11 @@ def generate():
     save(atlas, "environment", "terrain_tiles.png")
 
     water = water_tiles()
-    wa = new(T * 4, T * 4)
+    wa = new(T * 4, T * 5)
     for i, t in enumerate(water):
         wa.alpha_composite(t, ((i % 4) * T, (i // 4) * T))
+    for i, t in enumerate(inner_corner_tiles()):
+        wa.alpha_composite(t, (i * T, 4 * T))
     save(wa, "environment", "water_tiles.png")
 
     save(sheet([path_tiles()], T, T), "environment", "path_tiles.png")

@@ -18,7 +18,7 @@ def lake(cx, cy, rx, ry):
             if v <= 1.0: g[y][x] = 'w'
 lake(36.5, 6.5, 6.2, 3.6)
 lake(7.5, 24.5, 3.6, 2.6)
-ex, ey = 21, 28           # entrance 4x2 at rows 28-29
+ex, ey = 21, 25           # entrance 4x2 at rows 25-26
 for y in range(H):
     for x in range(W):
         if g[y][x] == 'w': continue

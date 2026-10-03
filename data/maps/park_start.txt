@@ -22,11 +22,11 @@ PC.T......,.....,.....pp..................BbTr
 CT.C..r.,...,...,..,..pp.......,...........,TT
 TTP.C.Cwwb...b........pp....,.......,.....C.PP
 PPT..wwwwww,........,.pp.,..ddddd.........P.TC
-TC..wwwwwwwwC.........pp..,.ddddd.....,....BTP
-TTb.wwwwwwwwR.........pp.,..ddddd.....,...C.TC
-PTR.Rwwwwww...........pp.........,........,.PP
+TC..wwwwwwwwC.........pp....ddddd.....,....BTP
+TTb.wwwwwwwwR........E......ddddd.....,...C.TC
+PTR.Rwwwwww......................,........,.PP
 TbCr...wwb...C....,...pp..........,,......PbrT
-P..T....bb....BCCb...E.....b....b...B..B....PC
-CPr..,..,Tb.CT..C.............Pb..C.P.C...CCTT
+P..T....bb....BCCb....pp...b....b...B..B....PC
+CPr..,..,Tb.CT..C.....pp......Pb..C.P.C...CCTT
 TTTTTPT.PTCTCTPTT.P...pp...,PTTPPCT.PTP.bbCPTT
 CT.PTCTPTP.TPTCbCPT...pp...TPTTP.PCPP,PCTPTPCC

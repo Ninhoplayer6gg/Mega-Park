@@ -53,13 +53,11 @@ func _card(e: ExpeditionData) -> Control:
 	var card := UIKit.panel("Card")
 	card.name = String(e.id)
 	var h := UIKit.hbox(14)
-	var banner := ColorRect.new()
-	banner.color = e.banner_color
+	var banner := PanelContainer.new()
+	var banner_sb := UITheme.flat(e.banner_color, e.banner_color.darkened(0.5), 3, 4)
+	banner.add_theme_stylebox_override("panel", banner_sb)
 	banner.custom_minimum_size = Vector2(110, 110)
-	var ic := UIKit.icon(e.icon_name, 64)
-	ic.set_anchors_preset(Control.PRESET_CENTER)
-	ic.position = Vector2(23, 23)
-	banner.add_child(ic)
+	banner.add_child(UIKit.centered(UIKit.icon(e.icon_name, 64)))
 	h.add_child(banner)
 	var v := UIKit.vbox(4)
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL

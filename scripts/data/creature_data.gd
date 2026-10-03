@@ -50,7 +50,7 @@ extends Resource
 @export var foot_y := 60
 ## anim name -> [row, frame_count, fps, loop]
 @export var anim_layout := {
-	"idle": [0, 4, 4.0, true], "walk": [1, 4, 8.0, true], "attack": [2, 4, 10.0, false],
+	"idle": [0, 4, 4.0, true], "walk": [1, 6, 10.0, true], "attack": [2, 4, 10.0, false],
 	"hurt": [3, 2, 8.0, false], "defeat": [4, 4, 6.0, false],
 }
 @export var battle_scale := 2.0

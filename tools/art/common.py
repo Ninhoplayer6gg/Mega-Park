@@ -241,3 +241,80 @@ def volume(img, top=1.08, bottom=0.82, top_frac=0.22, bottom_frac=0.35):
                     pix[x, yy] = mul(pix[x, yy], top)
                 elif t > 1.0 - bottom_frac:
                     pix[x, yy] = mul(pix[x, yy], bottom)
+
+
+WARM = (255, 236, 190, 255)
+COOL = (52, 36, 96, 255)
+
+
+def lit(c, amount=0.22):
+    """Highlight with a warm hue shift (classic pixel-art ramp)."""
+    return mix(mul(c, 1.08), WARM, amount)[:3] + (c[3],)
+
+
+def dim(c, amount=0.25, factor=0.78):
+    """Shadow with a cool hue shift."""
+    return mix(mul(c, factor), COOL, amount)[:3] + (c[3],)
+
+
+def ramp(img, hi=0.16, mid_shadow=0.62, deep=0.86):
+    """4-tone vertical ramp per column run: highlight / base / shadow / deep shadow, hue shifted."""
+    w, h = img.size
+    pix = img.load()
+    for x in range(w):
+        y = 0
+        while y < h:
+            if pix[x, y][3] == 0:
+                y += 1
+                continue
+            start = y
+            while y < h and pix[x, y][3] != 0:
+                y += 1
+            length = y - start
+            if length < 3:
+                continue
+            for yy in range(start, y):
+                t = (yy - start) / float(length)
+                c = pix[x, yy]
+                if t < hi:
+                    pix[x, yy] = lit(c, 0.18)
+                elif t > deep:
+                    pix[x, yy] = dim(c, 0.35, 0.66)
+                elif t > mid_shadow:
+                    pix[x, yy] = dim(c, 0.18, 0.84)
+
+
+def selout(img, outline_color, strength=0.55):
+    """Selective outline: darkened neighbour colour blended toward a dark outline hue."""
+    src = img.copy()
+    w, h = img.size
+    sp = src.load()
+    out = img.load()
+    for y in range(h):
+        for x in range(w):
+            if sp[x, y][3] != 0:
+                continue
+            best = None
+            for dx, dy in ((0, 1), (0, -1), (1, 0), (-1, 0)):
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < w and 0 <= ny < h and sp[nx, ny][3] > 0:
+                    best = sp[nx, ny]
+                    if dy == -1:
+                        break
+            if best is not None:
+                out[x, y] = mix(mul(best, 0.35), outline_color, strength)[:3] + (255,)
+
+
+def scale_texture(img, mask, anchor, seed_color_fn, period=(5, 3)):
+    """Stable scale/speckle pattern relative to an anchor so it does not swim between frames."""
+    w, h = img.size
+    pix = img.load()
+    m = mask.load()
+    ax, ay = int(anchor[0]), int(anchor[1])
+    for y in range(h):
+        for x in range(w):
+            if m[x, y][3] == 0 or pix[x, y][3] == 0:
+                continue
+            u, v = x - ax, y - ay
+            if (u + (v // period[1]) * 2) % period[0] == 0 and v % period[1] == 0:
+                pix[x, y] = seed_color_fn(pix[x, y])

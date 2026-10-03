@@ -8,3 +8,4 @@ export_credentials.cfg
 # Python
 __pycache__/
 *.pyc
+build/

@@ -26,14 +26,14 @@ func _ready() -> void:
 	GameClock.tick.connect(_on_tick)
 	EventBus.creature_leveled.connect(_on_creature_leveled)
 	EventBus.credits_collected.connect(_on_credits_collected)
-	camera.setup(layout.pixel_size(), 2.0)
+	camera.setup(layout.pixel_size(), 1.5)
 	camera.tapped.connect(_on_tap)
 	camera.hovered.connect(_on_hover)
 	camera.cancel_requested.connect(func(): build_controller.stop())
 	build_controller.setup(self, build_overlay)
 	hud.setup(self)
 	var entrance := ParkState.of_category(&"landmark")
-	camera.position = entrance[0].center_world() + Vector2(0, -200) if not entrance.is_empty() else layout.pixel_size() * 0.5
+	camera.position = entrance[0].center_world() + Vector2(0, -60) if not entrance.is_empty() else layout.pixel_size() * 0.5
 	camera.position = camera._clamped(camera.position)
 	var params := SceneRouter.take_params()
 	if params.has("focus_creature"):

@@ -6,7 +6,7 @@ All creatures face RIGHT; the engine flips them when needed.
 """
 import math
 from PIL import Image
-from common import (volume, new, hexc, mul, rot, rot_all, offset_all, ellipse_pts, poly, ellipse, rect, line, px,
+from common import (ramp, selout, lit, dim, volume, new, hexc, mul, rot, rot_all, offset_all, ellipse_pts, poly, ellipse, rect, line, px,
                     strip, chain, clip_to, paste_over, shade, outline, sheet, save, alpha_mask)
 
 
@@ -47,6 +47,52 @@ def finish(layers_bottom_to_top, size, ground, contact_layers):
     return shift(composed, 0, dy), dy
 
 
+def body_texture(img, base, anchor, sx=4, sy=3):
+    """Staggered scale pattern on pixels that still have the flat base colour."""
+    pix = img.load()
+    ax, ay = round(anchor[0]), round(anchor[1])
+    w, h = img.size
+    dark = dim(base, 0.12, 0.86)
+    light = lit(base, 0.12)
+    for y in range(h):
+        for x in range(w):
+            if pix[x, y] != base:
+                continue
+            u, v = x - ax, y - ay
+            row = v // sy
+            if v % sy == 0 and (u + (row % 2) * (sx // 2)) % sx == 0:
+                pix[x, y] = dark
+                if x + 1 < w and pix[x + 1, y] == base:
+                    pix[x + 1, y] = dark
+                if y - 1 >= 0 and pix[x, y - 1] == base:
+                    pix[x, y - 1] = light
+
+
+def draw_eye(img, ex, ey, iris, mode, brow, big=True):
+    black = hexc("14101c")
+    if mode == "open":
+        if big:
+            rect(img, ex - 1, ey - 1, ex + 2, ey + 1, hexc("f4f0e0"))
+            rect(img, ex, ey - 1, ex + 2, ey + 1, iris)
+            rect(img, ex + 1, ey - 1, ex + 2, ey + 1, black)
+            px(img, ex, ey - 1, hexc("ffffff"))
+            rect(img, ex - 2, ey - 2, ex + 3, ey - 2, brow)
+            px(img, ex + 3, ey - 1, brow)
+        else:
+            rect(img, ex - 1, ey - 1, ex + 1, ey, iris)
+            px(img, ex + 1, ey, black)
+            px(img, ex, ey, black)
+            px(img, ex - 1, ey - 1, hexc("ffffff"))
+            rect(img, ex - 2, ey - 2, ex + 2, ey - 2, brow)
+    elif mode == "closed":
+        rect(img, ex - 1, ey, ex + 2, ey, black)
+        rect(img, ex - 2, ey - 2, ex + 3, ey - 2, brow)
+    else:
+        for d in (-1, 0, 1):
+            px(img, ex + d, ey + d, black)
+            px(img, ex + d, ey - d, black)
+
+
 # ---------------------------------------------------------------- theropods
 def theropod_leg(layer, hip, P, swing, lift, fold, colors, thigh=True):
     L1, L2, L3 = [v * (1.0 - 0.55 * fold) for v in P["leg_lengths"]]
@@ -64,8 +110,9 @@ def theropod_leg(layer, hip, P, swing, lift, fold, colors, thigh=True):
     poly(layer, strip([knee] + pts[1:], [w[0], w[1], w[2]]), body)
     poly(layer, strip([pts[-1], ((pts[-1][0] + toe[0]) / 2, pts[-1][1] + 1), toe], [w[2], w[3], 2]), body)
     # claws
-    px(layer, round(toe[0]) + 1, round(toe[1]), dark)
-    px(layer, round(toe[0]), round(toe[1]) + 1, dark)
+    px(layer, round(toe[0]) + 1, round(toe[1]), P["claw"])
+    px(layer, round(toe[0]) + 2, round(toe[1]), P["claw"])
+    px(layer, round(toe[0]) - 3, round(toe[1]) + 1, P["claw"])
     return toe
 
 
@@ -185,25 +232,21 @@ def draw_theropod(P, pose):
 
     layers = [far_leg, tail_l, torso, near_leg, head_l, arm_l]
     composed, dy = finish(layers, (W, H), P["ground"], [near_leg, far_leg, torso])
-    volume(composed)
-    shade(composed, light=1.2, dark=0.7)
+    body_texture(composed, c_body, (hip[0], hip[1] + dy), P.get("scale_x", 4), P.get("scale_y", 3))
+    ramp(composed)
+    shade(composed, light=1.1, dark=0.9, dark_depth=1)
 
-    # eye + details after shading so they stay crisp
+    # mouth line, eye + details after shading so they stay crisp
+    if pose.jaw <= 3:
+        m0 = HR([P["mouth"][0]])[0]
+        m1 = HR([(P["mouth"][1][0] - 3, P["mouth"][1][1])])[0]
+        line(composed, [(m0[0], m0[1] + dy), (m1[0], m1[1] + dy)], mul(c_dark, 0.7), 1)
     eye = HR([P["eye"]])[0]
     ex, ey = round(eye[0]), round(eye[1] + dy)
-    if pose.eyes == "open":
-        rect(composed, ex - 1, ey - 1, ex + 1, ey, P["eye_color"])
-        px(composed, ex + 1, ey, hexc("101018"))
-        px(composed, ex, ey, hexc("101018"))
-        rect(composed, ex - 2, ey - 2, ex + 2, ey - 2, mul(c_dark, 0.8))
-    elif pose.eyes == "closed":
-        rect(composed, ex - 1, ey, ex + 1, ey, hexc("101018"))
-    else:
-        for d in (-1, 0, 1):
-            px(composed, ex + d, ey + d, hexc("101018"))
-            px(composed, ex + d, ey - d, hexc("101018"))
+    draw_eye(composed, ex, ey, P["eye_color"], pose.eyes, mul(c_dark, 0.8), P.get("big_eye", True))
     nostril = HR([P["nostril"]])[0]
     px(composed, round(nostril[0]), round(nostril[1] + dy), mul(c_dark, 0.6))
+    px(composed, round(nostril[0]) - 1, round(nostril[1] + dy), mul(c_dark, 0.8))
 
     if P.get("glow"):
         glow = P["glow"]
@@ -241,7 +284,7 @@ def draw_theropod(P, pose):
             sx, sy = claw[0] + math.cos(ang) * dist, claw[1] + math.sin(ang) * dist
             line(composed, [(sx, sy), (sx + rng.choice([-2, 2]), sy + rng.choice([-2, 2]))], spark, 1)
 
-    outline(composed, color=P["outline"])
+    selout(composed, P["outline"])
     return composed
 
 
@@ -284,7 +327,7 @@ XENO = {
         {"pts": [(-1, -4), (-9, -7), (-16, -7)], "widths": (3, 2, 1), "color": hexc("211a48")},
         {"pts": [(2, -5), (-5, -10), (-12, -12)], "widths": (3, 2, 1), "color": hexc("2c2460")},
     ],
-    "eye": (6, -3), "nostril": (16, -2),
+    "eye": (6, -3), "nostril": (16, -2), "big_eye": False, "scale_x": 4, "scale_y": 3,
     "shoulder": (12, -2), "arm_lengths": (6, 6), "arm_angles": (-25, -70), "arm_widths": (4, 3, 2),
     "stripes": [-10, -4, 2, 8], "stripe_depth": -4,
     "spikes": [],
@@ -300,8 +343,8 @@ def theropod_frames(P):
         idle.append(draw_theropod(P, Pose(breath=round(s * 0.8), tail=4 * s, head=-2 * s)))
     rows.append(idle)
     walk = []
-    for i in range(4):
-        t = i / 4.0
+    for i in range(6):
+        t = i / 6.0
         s = math.sin(t * math.tau)
         c = math.cos(t * math.tau)
         walk.append(draw_theropod(P, Pose(near=22 * s, far=-22 * s, lift_near=max(0, c) * 0.8,
@@ -336,14 +379,16 @@ TRIKE = {
 }
 
 
-def trike_leg(layer, top, swing, fold, color, dark, length=17):
+def trike_leg(layer, top, swing, fold, color, dark, length=17, nail=None):
     L = length * (1 - 0.6 * fold)
     pts = chain(top, [L * 0.55, L * 0.45], [swing - 25 * fold, swing * 0.5 + 10 * fold])
-    poly(layer, strip(pts, [13, 10, 10]), color)
+    ellipse(layer, top[0], top[1] + 2, 8, 9, color)
+    poly(layer, strip(pts, [14, 10, 11]), color)
     foot = pts[-1]
-    rect(layer, round(foot[0]) - 5, round(foot[1]) - 1, round(foot[0]) + 5, round(foot[1]) + 1, color)
-    for k in (-4, -1, 2):
-        px(layer, round(foot[0]) + k + 1, round(foot[1]) + 1, dark)
+    ellipse(layer, foot[0] + 1, foot[1], 6.5, 2.5, color)
+    for k in (-3, 0, 3):
+        px(layer, round(foot[0]) + k + 2, round(foot[1]) + 1, nail or dark)
+        px(layer, round(foot[0]) + k + 3, round(foot[1]) + 1, nail or dark)
 
 
 def draw_trike(P, pose):
@@ -359,8 +404,8 @@ def draw_trike(P, pose):
     far_l, near_l, tail_l, torso, head_l = (new(W, H) for _ in range(5))
     hip_b = R([(cx - 16, cy + 6)])[0]
     hip_f = R([(cx + 16, cy + 8)])[0]
-    trike_leg(far_l, (hip_b[0] + 4, hip_b[1] - 2), pose.far, pose.fold, c_far, P["dark"], 18)
-    trike_leg(far_l, (hip_f[0] + 4, hip_f[1] - 2), -pose.far, pose.fold, c_far, P["dark"], 16)
+    trike_leg(far_l, (hip_b[0] + 4, hip_b[1] - 2), pose.far, pose.fold, c_far, P["dark"], 18, mul(P["horn"], 0.75))
+    trike_leg(far_l, (hip_f[0] + 4, hip_f[1] - 2), -pose.far, pose.fold, c_far, P["dark"], 16, mul(P["horn"], 0.75))
     # tail
     t0 = R([(cx - 26, cy - 2)])[0]
     tail_pts = chain(t0, [8, 7, 6], [95 + pose.tail - 10 * pose.fold, 100 + pose.tail * 1.5, 104 + pose.tail * 2])
@@ -379,8 +424,8 @@ def draw_trike(P, pose):
         line(marks, [top, bot], P["dark"], 3)
     torso.alpha_composite(clip_to(marks, torso))
     torso.alpha_composite(clip_to(belly, torso))
-    trike_leg(near_l, hip_b, pose.near, pose.fold, c_body, P["dark"], 18)
-    trike_leg(near_l, hip_f, -pose.near, pose.fold, c_body, P["dark"], 16)
+    trike_leg(near_l, hip_b, pose.near, pose.fold, c_body, P["dark"], 18, P["horn"])
+    trike_leg(near_l, hip_f, -pose.near, pose.fold, c_body, P["dark"], 16, P["horn"])
 
     # head group
     anchor = R([(cx + 30, cy + 2 + 6 * pose.fold)])[0]
@@ -420,21 +465,15 @@ def draw_trike(P, pose):
 
     layers = [far_l, tail_l, torso, near_l, head_l]
     composed, dy = finish(layers, (W, H), P["ground"], [near_l, far_l])
-    volume(composed)
-    shade(composed, light=1.18, dark=0.72)
+    body_texture(composed, c_body, (cx, cy + dy), 5, 3)
+    ramp(composed)
+    shade(composed, light=1.1, dark=0.9, dark_depth=1)
+    m0 = HR([(16, 8)])[0]
+    m1 = HR([(2, 9)])[0]
+    line(composed, [(m0[0], m0[1] + dy), (m1[0], m1[1] + dy)], mul(P["dark"], 0.7), 1)
     eye = HR([(7, -2)])[0]
-    ex, ey = round(eye[0]), round(eye[1] + dy)
-    if pose.eyes == "open":
-        rect(composed, ex - 1, ey - 1, ex + 1, ey, P["eye_color"])
-        px(composed, ex + 1, ey, hexc("101018"))
-        px(composed, ex, ey, hexc("101018"))
-    elif pose.eyes == "closed":
-        rect(composed, ex - 1, ey, ex + 1, ey, hexc("101018"))
-    else:
-        for d in (-1, 0, 1):
-            px(composed, ex + d, ey + d, hexc("101018"))
-            px(composed, ex + d, ey - d, hexc("101018"))
-    outline(composed, color=P["outline"])
+    draw_eye(composed, round(eye[0]), round(eye[1] + dy), hexc("e0a030"), pose.eyes, mul(P["dark"], 0.8), True)
+    selout(composed, P["outline"])
     return composed
 
 
@@ -444,9 +483,10 @@ def trike_frames(P):
                                     tail=3 * math.sin(i / 4 * math.tau),
                                     head=1.5 * math.sin(i / 4 * math.tau))) for i in range(4)])
     walk = []
-    for i in range(4):
-        s = math.sin(i / 4 * math.tau)
-        walk.append(draw_trike(P, Pose(near=16 * s, far=-16 * s, tail=-4 * s, head=2 * math.cos(i / 4 * math.tau))))
+    for i in range(6):
+        s = math.sin(i / 6 * math.tau)
+        walk.append(draw_trike(P, Pose(near=16 * s, far=-16 * s, tail=-4 * s, head=2 * math.cos(i / 6 * math.tau),
+                                       breath=round(abs(s) * -1))))
     rows.append(walk)
     rows.append([
         draw_trike(P, Pose(dx=-6, head=-10, lean=-4, near=-10, far=8)),
