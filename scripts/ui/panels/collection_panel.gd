@@ -46,7 +46,7 @@ func refresh() -> void:
 	for k in GameEnums.CATEGORIES:
 		cats.append([k, GameEnums.CATEGORIES[k]])
 	for c in cats:
-		var b := UIKit.button(c[1], "", "TabButton", Vector2(0, 44))
+		var b := UIKit.button(c[1], GameEnums.CATEGORY_ICONS.get(c[0], ""), "TabButton", Vector2(0, 44))
 		b.add_theme_font_size_override("font_size", 16)
 		b.toggle_mode = true
 		b.button_pressed = filter == c[0]
@@ -72,7 +72,7 @@ func refresh() -> void:
 func _base_card(variation := "ButtonDark") -> Array:
 	var b := Button.new()
 	b.theme_type_variation = variation
-	b.custom_minimum_size = Vector2(240, 230)
+	b.custom_minimum_size = Vector2(240, 250)
 	b.focus_mode = Control.FOCUS_NONE
 	b.mouse_filter = Control.MOUSE_FILTER_PASS
 	UIKit.add_press_feedback(b)
@@ -87,11 +87,20 @@ func _base_card(variation := "ButtonDark") -> Array:
 	return [b, v]
 
 
+## Card title that wraps instead of overflowing the card.
+func _name_label(text: String) -> Label:
+	var l := UIKit.label(text, "ValueLabel")
+	l.add_theme_font_size_override("font_size", 19)
+	l.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	l.custom_minimum_size.x = 210
+	return l
+
+
 func _owned_card(c: CreatureInstance) -> Control:
 	var parts := _base_card()
 	var v: VBoxContainer = parts[1]
 	v.add_child(CreaturePortrait.make(c.data, Vector2(220, 110)))
-	v.add_child(UIKit.label(c.display_name(), "ValueLabel"))
+	v.add_child(_name_label(c.display_name()))
 	var row := UIKit.hbox(6)
 	row.add_child(UIKit.icon_value("star", "Nv %d" % c.level, "BodyLabel", 18))
 	row.add_child(UIKit.rarity_badge(c.data.rarity))
@@ -107,7 +116,7 @@ func _species_card(d: CreatureData) -> Control:
 	var parts := _base_card()
 	var v: VBoxContainer = parts[1]
 	v.add_child(CreaturePortrait.make(d, Vector2(220, 110), not known, known))
-	v.add_child(UIKit.label(d.display_name if known else "???", "ValueLabel"))
+	v.add_child(_name_label(d.display_name if known else "???"))
 	var row := UIKit.hbox(6)
 	row.add_child(UIKit.rarity_badge(d.rarity))
 	if known and CreatureRoster.owns_species(d.id):

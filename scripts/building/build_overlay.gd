@@ -1,6 +1,12 @@
 class_name BuildOverlay
 extends Node2D
-## Grid + footprint validity overlay drawn only while building.
+## Build-mode overlay: a subtle pixel grid plus pixel-art corner markers on the footprint
+## (green = ok, yellow = cell free but rule not met, red = blocked).
+
+const DOT := preload("res://assets/effects/grid_dot.png")
+const CELL_OK := preload("res://assets/effects/cell_ok.png")
+const CELL_WARN := preload("res://assets/effects/cell_warn.png")
+const CELL_BAD := preload("res://assets/effects/cell_bad.png")
 
 var controller: BuildController
 var map_size := Vector2i.ONE
@@ -15,18 +21,14 @@ func _draw() -> void:
 	if controller == null or controller.data == null:
 		return
 	var t := ParkGrid.TILE
-	var grid_col := Color(1, 1, 1, 0.10)
-	for x in map_size.x + 1:
-		draw_line(Vector2(x * t, 0), Vector2(x * t, map_size.y * t), grid_col, 1.0)
-	for y in map_size.y + 1:
-		draw_line(Vector2(0, y * t), Vector2(map_size.x * t, y * t), grid_col, 1.0)
+	for y in map_size.y:
+		for x in map_size.x:
+			draw_texture(DOT, Vector2(x * t, y * t))
 	var data := controller.data
 	var overall_ok := controller.reason() == ""
 	for y in data.size.y:
 		for x in data.size.x:
 			var c := controller.cell + Vector2i(x, y)
-			var ok := ParkState.is_cell_free(c)
-			var col := Color(0.35, 1.0, 0.45, 0.35) if ok and overall_ok else (Color(1.0, 0.85, 0.3, 0.35) if ok else Color(1.0, 0.25, 0.25, 0.45))
-			var r := Rect2(Vector2(c) * t, Vector2(t, t)).grow(-1)
-			draw_rect(r, col)
-			draw_rect(r, Color(col, 0.9), false, 1.0)
+			var free := ParkState.is_cell_free(c)
+			var tex: Texture2D = CELL_OK if free and overall_ok else (CELL_WARN if free else CELL_BAD)
+			draw_texture(tex, Vector2(c) * t)

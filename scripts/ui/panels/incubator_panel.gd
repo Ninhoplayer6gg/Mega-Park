@@ -73,7 +73,7 @@ func _species_card(species: CreatureData) -> Control:
 	var reason := IncubationManager.check_species(species)
 	var b := Button.new()
 	b.theme_type_variation = "ButtonDark"
-	b.custom_minimum_size = Vector2(280, 270)
+	b.custom_minimum_size = Vector2(280, 300)
 	b.focus_mode = Control.FOCUS_NONE
 	b.mouse_filter = Control.MOUSE_FILTER_PASS
 	UIKit.add_press_feedback(b)
@@ -84,11 +84,13 @@ func _species_card(species: CreatureData) -> Control:
 	v.offset_top = 8
 	v.offset_bottom = -14
 	v.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	var top := UIKit.hbox(6)
-	top.add_child(UIKit.label(species.display_name if discovered else "???", "ValueLabel"))
-	top.add_child(UIKit.spacer())
-	top.add_child(UIKit.rarity_badge(species.rarity))
-	v.add_child(top)
+	var name_l := UIKit.label(species.display_name if discovered else "???", "ValueLabel")
+	name_l.clip_text = true
+	name_l.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	v.add_child(name_l)
+	var badge := UIKit.rarity_badge(species.rarity)
+	badge.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+	v.add_child(badge)
 	var pic := UIKit.hbox(4)
 	pic.add_child(CreaturePortrait.make(species, Vector2(190, 110), not discovered))
 	if discovered and species.egg_texture:

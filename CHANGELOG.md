@@ -2,6 +2,28 @@
 
 Todas as mudanças relevantes do Mega Park. Formato inspirado em [Keep a Changelog](https://keepachangelog.com/pt-BR/).
 
+## [0.1.1] — Revisão visual: zero placeholders
+
+### Alterado
+- Barras de progresso, slider, barras de rolagem, pílulas de recursos, selos de raridade/efeitos e o
+  contador de missões agora usam molduras 9-slice em pixel art (antes eram retângulos lisos).
+- Células de energia da batalha, barra de incubação no parque e marcadores de grade do modo construção
+  redesenhados em pixel art.
+- Logotipo "MEGA PARK" e emblema "VS" desenhados em pixel art (antes eram texto).
+- Espécies não descobertas: cartão de mistério com fundo de DNA/estrelas, brilho ciano no contorno e
+  "?" animado (antes, silhueta simples).
+- Expedições com ilustrações próprias de cada região (Vale Primordial, Cratera Estelar).
+- Ícones dedicados no menu Construir para os habitats e para a incubadora completa (cúpula + ovo).
+- Manchas de terra com bordas orgânicas (autotile) em vez de retângulos.
+- Chão do Habitat Alienígena mais claro (regolito com crateras e musgo ciano) para destacar a criatura.
+- Lagos com vitórias-régias e juncos; ícones próprios para os filtros de categoria.
+- Nomes longos quebram linha nos cards; selo de raridade não é mais cortado na incubadora.
+
+### Adicionado
+- `docs/ADDING_CONTENT.md`: padrão visual obrigatório e checklist anti-placeholder.
+- Tour automático cobre todas as telas (configurações, pesquisa, gerador, habitat alienígena, batalha
+  com Xenoraptor, recompensas).
+
 ## [0.1.0] — Primeira versão jogável
 
 ### Adicionado

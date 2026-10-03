@@ -13,6 +13,8 @@ extends Resource
 @export var unlock_player_level := 1
 @export var banner_color := Color("3f9a6a")
 @export var icon_name := "expedition"
+## Pixel-art illustration of the region shown on the expedition card.
+@export var banner_texture: Texture2D
 @export_group("Rewards")
 @export var credits_min := 50
 @export var credits_max := 150

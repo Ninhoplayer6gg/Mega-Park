@@ -115,37 +115,48 @@ static func _build() -> Theme:
 		t.set_color("font_color", v[0], v[3])
 		t.set_color("font_outline_color", v[0], OUTLINE)
 
-	t.set_stylebox("background", "ProgressBar", flat(Color("101820"), Color("0b1218"), 2))
-	t.set_stylebox("fill", "ProgressBar", flat(Color("4cc265"), Color("0b1218"), 2))
+	t.set_stylebox("background", "ProgressBar", bar("bar_bg"))
+	t.set_stylebox("fill", "ProgressBar", bar("bar_fill_green"))
 	t.set_font_size("font_size", "ProgressBar", 14)
-	for v in [["BarXP", "3f95e8"], ["BarHP", "4cc265"], ["BarEnergy", "ffd23f"], ["BarTime", "f0a142"],
-			["BarDanger", "e04848"], ["BarPurple", "8f6be0"]]:
+	for v in [["BarXP", "blue"], ["BarHP", "green"], ["BarEnergy", "yellow"], ["BarTime", "amber"],
+			["BarDanger", "red"], ["BarPurple", "purple"]]:
 		t.set_type_variation(v[0], "ProgressBar")
-		t.set_stylebox("fill", v[0], flat(Color(v[1]), Color("0b1218"), 2))
+		t.set_stylebox("fill", v[0], bar("bar_fill_" + v[1]))
 
-	t.set_stylebox("slider", "HSlider", flat(Color("101820"), Color("0b1218"), 2))
-	t.set_stylebox("grabber_area", "HSlider", flat(Color("f0a142"), Color("0b1218"), 2))
-	t.set_stylebox("grabber_area_highlight", "HSlider", flat(Color("ffd28a"), Color("0b1218"), 2))
+	var track := bar("bar_bg")
+	track.content_margin_top = 6
+	track.content_margin_bottom = 6
+	t.set_stylebox("slider", "HSlider", track)
+	t.set_stylebox("grabber_area", "HSlider", bar("bar_fill_amber"))
+	t.set_stylebox("grabber_area_highlight", "HSlider", bar("bar_fill_yellow"))
 	t.set_icon("grabber", "HSlider", load("res://assets/ui/icons/star.png"))
 	t.set_icon("grabber_highlight", "HSlider", load("res://assets/ui/icons/star.png"))
 
-	var bar := flat(Color(1, 1, 1, 0.25), Color.TRANSPARENT, 0, 2)
-	bar.content_margin_left = 6
-	bar.content_margin_right = 6
+	var grab := frame("scroll_grabber", 4, 4, Vector4(5, 5, 5, 5))
 	for sb_name in ["VScrollBar", "HScrollBar"]:
-		t.set_stylebox("scroll", sb_name, flat(Color(0, 0, 0, 0.15)))
-		t.set_stylebox("grabber", sb_name, bar)
-		t.set_stylebox("grabber_highlight", sb_name, bar)
-		t.set_stylebox("grabber_pressed", sb_name, bar)
+		t.set_stylebox("scroll", sb_name, StyleBoxEmpty.new())
+		t.set_stylebox("grabber", sb_name, grab)
+		t.set_stylebox("grabber_highlight", sb_name, grab)
+		t.set_stylebox("grabber_pressed", sb_name, grab)
 	t.set_stylebox("panel", "ScrollContainer", StyleBoxEmpty.new())
 	t.set_stylebox("panel", "TooltipPanel", frame("panel", 9, 9))
 	return t
 
 
-static func _pill() -> StyleBoxFlat:
-	var sb := flat(Color(0.05, 0.08, 0.11, 0.78), Color("0b1218"), 3, 6)
-	sb.content_margin_left = 10
-	sb.content_margin_right = 14
-	sb.content_margin_top = 4
-	sb.content_margin_bottom = 4
+static func _pill() -> StyleBoxTexture:
+	return frame("pill", 9, 9, Vector4(10, 4, 14, 4))
+
+
+static func bar(name: String) -> StyleBoxTexture:
+	return frame(name, 4, 4, Vector4(2, 2, 2, 2))
+
+
+## Pixel-art tag/badge frame tinted with a colour (rarity, buffs...).
+static func badge(color: Color) -> StyleBoxTexture:
+	var sb := frame("badge", 4, 4, Vector4(8, 1, 8, 3))
+	sb.modulate_color = color
 	return sb
+
+
+static func notification_badge() -> StyleBoxTexture:
+	return frame("badge_red", 10, 10, Vector4(6, 2, 6, 3))

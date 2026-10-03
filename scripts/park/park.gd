@@ -60,6 +60,36 @@ func _spawn_decor() -> void:
 		s.position = ParkGrid.footprint_anchor(cell, Vector2i.ONE) + jitter - Vector2(0, 2)
 		objects.add_child(s)
 		decor_nodes[cell] = s
+	_spawn_water_life()
+
+
+## Lily pads on open water and reeds along the shore (purely decorative, water already blocks building).
+func _spawn_water_life() -> void:
+	var layout := ParkState.layout
+	var lily: Texture2D = load("res://assets/environment/lily_pad.png")
+	var reed: Texture2D = load("res://assets/environment/reeds.png")
+	for y in layout.height:
+		for x in layout.width:
+			var cell := Vector2i(x, y)
+			if not layout.is_water(cell):
+				continue
+			var h := ParkMap._hash(cell)
+			var shore := false
+			for d in [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]:
+				if layout.in_bounds(cell + d) and not layout.is_water(cell + d):
+					shore = true
+			var s := Sprite2D.new()
+			if shore and h % 4 == 0:
+				s.texture = reed
+				s.position = ParkGrid.cell_center(cell) + Vector2((h % 9) - 4, 6)
+				s.offset = Vector2(0, -12)
+				objects.add_child(s)
+			elif not shore and h % 5 == 0:
+				s.texture = lily
+				s.position = ParkGrid.cell_center(cell) + Vector2((h % 11) - 5, (h % 7) - 3)
+				s.z_index = -17
+				s.flip_h = h % 2 == 0
+				map.add_child(s)
 
 
 func _sync_buildings() -> void:

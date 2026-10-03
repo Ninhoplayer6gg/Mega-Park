@@ -20,6 +20,16 @@ const CATEGORIES := {
 	&"anomalous": "Anômala",
 }
 
+const CATEGORY_ICONS := {
+	&"all": "cat_all",
+	&"prehistoric": "cat_prehistoric",
+	&"alien": "cat_alien",
+	&"mythic": "cat_mythic",
+	&"aquatic": "cat_aquatic",
+	&"mechanical": "cat_mechanical",
+	&"anomalous": "cat_anomalous",
+}
+
 const ROLES := {
 	&"predator": "Predador",
 	&"tank": "Tanque",

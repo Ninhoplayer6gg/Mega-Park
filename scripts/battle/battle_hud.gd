@@ -4,6 +4,9 @@ extends Control
 ## combat log and the result screen.
 
 signal action_chosen(ability: AbilityData)
+
+const ENERGY_FULL := preload("res://assets/ui/energy_full.png")
+const ENERGY_EMPTY := preload("res://assets/ui/energy_empty.png")
 signal forfeit_requested
 signal continue_pressed
 
@@ -73,10 +76,7 @@ func setup(battle_node: Node) -> void:
 	energy_row.add_child(UIKit.icon("energy", 30))
 	energy_pips = UIKit.hbox(4)
 	for i in BattleRules.MAX_ENERGY:
-		var pip := ColorRect.new()
-		pip.custom_minimum_size = Vector2(26, 20)
-		pip.color = Color("26323e")
-		energy_pips.add_child(pip)
+		energy_pips.add_child(UIKit.texture(ENERGY_EMPTY, Vector2(26, 20)))
 	energy_row.add_child(energy_pips)
 	energy_label = UIKit.label("0/10", "ValueLabel")
 	energy_row.add_child(energy_label)
@@ -198,8 +198,14 @@ func refresh(state: BattleState, animate := true) -> void:
 	var e := state.player.energy
 	energy_label.text = "%d/%d" % [e, BattleRules.MAX_ENERGY]
 	for i in energy_pips.get_child_count():
-		var pip: ColorRect = energy_pips.get_child(i)
-		pip.color = Color("ffd23f") if i < e else Color("26323e")
+		var pip: TextureRect = energy_pips.get_child(i)
+		var full := i < e
+		if (pip.texture == ENERGY_FULL) != full:
+			pip.texture = ENERGY_FULL if full else ENERGY_EMPTY
+			if full:
+				pip.pivot_offset = pip.size * 0.5
+				pip.scale = Vector2(1.3, 1.3)
+				pip.create_tween().tween_property(pip, "scale", Vector2.ONE, 0.2)
 
 
 func log_text(text: String) -> void:

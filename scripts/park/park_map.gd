@@ -4,12 +4,14 @@ extends Node2D
 
 const TERRAIN_TEX := "res://assets/environment/terrain_tiles.png"
 const WATER_TEX := "res://assets/environment/water_tiles.png"
+const DIRT_TEX := "res://assets/environment/dirt_tiles.png"
 const GRASS_PLAIN := [Vector2i(0, 0), Vector2i(1, 0), Vector2i(3, 0), Vector2i(5, 0), Vector2i(6, 0), Vector2i(7, 0)]
 const GRASS_FLOWERS := [Vector2i(2, 0), Vector2i(4, 0)]
 
 var ground: TileMapLayer
 var water: TileMapLayer
 var shore: TileMapLayer
+var patches: TileMapLayer
 
 
 func build(layout: MapLayout) -> void:
@@ -17,6 +19,7 @@ func build(layout: MapLayout) -> void:
 	ts.tile_size = Vector2i(ParkGrid.TILE, ParkGrid.TILE)
 	ts.add_source(_atlas(load(TERRAIN_TEX), Vector2i(8, 2)), 0)
 	ts.add_source(_atlas(load(WATER_TEX), Vector2i(4, 5)), 1)
+	ts.add_source(_atlas(load(DIRT_TEX), Vector2i(4, 4)), 2)
 	ground = TileMapLayer.new()
 	ground.name = "Ground"
 	ground.tile_set = ts
@@ -27,6 +30,11 @@ func build(layout: MapLayout) -> void:
 	water.tile_set = ts
 	water.z_index = -19
 	add_child(water)
+	patches = TileMapLayer.new()
+	patches.name = "DirtPatches"
+	patches.tile_set = ts
+	patches.z_index = -19
+	add_child(patches)
 	shore = TileMapLayer.new()
 	shore.name = "Shore"
 	shore.tile_set = ts
@@ -38,7 +46,9 @@ func build(layout: MapLayout) -> void:
 			var h := _hash(cell)
 			match layout.terrain_at(cell):
 				"dirt":
-					ground.set_cell(cell, 0, Vector2i(h % 2, 1))
+					ground.set_cell(cell, 0, GRASS_PLAIN[h % GRASS_PLAIN.size()])
+					var dm := _mask(layout, cell, "dirt")
+					patches.set_cell(cell, 2, Vector2i(dm % 4, dm / 4))
 				"sand":
 					ground.set_cell(cell, 0, Vector2i(2, 1))
 				"flowers":
@@ -54,6 +64,15 @@ func build(layout: MapLayout) -> void:
 						mask |= 1 << i
 				water.set_cell(cell, 1, Vector2i(mask % 4, mask / 4))
 				_inner_corner(layout, cell, mask)
+
+
+func _mask(layout: MapLayout, cell: Vector2i, terrain: String) -> int:
+	var mask := 0
+	var dirs := [Vector2i.UP, Vector2i.RIGHT, Vector2i.DOWN, Vector2i.LEFT]
+	for i in 4:
+		if layout.terrain_at(cell + dirs[i]) == terrain:
+			mask |= 1 << i
+	return mask
 
 
 ## Concave corners (water on two sides, land on the diagonal) get a small rounded shore overlay.

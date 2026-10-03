@@ -73,6 +73,92 @@ func build_via_ui(park: Node, id: StringName, near: Vector2i) -> BuildingInstanc
 	return b
 
 
+## Second pass covering every remaining screen so the visual audit sees all of them.
+func _extra_screens(park: Node, hab: BuildingInstance) -> void:
+	Economy.add(20000, 600)
+	var exp_ready := ExpeditionManager.is_ready(&"vale_primordial")
+	if exp_ready:
+		park.hud.open_panel("expeditions")
+		await wait(0.4)
+		var r := ExpeditionManager.collect(&"vale_primordial")
+		park.hud.show_rewards("Expedição concluída!", r)
+		await wait(1.2)
+		await shot("reward_popup")
+		park.hud.close_all()
+	park.hud.open_panel("settings")
+	await wait(0.5)
+	await shot("settings")
+	park.hud.close_all()
+	var anchor := ParkGrid.world_to_cell(park.camera.position)
+	var gen := await build_via_ui(park, &"generator", anchor + Vector2i(-8, 6))
+	var rc := await build_via_ui(park, &"research_center", anchor + Vector2i(8, 6))
+	park.hud.open_building(gen)
+	await wait(0.5)
+	await shot("generator_panel")
+	park.hud.open_building(rc)
+	await wait(0.5)
+	await shot("research_panel")
+	CreatureRoster.discover(&"xenoraptor")
+	park.hud.close_all()
+	park.hud.open_build_menu()
+	await wait(0.4)
+	var sc: ScrollContainer = park.hud.build_menu.find_children("*", "ScrollContainer", true, false)[0]
+	sc.scroll_horizontal = 10000
+	await wait(0.3)
+	await shot("build_menu_end")
+	park.hud.close_build_menu()
+	var gen2 := await build_via_ui(park, &"generator", anchor + Vector2i(-12, 2))
+	var alien := await build_via_ui(park, &"habitat_alien", anchor + Vector2i(0, -10))
+	expect(alien != null, "alien habitat built")
+	var inc: BuildingInstance = ParkState.of_category(&"incubator")[0]
+	var xeno_data := DataRegistry.get_creature(&"xenoraptor")
+	expect(IncubationManager.start(inc.uid, xeno_data), "xenoraptor incubation")
+	GameClock.advance(xeno_data.incubation_time + 1)
+	var xeno := IncubationManager.collect(inc.uid)
+	expect(xeno != null and CreatureRoster.assign_to_habitat(xeno, alien.uid), "xenoraptor in alien habitat")
+	var tri := CreatureRoster.add_new(DataRegistry.get_creature(&"triceratopo_ancestral"))
+	CreatureRoster.assign_to_habitat(tri, hab.uid)
+	park.focus_building(alien.uid, 2.0)
+	await wait(2.5)
+	await shot("alien_habitat")
+	park.focus_building(hab.uid, 2.0)
+	await wait(2.0)
+	await shot("habitat_two_creatures")
+	park.hud.open_panel("collection")
+	await wait(0.5)
+	await shot("collection_full")
+	park.hud.close_all()
+	park.hud.open_panel("arena", {"selected_uid": xeno.uid})
+	await wait(0.5)
+	park.hud._current_panel.stage = DataRegistry.arena[&"arena_02"]
+	park.hud._current_panel.refresh()
+	ArenaManager.wins[&"arena_01"] = 1
+	await wait(0.3)
+	park.hud._current_panel._start_battle()
+	await wait(3.2)
+	var battle := scene()
+	await shot("battle_xeno")
+	var rounds := 0
+	while not battle.state.finished and rounds < 30:
+		while battle._busy and not battle.state.finished:
+			await wait(0.1)
+		if battle.state.finished:
+			break
+		battle.hud.action_chosen.emit(BattleAI.choose(battle.state, battle.state.player, 0.0))
+		await wait(0.5)
+		if rounds == 1:
+			await shot("battle_xeno_mid")
+		rounds += 1
+	var t0 := Time.get_ticks_msec()
+	while not battle.result_shown and Time.get_ticks_msec() - t0 < 20000:
+		await wait(0.1)
+	await wait(1.0)
+	await shot("battle_xeno_result")
+	battle.hud.continue_pressed.emit()
+	await wait(1.8)
+	park = scene()
+
+
 func _run() -> void:
 	await wait(1.5)
 	SaveManager.new_game()
@@ -225,6 +311,8 @@ func _run() -> void:
 	await wait(0.5)
 	await shot("habitat_panel")
 	park.hud.close_all()
+	await _extra_screens(park, hab)
+	park = scene()
 	park.camera.focus_on(park.camera.position, 1.0)
 	await wait(0.8)
 	await shot("park_zoomed_out")

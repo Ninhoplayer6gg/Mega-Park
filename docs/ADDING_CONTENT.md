@@ -1,5 +1,23 @@
 # Como adicionar conteúdo ao Mega Park
 
+## Padrão visual (obrigatório): sem placeholders
+
+Nada entra no jogo como quadrado colorido, círculo, caixa cinza, texto no lugar de arte, textura
+checkerboard ou asset padrão da engine. Se a arte definitiva não existe ainda, crie uma **primeira versão
+real em pixel art** (os geradores em `tools/art/` são o ponto de partida) seguindo:
+
+- pixel art 2D, *nearest-neighbor*, sem blur; tiles de 32x32; criaturas entre 64 e 136 px;
+- contorno colorido escuro (*sel-out*), sombreamento em 3–4 tons com variação de matiz
+  (luz quente, sombra fria), silhueta legível;
+- criaturas sempre mais contrastadas que o chão onde vivem;
+- elementos de UI (barras, selos, molduras, botões) sempre com moldura 9-slice em pixel art
+  (`assets/ui/frames/`) e ícone próprio (`assets/ui/icons/`).
+
+Antes de considerar uma tela pronta, confira: (1) há algum retângulo/forma genérica representando um
+objeto? (2) texto substituindo arte? (3) asset padrão da engine? (4) botão importante sem ícone?
+(5) criatura sem sprite reconhecível? (6) cenário com cara de debug? O tour automático
+(`godot -- --tour --shots=<pasta>`) captura todas as telas para essa revisão.
+
 Todo o conteúdo é **data-driven**: cada criatura, habilidade, prédio, habitat, missão, expedição e
 adversário da Arena é um arquivo `.tres` em `data/`. O `DataRegistry` carrega automaticamente tudo o que
 estiver nessas pastas na inicialização. Na maioria dos casos **nenhum código precisa ser alterado**.

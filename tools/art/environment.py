@@ -143,6 +143,55 @@ def inner_corner_tiles():
     return tiles
 
 
+def dirt_patch_tiles():
+    """16 neighbour-mask overlays: organic dirt patches that blend into the grass."""
+    tiles = []
+    for mask in range(16):
+        rng = seeded(1300 + mask)
+        img = new(T, T)
+        for y in range(T):
+            for x in range(T):
+                d = edge_distance(x, y, mask, radius=10.0, wobble=1.6, inset=3.0)
+                if d < 0:
+                    continue
+                if d < 1.3:
+                    c = hexc("7d8f3c")
+                elif d < 2.4:
+                    c = DIRT_DARK
+                else:
+                    c = DIRT if ((x * 7 + y * 5) % 9) else DIRT_LIGHT
+                img.putpixel((x, y), c)
+        for _ in range(4):
+            x, y = rng.randrange(3, T - 4), rng.randrange(3, T - 4)
+            if edge_distance(x, y, mask, 10.0, 1.6, 3.0) > 3:
+                rect(img, x, y, x + 1, y, hexc("8a7a6a"))
+                px(img, x, y - 1, hexc("c4b8a8"))
+        tiles.append(img)
+    return tiles
+
+
+def lily_pad():
+    img = new(16, 16)
+    ellipse(img, 6, 9, 5, 3.2, hexc("4fa446"))
+    ellipse(img, 11, 6, 3.5, 2.4, hexc("5fb84f"))
+    line(img, [(6, 9), (10, 9)], hexc("3d8a38"), 1)
+    ellipse(img, 11, 5, 1.5, 1.2, hexc("ff9ac2"))
+    px(img, 11, 5, hexc("fff4d6"))
+    shade(img, 1.2, 0.8, 1)
+    outline(img, color=hexc("1f4a2a"))
+    return img
+
+
+def reeds():
+    img = new(16, 24)
+    for (x, h, c) in [(4, 16, "5aa84a"), (7, 20, "6bb44f"), (10, 14, "4f9a42"), (12, 18, "5aa84a")]:
+        line(img, [(x, 23), (x + 1, 23 - h)], hexc(c), 1)
+    for (x, y) in [(7, 4), (12, 6)]:
+        rect(img, x, y, x + 1, y + 4, hexc("8a5a32"))
+    outline(img, color=hexc("1f4a2a"))
+    return img
+
+
 def path_tiles():
     tiles = []
     stone = hexc("d9bc85")
@@ -404,15 +453,29 @@ def generate():
     save(wa, "environment", "water_tiles.png")
 
     save(sheet([path_tiles()], T, T), "environment", "path_tiles.png")
+    patches = dirt_patch_tiles()
+    pa = new(T * 4, T * 4)
+    for i, t in enumerate(patches):
+        pa.alpha_composite(t, ((i % 4) * T, (i // 4) * T))
+    save(pa, "environment", "dirt_tiles.png")
+    save(lily_pad(), "environment", "lily_pad.png")
+    save(reeds(), "environment", "reeds.png")
 
     # Habitat grounds (2 variants each, 64x32)
     for name, base, dark, light, speck in [
         ("prehistoric", hexc("8c9a4a"), hexc("6f7d3a"), hexc("a3ad5c"), hexc("b98a57")),
-        ("alien", hexc("4b3f7a"), hexc("3a3066"), hexc("5d4f95"), hexc("5ef6ff")),
+        ("alien", hexc("8d8aa6"), hexc("75718f"), hexc("a6a3bd"), hexc("5ef6ff")),
     ]:
         g = new(T * 2, T)
         g.alpha_composite(ground_tile(31, base, dark, light, speck), (0, 0))
         g.alpha_composite(ground_tile(32, base, dark, light, None), (T, 0))
+        if name == "alien":
+            for (cx, cy) in [(9, 10), (T + 20, 18)]:
+                ellipse(g, cx, cy, 4, 2.5, dark)
+                ellipse(g, cx, cy - 0.5, 3, 1.5, mul(dark, 0.85))
+                px(g, cx - 2, cy + 2, light)
+            for (x, y) in [(22, 24), (24, 25), (23, 23), (T + 6, 6), (T + 7, 7), (T + 5, 7)]:
+                px(g, x, y, hexc("4fd1c5"))
         save(g, "environment", "ground_%s.png" % name)
 
     save(sheet([fence_frames(hexc("8a5a32"), hexc("b07a45"), hexc("c99a62"))], 32, 48), "buildings", "fence_wood.png")

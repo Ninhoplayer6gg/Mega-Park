@@ -24,12 +24,10 @@ func _ready() -> void:
 	v.grow_horizontal = Control.GROW_DIRECTION_BOTH
 	v.offset_top = 40
 	add_child(v)
-	var logo := UIKit.label("MEGA PARK", "BigLabel", UITheme.GOLD, HORIZONTAL_ALIGNMENT_CENTER)
-	logo.add_theme_font_size_override("font_size", 110)
-	logo.add_theme_constant_override("outline_size", 18)
-	logo.add_theme_color_override("font_outline_color", Color("1d3b2c"))
-	logo.add_theme_color_override("font_shadow_color", Color(0, 0, 0, 0.5))
-	logo.add_theme_constant_override("shadow_offset_y", 8)
+	var logo_tex: Texture2D = load("res://assets/ui/logo.png")
+	var logo_scale := 2.0 if get_viewport_rect().size.x < 1500 else 3.0
+	var logo := UIKit.texture(logo_tex, logo_tex.get_size() * logo_scale)
+	logo.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	v.add_child(logo)
 	var sub := UIKit.label("PARQUE INTERDIMENSIONAL DE CRIATURAS", "HeaderLabel", UITheme.TEXT, HORIZONTAL_ALIGNMENT_CENTER)
 	sub.add_theme_constant_override("outline_size", 6)

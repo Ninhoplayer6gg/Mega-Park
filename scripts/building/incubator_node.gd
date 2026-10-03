@@ -19,7 +19,7 @@ func _build_visual() -> void:
 	if preview:
 		return
 	bar = IncubatorBar.new()
-	bar.position = Vector2(-22, 6)
+	bar.position = Vector2(-26, 4)
 	bar.z_index = 30
 	bar.visible = false
 	add_child(bar)
@@ -71,10 +71,15 @@ func tick() -> void:
 			_wobble.tween_interval(0.8)
 
 
+## Pixel-art progress bar (frame + cropped fill sprite), drawn at 2x.
 class IncubatorBar extends Node2D:
+	const BG := preload("res://assets/effects/minibar_bg.png")
+	const FILL := preload("res://assets/effects/minibar_fill.png")
 	var ratio := 0.0
 
 	func _draw() -> void:
-		draw_rect(Rect2(0, 0, 44, 8), Color("0b1218"))
-		draw_rect(Rect2(2, 2, 40, 4), Color("26323e"))
-		draw_rect(Rect2(2, 2, 40.0 * clampf(ratio, 0.0, 1.0), 4), Color("f0a142"))
+		draw_set_transform(Vector2.ZERO, 0.0, Vector2(2, 2))
+		draw_texture(BG, Vector2.ZERO)
+		var w := roundi(FILL.get_width() * clampf(ratio, 0.0, 1.0))
+		if w > 0:
+			draw_texture_rect_region(FILL, Rect2(1, 1, w, FILL.get_height()), Rect2(0, 0, w, FILL.get_height()))

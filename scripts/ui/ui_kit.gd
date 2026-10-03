@@ -132,13 +132,9 @@ static func cost_row(credits: int, dna := 0, energy := 0, variation := "ValueLab
 static func rarity_badge(rarity: int) -> PanelContainer:
 	var p := PanelContainer.new()
 	var col := GameEnums.rarity_color(rarity)
-	var sb := UITheme.flat(col.darkened(0.55), col, 2, 4)
-	sb.content_margin_left = 8
-	sb.content_margin_right = 8
-	sb.content_margin_top = 1
-	sb.content_margin_bottom = 2
-	p.add_theme_stylebox_override("panel", sb)
-	var l := label(GameEnums.rarity_name(rarity).to_upper(), "SmallLabel", col)
+	p.add_theme_stylebox_override("panel", UITheme.badge(col))
+	var l := label(GameEnums.rarity_name(rarity).to_upper(), "SmallLabel", col.lightened(0.35))
+	l.add_theme_constant_override("outline_size", 3)
 	p.add_child(l)
 	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return p
@@ -146,13 +142,10 @@ static func rarity_badge(rarity: int) -> PanelContainer:
 
 static func tag(text: String, color: Color) -> PanelContainer:
 	var p := PanelContainer.new()
-	var sb := UITheme.flat(Color(0, 0, 0, 0.35), color, 2, 4)
-	sb.content_margin_left = 8
-	sb.content_margin_right = 8
-	sb.content_margin_top = 1
-	sb.content_margin_bottom = 2
-	p.add_theme_stylebox_override("panel", sb)
-	p.add_child(label(text, "SmallLabel", color))
+	p.add_theme_stylebox_override("panel", UITheme.badge(color))
+	var l := label(text, "SmallLabel", color.lightened(0.35))
+	l.add_theme_constant_override("outline_size", 3)
+	p.add_child(l)
 	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	return p
 

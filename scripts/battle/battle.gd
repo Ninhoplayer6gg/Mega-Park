@@ -75,13 +75,12 @@ func _intro() -> void:
 	await get_tree().create_timer(0.7).timeout
 	hud.log_text("%s (Nv %d) desafia você!" % [arena_stage.title, arena_stage.level])
 	AudioManager.play_sfx(arena_stage.creature.cry_sfx)
-	var vs := UIKit.label("VS", "BigLabel", UITheme.BAD, HORIZONTAL_ALIGNMENT_CENTER)
-	vs.add_theme_font_size_override("font_size", 96)
-	vs.set_anchors_preset(Control.PRESET_CENTER)
-	vs.grow_horizontal = Control.GROW_DIRECTION_BOTH
-	vs.grow_vertical = Control.GROW_DIRECTION_BOTH
+	var emblem: Texture2D = load("res://assets/ui/vs.png")
+	var vs := UIKit.texture(emblem, emblem.get_size() * 4)
+	vs.size = emblem.get_size() * 4
+	vs.position = (get_viewport_rect().size - vs.size) * 0.5 + Vector2(0, -40)
 	hud.add_child(vs)
-	vs.pivot_offset = vs.get_combined_minimum_size() * 0.5
+	vs.pivot_offset = vs.size * 0.5
 	vs.scale = Vector2(2.5, 2.5)
 	var tw := vs.create_tween()
 	tw.tween_property(vs, "scale", Vector2.ONE, 0.25).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)

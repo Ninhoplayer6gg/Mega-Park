@@ -321,7 +321,70 @@ def i_skill():
     return fin(img)
 
 
+def i_cat_prehistoric():
+    img = icon_canvas()
+    line(img, [(3, 12), (12, 3)], hexc("f4ead2"), 3)
+    for (x, y) in [(2, 11), (4, 13), (11, 2), (13, 4)]:
+        ellipse(img, x, y, 1.6, 1.6, hexc("f4ead2"))
+    return fin(img)
+
+
+def i_cat_alien():
+    img = icon_canvas()
+    ellipse(img, 7.5, 9, 7, 3, hexc("8f6be0"))
+    ellipse(img, 7.5, 6.5, 4, 3.5, hexc("5ef6ff"))
+    for x in (3, 7, 11):
+        px(img, x + 1, 10, hexc("ffd23f"))
+    return fin(img)
+
+
+def i_cat_mythic():
+    img = icon_canvas()
+    poly(img, [(7.5, 1), (12, 7), (10, 14), (7.5, 11), (5, 14), (3, 7)], hexc("ff8a3a"))
+    poly(img, [(7.5, 5), (10, 9), (7.5, 12), (5, 9)], hexc("ffd23f"))
+    return fin(img)
+
+
+def i_cat_aquatic():
+    img = icon_canvas()
+    ellipse(img, 7, 8, 5, 3.5, hexc("4aa8ff"))
+    poly(img, [(11, 8), (15, 4), (15, 12)], hexc("4aa8ff"))
+    px(img, 4, 7, hexc("1b1b2a"))
+    return fin(img)
+
+
+def i_cat_mechanical():
+    img = icon_canvas()
+    rect(img, 3, 3, 12, 12, hexc("aab4c0"))
+    rect(img, 5, 5, 10, 10, hexc("6b7684"))
+    for (x, y) in [(3, 3), (11, 3), (3, 11), (11, 11)]:
+        rect(img, x, y, x + 1, y + 1, hexc("ffd23f"))
+    rect(img, 7, 6, 8, 9, hexc("5ef6ff"))
+    return fin(img)
+
+
+def i_cat_anomalous():
+    img = icon_canvas()
+    for i in range(28):
+        a = i * 0.55
+        r = 1 + i * 0.22
+        px(img, round(7.5 + math.cos(a) * r), round(7.5 + math.sin(a) * r), hexc("ff6ad5"))
+        px(img, round(7.5 + math.cos(a) * r) + 1, round(7.5 + math.sin(a) * r), hexc("b38cff"))
+    return fin(img, False)
+
+
+def i_all():
+    img = icon_canvas()
+    for (x, y) in [(2, 2), (9, 2), (2, 9), (9, 9)]:
+        rect(img, x, y, x + 4, y + 4, hexc("ffd23f"))
+        rect(img, x, y, x + 4, y, hexc("fff4c8"))
+    return fin(img)
+
+
 ICONS = {
+    "cat_prehistoric": i_cat_prehistoric, "cat_alien": i_cat_alien, "cat_mythic": i_cat_mythic,
+    "cat_aquatic": i_cat_aquatic, "cat_mechanical": i_cat_mechanical, "cat_anomalous": i_cat_anomalous,
+    "cat_all": i_all,
     "credits": i_coin, "dna": i_dna, "energy": i_bolt, "star": i_star, "build": i_hammer, "creatures": i_paw,
     "battle": i_swords, "expedition": i_compass, "missions": i_scroll, "settings": i_gear, "close": i_close,
     "check": i_check, "health": i_heart, "attack": i_sword, "defense": i_shield, "speed": i_speed, "feed": i_meat,
