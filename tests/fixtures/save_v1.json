@@ -1,0 +1,412 @@
+{
+	"arena": {
+		"losses": 0,
+		"wins": {
+			"arena_01": 1
+		}
+	},
+	"creatures": {
+		"creatures": [
+			{
+				"battles_won": 1,
+				"evolution_stage": 0,
+				"habitat_uid": "bd_c05bd99b2902e",
+				"level": 2,
+				"nickname": "",
+				"production_start": 1790991321.27432,
+				"species": "rex_primordial",
+				"state": "habitat",
+				"uid": "cr_c05bd9f080030",
+				"xp": 90
+			},
+			{
+				"battles_won": 0,
+				"evolution_stage": 0,
+				"habitat_uid": "bd_c05bd99b2902e",
+				"level": 1,
+				"nickname": "",
+				"production_start": 1790991321.27473,
+				"species": "triceratopo_ancestral",
+				"state": "habitat",
+				"uid": "cr_c05bd96f0b031",
+				"xp": 0
+			}
+		],
+		"discovered": [
+			"rex_primordial",
+			"triceratopo_ancestral"
+		]
+	},
+	"economy": {
+		"credits": 1050,
+		"dna": 105,
+		"player_level": 1,
+		"player_xp": 40
+	},
+	"expeditions": {
+		"active": {
+			"vale_primordial": {
+				"duration": 30,
+				"seed": 1763502504,
+				"start": 1790991321.27478
+			}
+		},
+		"completed": 0
+	},
+	"game_version": "0.1.1",
+	"incubation": {
+		"slots": {
+			"bd_c05bd95a7802f": {
+				"duration": 15,
+				"species": "triceratopo_ancestral",
+				"start": 1790991321.27475
+			}
+		}
+	},
+	"missions": {
+		"claimed": [],
+		"progress": {
+			"m01_build_habitat": 1,
+			"m02_build_incubator": 1,
+			"m03_start_incubation": 1,
+			"m05_assign": 1,
+			"m07_level2": 2,
+			"m08_battle": 1
+		}
+	},
+	"park": {
+		"buildings": [
+			{
+				"id": "park_entrance",
+				"placed_at": 1790991321.27228,
+				"uid": "bd_c05bd92fa5001",
+				"x": 21,
+				"y": 25
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27231,
+				"uid": "bd_c05bd9db69002",
+				"x": 14,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27231,
+				"uid": "bd_c05bd99dc7003",
+				"x": 15,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27232,
+				"uid": "bd_c05bd90052004",
+				"x": 16,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27233,
+				"uid": "bd_c05bd9218f005",
+				"x": 17,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27233,
+				"uid": "bd_c05bd9e2cc006",
+				"x": 18,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27234,
+				"uid": "bd_c05bd912e4007",
+				"x": 19,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27235,
+				"uid": "bd_c05bd98b19008",
+				"x": 20,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27235,
+				"uid": "bd_c05bd99bc8009",
+				"x": 21,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27236,
+				"uid": "bd_c05bd9096300a",
+				"x": 22,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27236,
+				"uid": "bd_c05bd9ec8f00b",
+				"x": 23,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27237,
+				"uid": "bd_c05bd94e1f00c",
+				"x": 24,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27238,
+				"uid": "bd_c05bd9132e00d",
+				"x": 25,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27238,
+				"uid": "bd_c05bd9784e00e",
+				"x": 26,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27239,
+				"uid": "bd_c05bd9268b00f",
+				"x": 27,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27239,
+				"uid": "bd_c05bd95563010",
+				"x": 28,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.2724,
+				"uid": "bd_c05bd9a127011",
+				"x": 29,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.2724,
+				"uid": "bd_c05bd93276012",
+				"x": 30,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27241,
+				"uid": "bd_c05bd98c6a013",
+				"x": 31,
+				"y": 16
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27242,
+				"uid": "bd_c05bd9e038014",
+				"x": 22,
+				"y": 17
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27242,
+				"uid": "bd_c05bd97644015",
+				"x": 23,
+				"y": 17
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27243,
+				"uid": "bd_c05bd9c657016",
+				"x": 22,
+				"y": 18
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27243,
+				"uid": "bd_c05bd90bc4017",
+				"x": 23,
+				"y": 18
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27244,
+				"uid": "bd_c05bd9db4c018",
+				"x": 22,
+				"y": 19
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27244,
+				"uid": "bd_c05bd9aaa6019",
+				"x": 23,
+				"y": 19
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27245,
+				"uid": "bd_c05bd9aeb601a",
+				"x": 22,
+				"y": 20
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27246,
+				"uid": "bd_c05bd9484b01b",
+				"x": 23,
+				"y": 20
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27246,
+				"uid": "bd_c05bd9b80d01c",
+				"x": 22,
+				"y": 21
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27247,
+				"uid": "bd_c05bd9169e01d",
+				"x": 23,
+				"y": 21
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27247,
+				"uid": "bd_c05bd9a98d01e",
+				"x": 22,
+				"y": 22
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27248,
+				"uid": "bd_c05bd9f5db01f",
+				"x": 23,
+				"y": 22
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27248,
+				"uid": "bd_c05bd95127020",
+				"x": 22,
+				"y": 23
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27251,
+				"uid": "bd_c05bd9dd5b021",
+				"x": 23,
+				"y": 23
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27252,
+				"uid": "bd_c05bd98ed2022",
+				"x": 22,
+				"y": 24
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27253,
+				"uid": "bd_c05bd9853c023",
+				"x": 23,
+				"y": 24
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27254,
+				"uid": "bd_c05bd9a23d024",
+				"x": 22,
+				"y": 27
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27255,
+				"uid": "bd_c05bd996b1025",
+				"x": 23,
+				"y": 27
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27255,
+				"uid": "bd_c05bd9518c026",
+				"x": 22,
+				"y": 28
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27256,
+				"uid": "bd_c05bd9f284027",
+				"x": 23,
+				"y": 28
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27256,
+				"uid": "bd_c05bd95efe028",
+				"x": 22,
+				"y": 29
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27257,
+				"uid": "bd_c05bd9f99f029",
+				"x": 23,
+				"y": 29
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27257,
+				"uid": "bd_c05bd9095302a",
+				"x": 22,
+				"y": 30
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27258,
+				"uid": "bd_c05bd90c8902b",
+				"x": 23,
+				"y": 30
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27258,
+				"uid": "bd_c05bd9ac4b02c",
+				"x": 22,
+				"y": 31
+			},
+			{
+				"id": "path",
+				"placed_at": 1790991321.27259,
+				"uid": "bd_c05bd9d39002d",
+				"x": 23,
+				"y": 31
+			},
+			{
+				"id": "habitat_prehistoric",
+				"placed_at": 1790991321.27416,
+				"uid": "bd_c05bd99b2902e",
+				"x": 6,
+				"y": 4
+			},
+			{
+				"id": "incubator",
+				"placed_at": 1790991321.27428,
+				"uid": "bd_c05bd95a7802f",
+				"x": 30,
+				"y": 12
+			}
+		]
+	},
+	"save_version": 1,
+	"saved_at": 1790991321.27484
+}

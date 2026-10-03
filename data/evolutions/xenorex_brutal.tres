@@ -1,0 +1,20 @@
+[gd_resource type="Resource" script_class="EvolutionData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/evolution_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/creatures/xenorex.tres" id="2"]
+[ext_resource type="Resource" path="res://data/creatures/xenorex_brutal.tres" id="3"]
+
+[resource]
+script = ExtResource("1")
+id = &"xenorex_brutal"
+route_name = "Rota Brutal"
+description = "Mais ataque e resistência, massa maior e placas carmesim. Sprite e habilidades próprios."
+icon_name = "evolve"
+from_species = ExtResource("2")
+to_species = ExtResource("3")
+min_level = 5
+min_stability = 50.0
+required_research = Array[StringName]([&"artificial_evolution"])
+credit_cost = 2000
+generic_dna = 150
+required_materials = {"mat_cosmic": 1}

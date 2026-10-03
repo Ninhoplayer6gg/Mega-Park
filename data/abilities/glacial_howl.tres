@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/status_effect_data.gd" id="2"]
+
+[sub_resource type="Resource" id="sub_1"]
+script = ExtResource("2")
+target = &"enemy"
+stat = &"attack"
+multiplier = 0.7
+duration = 2
+label = "Ataque -30%"
+
+[sub_resource type="Resource" id="sub_2"]
+script = ExtResource("2")
+target = &"enemy"
+stat = &"speed"
+multiplier = 0.8
+duration = 2
+label = "Velocidade -20%"
+
+[resource]
+script = ExtResource("1")
+display_name = "Uivo Glacial"
+description = "Ataque inimigo -30% e velocidade -20% por 2 rodadas."
+icon_name = "skill"
+kind = 3
+energy_cost = 3
+cooldown = 4
+vfx = &"roar"
+sfx = &"roar_trike"
+effects = Array[ExtResource("2")]([SubResource("sub_1"), SubResource("sub_2")])
+id = &"glacial_howl"

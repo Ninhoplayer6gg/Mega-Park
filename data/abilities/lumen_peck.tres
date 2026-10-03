@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Bicada Luminosa"
+description = "Bicadas rápidas (140%)."
+icon_name = "attack"
+kind = 3
+energy_cost = 2
+cooldown = 1
+power = 1.4
+vfx = &"hit"
+sfx = &"hit"
+id = &"lumen_peck"

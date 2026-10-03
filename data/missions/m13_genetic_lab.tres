@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MissionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"m13_genetic_lab"
+order = 13
+title = "Bancada Genética"
+description = "Pesquise Fundamentos de Hibridização e construa o Laboratório Genético."
+objective = &"building_placed"
+objective_param = &"genetic_lab"
+target = 1
+icon_name = "lab"
+reward_credits = 500
+reward_dna = 40
+reward_player_xp = 120

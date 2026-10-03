@@ -13,6 +13,7 @@ extends Node2D
 var building_nodes := {}      # uid -> BuildingNode
 var decor_nodes := {}         # Vector2i -> Sprite2D
 var selected_actor: CreatureActor
+var event_layer: EventLayer
 
 
 func _ready() -> void:
@@ -21,8 +22,17 @@ func _ready() -> void:
 	build_overlay.map_size = Vector2i(layout.width, layout.height)
 	_spawn_decor()
 	_sync_buildings()
+	var crowd := VisitorCrowd.new()
+	crowd.name = "Visitors"
+	objects.add_child(crowd)
+	event_layer = EventLayer.new()
+	event_layer.name = "EventLayer"
+	event_layer.setup(self)
+	effects.add_child(event_layer)
 	ParkState.buildings_changed.connect(_sync_buildings)
 	CreatureRoster.roster_changed.connect(_sync_creatures)
+	EventBus.creature_evolved.connect(func(_c, _f): _sync_creatures())
+	EventBus.mutation_found.connect(func(_c): _sync_creatures())
 	GameClock.tick.connect(_on_tick)
 	EventBus.creature_leveled.connect(_on_creature_leveled)
 	EventBus.credits_collected.connect(_on_credits_collected)
@@ -144,10 +154,17 @@ func _on_tap(world_pos: Vector2) -> void:
 	if build_controller.is_active():
 		build_controller.handle_tap(world_pos)
 		return
-	# 1. Coin bubbles
+	# 0. Event markers
+	if event_layer and event_layer.marker_at(world_pos) != "":
+		hud.open_panel("events")
+		return
+	# 1. Coin and ticket bubbles
 	for node in building_nodes.values():
 		if node is HabitatNode and node.bubble_rect().has_point(world_pos):
 			collect_habitat(node)
+			return
+		if node is EntranceNode and node.bubble_rect().has_point(world_pos):
+			collect_tickets(node)
 			return
 	# 2. Creatures (front-most first)
 	var best: CreatureActor = null
@@ -194,6 +211,15 @@ func _select_building(node: BuildingNode) -> void:
 
 func collect_habitat(node: HabitatNode) -> int:
 	var amount := CreatureRoster.collect_habitat(node.instance.uid, node.position + node.bubble.position)
+	node.tick()
+	return amount
+
+
+func collect_tickets(node: EntranceNode) -> int:
+	var amount := VisitorManager.collect_tickets()
+	if amount > 0:
+		_on_credits_collected(amount, node.position + node.bubble.position)
+		AudioManager.play_sfx(&"coin")
 	node.tick()
 	return amount
 

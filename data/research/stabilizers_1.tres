@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ResearchData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/research_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"stabilizers_1"
+display_name = "Estabilizadores Proteicos"
+description = "+5 pontos de estabilidade genética em todas as sínteses."
+icon_name = "stability"
+order = 5
+cost_rp = 25
+cost_credits = 0
+duration = 30.0
+prerequisites = Array[StringName]([&"hybrid_basics"])
+required_building = &""
+effects = {"stability": 5.0}

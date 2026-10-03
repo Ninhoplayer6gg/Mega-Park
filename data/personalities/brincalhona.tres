@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PersonalityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/personality_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"brincalhona"
+display_name = "Brincalhona"
+description = "Sempre arranja algo para brincar; visitantes adoram."
+wander = 1.3
+rest = 0.8
+play = 2.0
+roar = 0.7
+social = 4
+happiness = 4
+stat_modifiers = {}

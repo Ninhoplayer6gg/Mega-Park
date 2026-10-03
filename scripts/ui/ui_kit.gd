@@ -189,3 +189,57 @@ static func centered(child: Control) -> CenterContainer:
 	var c := CenterContainer.new()
 	c.add_child(child)
 	return c
+
+
+## Row of toggle tabs. items = [[id, label, icon], ...]; on_select(id) is called when one is pressed.
+static func tabs(items: Array, current: String, on_select: Callable, min_height := 52) -> HBoxContainer:
+	var row := hbox(8)
+	for it in items:
+		var b := button(it[1], it[2] if it.size() > 2 else "", "TabButton", Vector2(0, min_height))
+		b.toggle_mode = true
+		b.button_pressed = it[0] == current
+		var id: String = it[0]
+		b.pressed.connect(func(): on_select.call(id))
+		row.add_child(b)
+	return row
+
+
+## Icon + amount, red when the requirement is not met.
+static func resource_chip(icon_name: String, text: String, ok := true, icon_size := 22) -> HBoxContainer:
+	var h := icon_value(icon_name, text, "ValueLabel", icon_size)
+	if not ok:
+		h.get_node("Value").add_theme_color_override("font_color", UITheme.BAD)
+	return h
+
+
+const GENE_GROUP_COLORS := {&"physical": Color("ff9f43"), &"elemental": Color("5ef6ff"), &"special": Color("b38cff")}
+
+
+static func gene_chip(gene: GeneData, caption := "", hidden := false) -> PanelContainer:
+	var p := panel("Inset")
+	var h := hbox(6)
+	var col: Color = GENE_GROUP_COLORS.get(gene.group if gene else &"special", UITheme.TEXT)
+	h.add_child(icon("mystery" if hidden or gene == null else gene.icon_name, 24))
+	var v := vbox(0)
+	if caption != "":
+		v.add_child(label(caption, "SmallLabel"))
+	var l := label("???" if hidden or gene == null else gene.display_name, "BodyLabel", col)
+	v.add_child(l)
+	h.add_child(v)
+	p.add_child(h)
+	p.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	if gene and not hidden:
+		p.tooltip_text = gene.description
+		p.mouse_filter = Control.MOUSE_FILTER_PASS
+	return p
+
+
+static func tier_tag(tier: int) -> PanelContainer:
+	var names := {2: "HÍBRIDO SIMPLES", 3: "HÍBRIDO AVANÇADO", 4: "QUIMERA SUPREMA"}
+	var cols := {2: Color("5ab0ff"), 3: Color("b38cff"), 4: UITheme.GOLD}
+	return tag(names.get(tier, "HÍBRIDO"), cols.get(tier, UITheme.CYAN))
+
+
+## Text for an individual: name, level and mutation/purity markers.
+static func creature_line(c: CreatureInstance) -> String:
+	return "%s · Nv %d · %d%%" % [c.display_name(), c.level, int(round(c.genetic_purity))]

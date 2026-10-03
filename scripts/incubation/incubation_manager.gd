@@ -44,9 +44,20 @@ func is_ready(building_uid: String) -> bool:
 
 
 ## Why a species can't be incubated right now ("" if it can).
+## Species that can ever be incubated (hybrids, prototypes and evolutions come from the lab).
+func is_incubable(species: CreatureData) -> bool:
+	return species.dna_cost > 0 and species.incubation_time > 0.0 and species.hybrid_tier == 0 \
+		and not species.variant_kind in [&"prototype", &"evolution"]
+
+
 func check_species(species: CreatureData) -> String:
+	if not is_incubable(species):
+		return "Obtida apenas no laboratório."
 	if not CreatureRoster.is_discovered(species.id):
 		return "Espécie não descoberta. Explore expedições."
+	if species.required_research != &"" and not ResearchManager.is_done(species.required_research):
+		var r := DataRegistry.get_research(species.required_research)
+		return "Requer a pesquisa %s." % (r.display_name if r else String(species.required_research))
 	if species.required_building != &"" and not ParkState.has_building(species.required_building):
 		var b := DataRegistry.get_building(species.required_building)
 		return "Requer %s." % (b.display_name if b else String(species.required_building))
@@ -80,8 +91,14 @@ func collect(building_uid: String) -> CreatureInstance:
 	slots_changed.emit()
 	if species == null:
 		return null
-	var c := CreatureRoster.add_new(species)
+	var c := CreatureInstance.create(species)
+	var rng := GeneticsLogic.rng_for(GeneticsLogic.hash_seed(c.uid) + 5)
+	c.genetic_purity = rng.randf_range(94.0, 100.0)
+	c.mutation_id = GeneticsLogic.roll_mutation(species, rng, Bonuses.get_value(&"mutation_chance"), c.genetic_purity)
+	CreatureRoster.adopt(c)
 	EventBus.creature_hatched.emit(c)
+	if c.mutation_id != &"":
+		EventBus.mutation_found.emit(c)
 	AudioManager.play_sfx(&"hatch")
 	return c
 

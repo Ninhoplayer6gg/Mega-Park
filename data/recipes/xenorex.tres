@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="HybridRecipe" load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/hybrid_recipe.gd" id="1"]
+[ext_resource type="Resource" path="res://data/creatures/xenorex.tres" id="2"]
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="3"]
+[ext_resource type="Resource" path="res://data/creatures/rex_primordial.tres" id="4"]
+[ext_resource type="Resource" path="res://data/creatures/xenoraptor.tres" id="5"]
+[ext_resource type="Resource" path="res://data/genes/gene_forca.tres" id="6"]
+[ext_resource type="Resource" path="res://data/genes/gene_velocidade.tres" id="7"]
+[ext_resource type="Resource" path="res://data/genes/gene_cosmico.tres" id="8"]
+[ext_resource type="Resource" path="res://data/genes/gene_sentidos.tres" id="9"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Xenorex"
+generic_dna = 50
+required_lab_level = 1
+required_research = Array[StringName]([&"hybrid_basics"])
+minimum_stability = 40.0
+creation_time = 40.0
+credit_cost = 1500
+lore = "Rex Primordial + Xenoraptor: força e agilidade numa nova espécie de predador."
+id = &"xenorex"
+result_species = ExtResource("2")
+required_species = Array[ExtResource("3")]([ExtResource("4"), ExtResource("5")])
+required_dna_amounts = Array[int]([40, 40])
+primary_gene = ExtResource("6")
+secondary_gene = ExtResource("7")
+elemental_gene = ExtResource("8")
+special_gene = ExtResource("9")

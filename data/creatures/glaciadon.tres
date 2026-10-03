@@ -1,0 +1,63 @@
+[gd_resource type="Resource" script_class="CreatureData" load_steps=14 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/ice_tusks.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/fur_wall.tres" id="4"]
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="5"]
+[ext_resource type="Resource" path="res://data/genes/gene_gelo.tres" id="6"]
+[ext_resource type="Resource" path="res://data/genes/gene_tamanho.tres" id="7"]
+[ext_resource type="Resource" path="res://data/genes/gene_resistencia.tres" id="8"]
+[ext_resource type="Resource" path="res://data/genes/gene_carapaca.tres" id="9"]
+[ext_resource type="Resource" path="res://data/genes/gene_vigor.tres" id="10"]
+[ext_resource type="Texture2D" path="res://assets/creatures/glaciadon.png" id="11"]
+[ext_resource type="Texture2D" path="res://assets/creatures/egg_glaciadon.png" id="12"]
+[ext_resource type="Texture2D" path="res://assets/creatures/icons/glaciadon.png" id="13"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Glaciadon"
+species = "Glaciadon crystallodens"
+category = &"prehistoric"
+origin = "Geleira Eterna — restaurado a partir de fósseis congelados"
+rarity = 2
+role = &"tank"
+description = "Gigante lanoso da era glacial, com presas translúcidas que crescem como cristais de gelo."
+lore = "Os primeiros fragmentos foram encontrados presos no gelo da Geleira Eterna. Suas presas conduzem frio: ele as usa para congelar a água e cavar abrigos."
+types = Array[StringName]([&"biological", &"glacial"])
+archive_code = "MG-004"
+size_class = &"large"
+size_text = "5 m · 6 t"
+diet = "Herbívoro"
+behavior_notes = "Calmo e protetor. Cava abrigos no gelo e só se irrita se sua água for disputada."
+photo_value = 45
+base_health = 620
+base_attack = 56
+base_defense = 50
+base_speed = 88
+income_amount = 22
+income_interval = 12.0
+income_cap = 220
+walk_speed = 16.0
+feed_cost = 55
+feed_xp = 25
+dna_cost = 120
+incubation_time = 22.0
+start_discovered = false
+discovery_mode = &"restoration"
+fossil_fragments_required = 10
+habitat_type = &"glacial"
+needs = Array[StringName]([&"water", &"shelter"])
+social_style = &"herd"
+frame_size = Vector2i(124, 92)
+foot_y = 89
+battle_scale = 2.0
+accent_color = Color(0.63, 0.85, 1, 1)
+cry_sfx = &"roar_trike"
+abilities = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4")])
+default_genes = Array[ExtResource("5")]([ExtResource("6"), ExtResource("7")])
+recessive_pool = Array[ExtResource("5")]([ExtResource("8"), ExtResource("9"), ExtResource("10")])
+sprite_sheet = ExtResource("11")
+egg_texture = ExtResource("12")
+icon = ExtResource("13")
+id = &"glaciadon"

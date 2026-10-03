@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="ExpeditionData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/expedition_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="2"]
+[ext_resource type="Resource" path="res://data/creatures/compsolux.tres" id="3"]
+[ext_resource type="Texture2D" path="res://assets/ui/banners/trilha_luminosa.png" id="4"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Trilha Luminosa"
+description = "Siga as pegadas brilhantes até a origem. Disponível após reunir pistas suficientes."
+region_type = &"tracking"
+order = 4
+duration = 40.0
+cost_credits = 200
+banner_color = Color(0.3, 0.5, 0.2, 1)
+credits_min = 80
+credits_max = 160
+dna_min = 10
+dna_max = 20
+player_xp = 40
+species_sample_chance = 1.0
+species_sample_dna = 40
+rp_reward = 10
+id = &"trilha_luminosa"
+species_pool = Array[ExtResource("2")]([ExtResource("3")])
+banner_texture = ExtResource("4")
+tracking_species = ExtResource("3")

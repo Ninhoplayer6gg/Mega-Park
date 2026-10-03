@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="ExpeditionData" load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/expedition_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="2"]
+[ext_resource type="Resource" path="res://data/creatures/xenoraptor.tres" id="3"]
+[ext_resource type="Resource" path="res://data/creatures/glaciadon.tres" id="4"]
+[ext_resource type="Texture2D" path="res://assets/ui/banners/fenda_dimensional.png" id="5"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Fenda Dimensional"
+description = "Portal temporário para uma zona entre dimensões: Soro Mutagênico, material instável e DNA raro."
+region_type = &"dimension"
+order = 5
+duration = 60.0
+cost_credits = 300
+temporary = true
+banner_color = Color(0.3, 0.2, 0.5, 1)
+credits_min = 200
+credits_max = 400
+dna_min = 30
+dna_max = 60
+player_xp = 60
+species_sample_chance = 0.8
+species_sample_dna = 35
+rp_reward = 20
+id = &"fenda_dimensional"
+species_pool = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4")])
+banner_texture = ExtResource("5")
+material_rewards = {"mat_serum": [1, 1, 0.85], "mat_unstable": [1, 2, 0.6], "mat_cosmic": [1, 1, 0.4]}

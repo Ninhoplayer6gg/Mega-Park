@@ -4,6 +4,7 @@ import environment
 import buildings
 import ui_art
 import ui_extra
+import expansion
 
 if __name__ == "__main__":
     creatures.generate()
@@ -11,4 +12,5 @@ if __name__ == "__main__":
     buildings.generate()
     ui_art.generate()
     ui_extra.generate()
+    expansion.generate()
     print("assets generated")

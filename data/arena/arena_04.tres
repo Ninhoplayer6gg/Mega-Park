@@ -1,16 +1,19 @@
-[gd_resource type="Resource" script_class="ArenaOpponentData" load_steps=3 format=3]
+[gd_resource type="Resource" script_class="ArenaOpponentData" load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/arena_opponent_data.gd" id="1"]
 [ext_resource type="Resource" path="res://data/creatures/triceratopo_ancestral.tres" id="2"]
+[ext_resource type="Resource" path="res://data/environments/glacial.tres" id="3"]
 
 [resource]
 script = ExtResource("1")
-id = &"arena_04"
 order = 4
 title = "Muralha Viva"
-creature = ExtResource("2")
 level = 5
 reward_credits = 550
 reward_dna = 40
 reward_creature_xp = 130
 reward_player_xp = 80
+reward_rp = 10
+id = &"arena_04"
+creature = ExtResource("2")
+environment = ExtResource("3")

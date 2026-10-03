@@ -5,7 +5,7 @@ extends Node
 signal saved
 signal loaded
 
-const SAVE_VERSION := 1
+const SAVE_VERSION := 2
 const SAVE_PATH := "user://mega_park_save.json"
 const BACKUP_PATH := "user://mega_park_save.bak.json"
 const TEMP_PATH := "user://mega_park_save.tmp.json"
@@ -31,8 +31,11 @@ func _ready() -> void:
 	for sig in [EventBus.building_placed, EventBus.building_removed, EventBus.creature_hatched,
 			EventBus.creature_assigned, EventBus.creature_leveled, EventBus.battle_finished,
 			EventBus.expedition_started, EventBus.expedition_completed, EventBus.mission_claimed,
-			EventBus.incubation_started]:
-		sig.connect(func(_a = null, _b = null): mark_dirty())
+			EventBus.incubation_started, EventBus.hybrid_created, EventBus.dna_extracted,
+			EventBus.research_completed, EventBus.species_restored, EventBus.creature_evolved,
+			EventBus.photo_taken, EventBus.eco_upgrade_installed, EventBus.park_event_started,
+			EventBus.park_event_ended, EventBus.mutation_found]:
+		sig.connect(func(_a = null, _b = null, _c = null): mark_dirty())
 	Economy.resources_changed.connect(mark_dirty)
 
 
@@ -57,6 +60,16 @@ func has_save() -> bool:
 
 
 func new_game() -> void:
+	reset_state()
+	for sid in CreatureRoster.discovered:
+		ArchiveManager.mark(sid, &"discovered")
+	_dirty = true
+	save_game()
+	EventBus.game_loaded.emit()
+
+
+## Clears every manager in memory without touching the save file.
+func reset_state() -> void:
 	Economy.reset()
 	ParkState.reset()
 	CreatureRoster.reset()
@@ -64,9 +77,12 @@ func new_game() -> void:
 	ExpeditionManager.reset()
 	MissionManager.reset()
 	ArenaManager.reset()
-	_dirty = true
-	save_game()
-	EventBus.game_loaded.emit()
+	GeneticsManager.reset()
+	ResearchManager.reset()
+	StaffManager.reset()
+	ArchiveManager.reset()
+	EventManager.reset()
+	VisitorManager.reset()
 
 
 func build_save_data() -> Dictionary:
@@ -81,6 +97,12 @@ func build_save_data() -> Dictionary:
 		"expeditions": ExpeditionManager.to_dict(),
 		"missions": MissionManager.to_dict(),
 		"arena": ArenaManager.to_dict(),
+		"genetics": GeneticsManager.to_dict(),
+		"research": ResearchManager.to_dict(),
+		"staff": StaffManager.to_dict(),
+		"archive": ArchiveManager.to_dict(),
+		"events": EventManager.to_dict(),
+		"visitors": VisitorManager.to_dict(),
 	}
 
 
@@ -161,6 +183,13 @@ func _apply(data: Dictionary) -> void:
 	ExpeditionManager.from_dict(data.get("expeditions", {}))
 	MissionManager.from_dict(data.get("missions", {}))
 	ArenaManager.from_dict(data.get("arena", {}))
+	ResearchManager.from_dict(data.get("research", {}))
+	StaffManager.from_dict(data.get("staff", {}))
+	GeneticsManager.from_dict(data.get("genetics", {}))
+	ArchiveManager.from_dict(data.get("archive", {}))
+	EventManager.from_dict(data.get("events", {}))
+	VisitorManager.from_dict(data.get("visitors", {}))
+	GeneticsManager.refresh_detection()
 	_dirty = false
 
 

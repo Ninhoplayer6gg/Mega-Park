@@ -1,16 +1,16 @@
-[gd_resource type="Resource" script_class="ExpeditionData" load_steps=6 format=3]
+[gd_resource type="Resource" script_class="ExpeditionData" load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/expedition_data.gd" id="1"]
 [ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="2"]
 [ext_resource type="Resource" path="res://data/creatures/rex_primordial.tres" id="3"]
 [ext_resource type="Resource" path="res://data/creatures/triceratopo_ancestral.tres" id="4"]
 [ext_resource type="Texture2D" path="res://assets/ui/banners/vale_primordial.png" id="5"]
+[ext_resource type="Resource" path="res://data/creatures/compsolux.tres" id="6"]
 
 [resource]
 script = ExtResource("1")
-id = &"vale_primordial"
 display_name = "Vale Primordial"
-description = "Planícies vulcânicas cheias de fósseis recentes. Uma ótima fonte de DNA pré-histórico."
+description = "Planícies vulcânicas cheias de fósseis recentes. Ótima fonte de DNA pré-histórico, âmbar e pegadas misteriosas."
 region_type = &"fossil_site"
 order = 1
 duration = 30.0
@@ -21,7 +21,12 @@ credits_max = 260
 dna_min = 15
 dna_max = 35
 player_xp = 25
-species_sample_chance = 0.35
+species_sample_chance = 0.45
 species_sample_dna = 30
+rp_reward = 5
+id = &"vale_primordial"
 species_pool = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4")])
 banner_texture = ExtResource("5")
+material_rewards = {"mat_amber": [1, 1, 0.5]}
+clue_species = ExtResource("6")
+clue_chance = 0.6

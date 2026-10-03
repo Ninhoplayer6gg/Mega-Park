@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="GeneData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+group = &"special"
+id = &"gene_voo"
+display_name = "Voo"
+description = "Estruturas de planeio: +5% de velocidade, -2% de defesa."
+icon_name = "gene_special"
+rarity = 2
+stat_modifiers = {"speed": 0.05, "defense": -0.02}
+element = &""
+behavior_tag = &"flight"

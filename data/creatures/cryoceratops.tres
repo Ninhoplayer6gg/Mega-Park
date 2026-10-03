@@ -1,0 +1,63 @@
+[gd_resource type="Resource" script_class="CreatureData" load_steps=15 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/glacial_charge.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/cryo_armor.tres" id="4"]
+[ext_resource type="Resource" path="res://data/abilities/boreal_storm.tres" id="5"]
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="6"]
+[ext_resource type="Resource" path="res://data/genes/gene_resistencia.tres" id="7"]
+[ext_resource type="Resource" path="res://data/genes/gene_carapaca.tres" id="8"]
+[ext_resource type="Resource" path="res://data/genes/gene_gelo.tres" id="9"]
+[ext_resource type="Resource" path="res://data/genes/gene_regeneracao.tres" id="10"]
+[ext_resource type="Resource" path="res://data/genes/gene_tamanho.tres" id="11"]
+[ext_resource type="Texture2D" path="res://assets/creatures/cryoceratops.png" id="12"]
+[ext_resource type="Texture2D" path="res://assets/creatures/egg_cryoceratops.png" id="13"]
+[ext_resource type="Texture2D" path="res://assets/creatures/icons/cryoceratops.png" id="14"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Cryoceratops"
+species = "Cryoceratops boreas"
+category = &"prehistoric"
+origin = "Laboratório Genético — Tricerátopo Ancestral × Glaciadon"
+rarity = 3
+role = &"tank"
+description = "Ceratopsídeo híbrido de chifres cristalinos e placas de gelo. A bioluminescência fria pulsa sob a pele."
+lore = "Combinação secreta descoberta ao cruzar a resistência do Tricerátopo com o metabolismo glacial do Glaciadon. Seu babado funciona como um radiador congelante."
+types = Array[StringName]([&"biological", &"glacial"])
+archive_code = "MG-022"
+size_class = &"large"
+size_text = "8 m · 8 t"
+diet = "Herbívoro"
+behavior_notes = "Pacífico, mas firme; protege criaturas menores do habitat."
+photo_value = 70
+base_health = 670
+base_attack = 53
+base_defense = 50
+base_speed = 94
+income_amount = 40
+income_interval = 14.0
+income_cap = 360
+walk_speed = 18.0
+feed_cost = 80
+feed_xp = 25
+dna_cost = 0
+start_discovered = false
+discovery_mode = &"hybrid"
+hybrid_tier = 2
+habitat_type = &"glacial"
+needs = Array[StringName]([&"water", &"vegetation"])
+social_style = &"herd"
+frame_size = Vector2i(132, 88)
+foot_y = 85
+battle_scale = 2.0
+accent_color = Color(0.5, 0.97, 1, 1)
+cry_sfx = &"roar_trike"
+abilities = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4"), ExtResource("5")])
+default_genes = Array[ExtResource("6")]([ExtResource("7"), ExtResource("8"), ExtResource("9")])
+recessive_pool = Array[ExtResource("6")]([ExtResource("10"), ExtResource("11")])
+sprite_sheet = ExtResource("12")
+egg_texture = ExtResource("13")
+icon = ExtResource("14")
+id = &"cryoceratops"

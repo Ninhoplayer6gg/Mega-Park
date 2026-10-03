@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/status_effect_data.gd" id="2"]
+
+[sub_resource type="Resource" id="sub_1"]
+script = ExtResource("2")
+target = &"enemy"
+stat = &"defense"
+multiplier = 0.75
+duration = 2
+label = "Defesa -25%"
+
+[resource]
+script = ExtResource("1")
+display_name = "Pulso Cósmico"
+description = "Onda elétrica (150%) que reduz a defesa inimiga em 25%."
+icon_name = "energy"
+kind = 3
+energy_cost = 4
+cooldown = 3
+power = 1.5
+damage_type = &"electric"
+vfx = &"zap"
+sfx = &"zap"
+effects = Array[ExtResource("2")]([SubResource("sub_1")])
+id = &"cosmic_pulse"

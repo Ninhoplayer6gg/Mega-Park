@@ -1,0 +1,62 @@
+[gd_resource type="Resource" script_class="CreatureData" load_steps=13 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/lumen_peck.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/flash.tres" id="4"]
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="5"]
+[ext_resource type="Resource" path="res://data/genes/gene_velocidade.tres" id="6"]
+[ext_resource type="Resource" path="res://data/genes/gene_bioluminescencia.tres" id="7"]
+[ext_resource type="Resource" path="res://data/genes/gene_camuflagem.tres" id="8"]
+[ext_resource type="Resource" path="res://data/genes/gene_toxico.tres" id="9"]
+[ext_resource type="Texture2D" path="res://assets/creatures/compsolux.png" id="10"]
+[ext_resource type="Texture2D" path="res://assets/creatures/egg_compsolux.png" id="11"]
+[ext_resource type="Texture2D" path="res://assets/creatures/icons/compsolux.png" id="12"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Compsolux"
+species = "Compsognathus lucens"
+category = &"prehistoric"
+origin = "Trilhas luminosas das florestas do Vale Primordial"
+rarity = 0
+role = &"striker"
+description = "Pequeno dinossauro bioluminescente do tamanho de uma galinha. Rápido, curioso e adorado pelos visitantes."
+lore = "Deixa pegadas que brilham por horas no musgo. Foi encontrado seguindo-se essas pegadas — daí a fama de \"dinossauro-vagalume\"."
+types = Array[StringName]([&"biological"])
+archive_code = "MG-005"
+size_class = &"small"
+size_text = "0,9 m · 4 kg"
+diet = "Insetívoro"
+behavior_notes = "Brincalhão e sociável. Vive em grupos e corre atrás de qualquer coisa que brilhe."
+photo_value = 25
+base_health = 300
+base_attack = 46
+base_defense = 18
+base_speed = 140
+income_amount = 10
+income_interval = 8.0
+income_cap = 100
+walk_speed = 34.0
+feed_cost = 25
+feed_xp = 25
+dna_cost = 40
+incubation_time = 10.0
+start_discovered = false
+discovery_mode = &"clues"
+clues_required = 3
+habitat_type = &"prehistoric"
+needs = Array[StringName]([&"vegetation"])
+social_style = &"herd"
+frame_size = Vector2i(60, 46)
+foot_y = 43
+battle_scale = 3.0
+accent_color = Color(1, 0.95, 0.48, 1)
+cry_sfx = &"screech_xeno"
+abilities = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4")])
+default_genes = Array[ExtResource("5")]([ExtResource("6"), ExtResource("7")])
+recessive_pool = Array[ExtResource("5")]([ExtResource("8"), ExtResource("9")])
+sprite_sheet = ExtResource("10")
+egg_texture = ExtResource("11")
+icon = ExtResource("12")
+id = &"compsolux"

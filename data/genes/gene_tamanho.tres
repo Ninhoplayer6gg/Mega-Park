@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="GeneData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+group = &"physical"
+id = &"gene_tamanho"
+display_name = "Tamanho"
+description = "Crescimento acelerado: +8% de vida, -2% de velocidade."
+icon_name = "gene_physical"
+rarity = 0
+stat_modifiers = {"health": 0.08, "speed": -0.02}
+element = &""
+behavior_tag = &""

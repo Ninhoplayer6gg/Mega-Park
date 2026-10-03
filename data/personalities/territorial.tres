@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="PersonalityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/personality_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"territorial"
+display_name = "Territorial"
+description = "Defende seu espaço. +2% de defesa, mais disputas."
+wander = 1.0
+rest = 1.0
+play = 0.7
+roar = 1.3
+social = -5
+happiness = 0
+stat_modifiers = {"defense": 0.02}

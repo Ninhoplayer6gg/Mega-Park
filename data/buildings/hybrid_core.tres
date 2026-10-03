@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/building_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/buildings/hybrid_core.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"hybrid_core"
+display_name = "Núcleo de Hibridização"
+description = "Reator de estabilização genética. Eleva o laboratório ao nível 2 (híbridos de 3 espécies) e +5 de estabilidade."
+category = &"lab"
+node_type = &"lab"
+panel_type = &"lab"
+sort_order = 11
+size = Vector2i(3, 3)
+cost_credits = 4000
+energy_use = 8
+max_count = 1
+required_building = &"genetic_lab"
+required_research = &"advanced_hybrid"
+params = {"lab_level": 2, "stability_bonus": 5.0}
+sprite = ExtResource("2")

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ReputationStyleData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/reputation_style_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"exotico"
+display_name = "Parque Exótico"
+description = "Espécies alienígenas e raras. Bônus: +10% de visitantes."
+icon_name = "type_cosmic"
+metric = &"exotic"
+bonus = {"visitors": 0.1}

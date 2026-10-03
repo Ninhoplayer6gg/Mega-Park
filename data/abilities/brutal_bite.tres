@@ -4,7 +4,6 @@
 
 [resource]
 script = ExtResource("1")
-id = &"brutal_bite"
 display_name = "Mordida Brutal"
 description = "Cravada esmagadora que causa 220% do ataque como dano."
 icon_name = "attack"
@@ -14,4 +13,4 @@ cooldown = 2
 power = 2.2
 vfx = &"hit"
 sfx = &"hit_heavy"
-ai_weight = 1.0
+id = &"brutal_bite"

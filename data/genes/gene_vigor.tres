@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="GeneData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+group = &"physical"
+id = &"gene_vigor"
+display_name = "Regeneração Física"
+description = "Tecidos que se recompõem: +4% de vida e +3% de defesa."
+icon_name = "gene_physical"
+rarity = 1
+stat_modifiers = {"health": 0.04, "defense": 0.03}
+element = &""
+behavior_tag = &""

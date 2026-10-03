@@ -21,6 +21,16 @@ func _ready() -> void:
 	EventBus.battle_finished.connect(func(result: Dictionary):
 		if result.get("won", false):
 			_bump(&"battle_won", [result.get("opponent_id", &"")]))
+	EventBus.research_completed.connect(func(id): _bump(&"research_completed", [id]))
+	EventBus.dna_extracted.connect(func(c, _a): _bump(&"dna_extracted", [c.species_id]))
+	EventBus.hybrid_created.connect(func(c, r, _n): _bump(&"hybrid_created", [c.species_id, r]))
+	EventBus.photo_taken.connect(func(rec): _bump(&"photo_taken", [StringName(rec.get("species", ""))]))
+	EventBus.species_restored.connect(func(c): _bump(&"species_restored", [c.species_id]))
+	EventBus.eco_upgrade_installed.connect(func(_h, u): _bump(&"eco_upgrade", [u]))
+	EventBus.team_battle_won.connect(func(id): _bump(&"team_battle_won", [id]))
+	EventBus.boss_defeated.connect(func(id): _bump(&"boss_defeated", [id]))
+	EventBus.archive_updated.connect(func(_s): _set_max(&"archive_entries", ArchiveManager.entries_count()))
+	EventBus.creature_evolved.connect(func(c, _f): _bump(&"creature_evolved", [c.species_id]))
 
 
 func reset() -> void:

@@ -13,7 +13,6 @@ label = "Defesa +60%"
 
 [resource]
 script = ExtResource("1")
-id = &"fortified_stance"
 display_name = "Postura Fortificada"
 description = "Firma as patas e ergue o escudo ósseo: defesa +60% por 3 rodadas."
 icon_name = "defense"
@@ -23,3 +22,4 @@ cooldown = 4
 vfx = &"shield"
 sfx = &"guard"
 effects = Array[ExtResource("2")]([SubResource("sub_1")])
+id = &"fortified_stance"

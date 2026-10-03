@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="GeneData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+group = &"elemental"
+id = &"gene_psiquico"
+display_name = "Psíquico"
+description = "Córtex expandido: +2% de defesa e velocidade."
+icon_name = "type_psychic"
+rarity = 2
+stat_modifiers = {"defense": 0.02, "speed": 0.02}
+element = &"psychic"
+behavior_tag = &""

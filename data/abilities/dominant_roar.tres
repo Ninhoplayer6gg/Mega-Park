@@ -13,7 +13,6 @@ label = "Ataque -35%"
 
 [resource]
 script = ExtResource("1")
-id = &"dominant_roar"
 display_name = "Rugido Dominante"
 description = "Intimida o oponente: ataque inimigo -35% por 3 rodadas."
 icon_name = "skill"
@@ -22,5 +21,5 @@ energy_cost = 3
 cooldown = 4
 vfx = &"roar"
 sfx = &"roar_rex"
-ai_weight = 1.0
 effects = Array[ExtResource("2")]([SubResource("sub_1")])
+id = &"dominant_roar"

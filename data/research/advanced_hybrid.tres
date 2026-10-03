@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ResearchData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/research_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"advanced_hybrid"
+display_name = "Hibridização Avançada"
+description = "Permite construir o Núcleo de Hibridização e sintetizar híbridos de 3 espécies."
+icon_name = "lab"
+order = 9
+cost_rp = 40
+cost_credits = 0
+duration = 50.0
+prerequisites = Array[StringName]([&"stabilizers_1"])
+required_building = &""
+effects = {"unlock": "hybrid_3"}

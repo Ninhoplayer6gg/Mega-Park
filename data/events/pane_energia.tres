@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/event_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"pane_energia"
+title = "Problema Energético"
+description = "Uma sobrecarga derrubou parte da rede: -6 de energia até o reparo."
+icon_name = "energy"
+kind = &"power_issue"
+weight = 0.8
+min_player_level = 2
+duration = 240.0
+resolve_cost = 150
+resolve_label = "Reparar"
+params = {"energy": 6}

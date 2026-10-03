@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ResearchData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/research_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"artificial_evolution"
+display_name = "Evolução Artificial"
+description = "Libera rotas de evolução artificial para híbridos."
+icon_name = "evolve"
+order = 8
+cost_rp = 40
+cost_credits = 0
+duration = 45.0
+prerequisites = Array[StringName]([&"hybrid_basics"])
+required_building = &""
+effects = {"unlock": "evolution"}

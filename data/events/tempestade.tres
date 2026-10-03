@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/event_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"tempestade"
+title = "Tempestade"
+description = "Uma tempestade chegou. A produção cai 10% enquanto durar, mas fotos tiradas agora rendem pesquisa extra."
+icon_name = "type_aquatic"
+kind = &"storm"
+weight = 1.0
+min_player_level = 1
+duration = 150.0
+resolve_cost = 0
+resolve_label = "Entendido"
+params = {"rp_on_end": 10}

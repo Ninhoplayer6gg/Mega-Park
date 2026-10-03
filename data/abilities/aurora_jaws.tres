@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Mandíbula Auroral"
+description = "Mordida colossal envolta em luz polar: 240% do ataque."
+icon_name = "attack"
+kind = 3
+energy_cost = 4
+cooldown = 2
+power = 2.4
+vfx = &"hit"
+sfx = &"hit_heavy"
+id = &"aurora_jaws"

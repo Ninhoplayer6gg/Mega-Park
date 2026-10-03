@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="HabitatUpgradeData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/habitat_upgrade_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/buildings/eco/feeder_premium.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"comedouro_premium"
+display_name = "Comedouro Premium"
+description = "Refeições variadas e frescas."
+kind = &"food"
+icon_name = "feed"
+cost_credits = 350
+textures = {"default": ExtResource("2")}
+slot = Vector2i(1, 1)

@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/status_effect_data.gd" id="2"]
+
+[sub_resource type="Resource" id="sub_1"]
+script = ExtResource("2")
+target = &"self"
+stat = &"defense"
+multiplier = 1.6
+duration = 3
+label = "Defesa +60%"
+
+[resource]
+script = ExtResource("1")
+display_name = "Coroa de Cristal"
+description = "Os cristais crescem: defesa +60% por 3 rodadas e recupera 10% da vida."
+icon_name = "defense"
+kind = 3
+energy_cost = 4
+cooldown = 4
+heal_ratio = 0.1
+vfx = &"shield"
+sfx = &"guard"
+effects = Array[ExtResource("2")]([SubResource("sub_1")])
+id = &"crystal_crown"

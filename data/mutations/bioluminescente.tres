@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Bioluminescente"
+description = "Brilho pulsante: fotos desta criatura valem o dobro."
+rarity = 2
+base_chance = 0.015
+tint = Color(0.5, 0.97, 0.91, 1)
+tint_amount = 0.2
+pulse = 0.8
+id = &"bioluminescente"

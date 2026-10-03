@@ -1,15 +1,21 @@
-[gd_resource type="Resource" script_class="CreatureData" load_steps=7 format=3]
+[gd_resource type="Resource" script_class="CreatureData" load_steps=14 format=3]
 
 [ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="1"]
-[ext_resource type="Resource" path="res://data/abilities/voltaic_claw.tres" id="2"]
-[ext_resource type="Resource" path="res://data/abilities/bio_overload.tres" id="3"]
-[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="4"]
-[ext_resource type="Texture2D" path="res://assets/creatures/xenoraptor.png" id="5"]
-[ext_resource type="Texture2D" path="res://assets/creatures/egg_xenoraptor.png" id="6"]
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/voltaic_claw.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/bio_overload.tres" id="4"]
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="5"]
+[ext_resource type="Resource" path="res://data/genes/gene_velocidade.tres" id="6"]
+[ext_resource type="Resource" path="res://data/genes/gene_eletricidade.tres" id="7"]
+[ext_resource type="Resource" path="res://data/genes/gene_cosmico.tres" id="8"]
+[ext_resource type="Resource" path="res://data/genes/gene_camuflagem.tres" id="9"]
+[ext_resource type="Resource" path="res://data/genes/gene_sentidos.tres" id="10"]
+[ext_resource type="Texture2D" path="res://assets/creatures/xenoraptor.png" id="11"]
+[ext_resource type="Texture2D" path="res://assets/creatures/egg_xenoraptor.png" id="12"]
+[ext_resource type="Texture2D" path="res://assets/creatures/icons/xenoraptor.png" id="13"]
 
 [resource]
 script = ExtResource("1")
-id = &"xenoraptor"
 display_name = "Xenoraptor"
 species = "Xenoraptor voltaicus"
 category = &"alien"
@@ -17,6 +23,14 @@ origin = "Cratera Estelar — dimensão K-7"
 rarity = 3
 role = &"striker"
 description = "Caçador bípede vindo de outra dimensão. Linhas bioluminescentes acumulam carga elétrica que ele descarrega através das garras."
+lore = "Vive em bandos pequenos liderados por uma matriarca. A cor das linhas muda conforme o humor: ciano quando calmo, branco quando prestes a atacar."
+types = Array[StringName]([&"biological", &"electric"])
+archive_code = "MG-002"
+size_class = &"medium"
+size_text = "4 m · 180 kg"
+diet = "Carnívoro (energívoro)"
+behavior_notes = "Curioso e ágil; brinca com objetos brilhantes e forma laços fortes com indivíduos da mesma espécie."
+photo_value = 45
 base_health = 500
 base_attack = 68
 base_defense = 26
@@ -30,13 +44,20 @@ feed_xp = 25
 dna_cost = 150
 incubation_time = 25.0
 start_discovered = false
+discovery_mode = &"research"
 required_building = &"research_center"
 habitat_type = &"alien"
+needs = Array[StringName]([&"shelter", &"vegetation"])
+social_style = &"pack"
 frame_size = Vector2i(96, 72)
 foot_y = 69
 battle_scale = 2.0
 accent_color = Color(0.37, 0.96, 1, 1)
 cry_sfx = &"screech_xeno"
-abilities = Array[ExtResource("4")]([ExtResource("2"), ExtResource("3")])
-sprite_sheet = ExtResource("5")
-egg_texture = ExtResource("6")
+abilities = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4")])
+default_genes = Array[ExtResource("5")]([ExtResource("6"), ExtResource("7")])
+recessive_pool = Array[ExtResource("5")]([ExtResource("8"), ExtResource("9"), ExtResource("10")])
+sprite_sheet = ExtResource("11")
+egg_texture = ExtResource("12")
+icon = ExtResource("13")
+id = &"xenoraptor"

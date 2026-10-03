@@ -79,7 +79,7 @@ func energy_capacity() -> int:
 	var total := 0
 	for b in buildings.values():
 		total += b.data.energy_output
-	return total
+	return maxi(total - EventManager.energy_penalty(), 0)
 
 
 func energy_used() -> int:
@@ -151,6 +151,9 @@ func check_rules(data: BuildingData) -> String:
 	if data.required_building != &"" and not has_building(data.required_building):
 		var req := DataRegistry.get_building(data.required_building)
 		return "Requer %s." % (req.display_name if req else String(data.required_building))
+	if data.required_research != &"" and not ResearchManager.is_done(data.required_research):
+		var rs := DataRegistry.get_research(data.required_research)
+		return "Requer a pesquisa %s." % (rs.display_name if rs else String(data.required_research))
 	if data.energy_use > 0 and energy_free() < data.energy_use:
 		return "Energia insuficiente (precisa %d). Construa um gerador." % data.energy_use
 	return ""
@@ -202,6 +205,8 @@ func check_removal(b: BuildingInstance) -> String:
 		return "Retire as criaturas do habitat primeiro."
 	if IncubationManager.has_slot(b.uid):
 		return "A incubadora está em uso."
+	if GeneticsManager.jobs.has(b.uid) or GeneticsManager.restorations.has(b.uid):
+		return "O laboratório está em uso."
 	if b.data.energy_output > 0 and energy_used() > energy_capacity() - b.data.energy_output:
 		return "Remover deixaria o parque sem energia."
 	return ""
@@ -221,6 +226,36 @@ func remove(uid: String) -> bool:
 	Economy.add(int(b.data.cost_credits * b.data.refund_ratio))
 	buildings_changed.emit()
 	EventBus.building_removed.emit(uid, b.building_id)
+	return true
+
+
+# ------------------------------------------------------------------ ecosystem features
+func habitat_upgrades(b: BuildingInstance) -> Array:
+	return b.extra.get("upgrades", [])
+
+
+func check_upgrade(b: BuildingInstance, u: HabitatUpgradeData) -> String:
+	if not b.data.is_habitat():
+		return "Somente habitats."
+	if habitat_upgrades(b).has(String(u.id)):
+		return "Já instalado."
+	if not Economy.can_afford(u.cost_credits):
+		return "Créditos insuficientes."
+	return ""
+
+
+func install_upgrade(b: BuildingInstance, u: HabitatUpgradeData) -> bool:
+	var reason := check_upgrade(b, u)
+	if reason != "":
+		EventBus.toast(reason, "build", "bad")
+		return false
+	Economy.spend(u.cost_credits)
+	var list: Array = habitat_upgrades(b).duplicate()
+	list.append(String(u.id))
+	b.extra["upgrades"] = list
+	buildings_changed.emit()
+	EventBus.eco_upgrade_installed.emit(b.uid, u.id)
+	AudioManager.play_sfx(&"build")
 	return true
 
 

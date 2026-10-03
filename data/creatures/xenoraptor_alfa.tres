@@ -1,0 +1,67 @@
+[gd_resource type="Resource" script_class="CreatureData" load_steps=16 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="2"]
+[ext_resource type="Resource" path="res://data/abilities/voltaic_claw.tres" id="3"]
+[ext_resource type="Resource" path="res://data/abilities/bio_overload.tres" id="4"]
+[ext_resource type="Resource" path="res://data/abilities/matriarch_command.tres" id="5"]
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="6"]
+[ext_resource type="Resource" path="res://data/genes/gene_velocidade.tres" id="7"]
+[ext_resource type="Resource" path="res://data/genes/gene_eletricidade.tres" id="8"]
+[ext_resource type="Resource" path="res://data/genes/gene_sentidos.tres" id="9"]
+[ext_resource type="Resource" path="res://data/genes/gene_cosmico.tres" id="10"]
+[ext_resource type="Resource" path="res://data/genes/gene_camuflagem.tres" id="11"]
+[ext_resource type="Texture2D" path="res://assets/creatures/xenoraptor_alfa.png" id="12"]
+[ext_resource type="Texture2D" path="res://assets/creatures/egg_xenoraptor_alfa.png" id="13"]
+[ext_resource type="Texture2D" path="res://assets/creatures/icons/xenoraptor_alfa.png" id="14"]
+[ext_resource type="Resource" path="res://data/creatures/xenoraptor.tres" id="15"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Xenoraptor Alfa"
+species = "Xenoraptor voltaicus · Alfa"
+category = &"alien"
+origin = "Matriarca do bando da Cratera Estelar"
+rarity = 4
+role = &"striker"
+description = "Versão Alfa: maior, com coroa de espinhos dourados e bioluminescência dourada. Lidera outros Xenoraptors."
+lore = "Só uma matriarca por bando desenvolve a coroa dourada. Xenoraptors comuns ficam mais calmos e produtivos quando ela está por perto."
+types = Array[StringName]([&"biological", &"electric"])
+archive_code = "MG-002α"
+size_class = &"medium"
+size_text = "5 m · 260 kg"
+diet = "Carnívoro (energívoro)"
+behavior_notes = "Líder de bando: Xenoraptors no mesmo habitat ficam mais felizes."
+photo_value = 110
+base_health = 580
+base_attack = 78
+base_defense = 30
+base_speed = 140
+income_amount = 60
+income_interval = 15.0
+income_cap = 520
+walk_speed = 42.0
+feed_cost = 120
+feed_xp = 25
+dna_cost = 250
+incubation_time = 40.0
+start_discovered = false
+discovery_mode = &"boss"
+required_research = &"alpha_protocol"
+variant_kind = &"alpha"
+variant_of = ExtResource("15")
+habitat_type = &"alien"
+needs = Array[StringName]([&"shelter", &"food"])
+social_style = &"pack"
+frame_size = Vector2i(116, 88)
+foot_y = 85
+battle_scale = 2.0
+accent_color = Color(1, 0.82, 0.25, 1)
+cry_sfx = &"screech_xeno"
+abilities = Array[ExtResource("2")]([ExtResource("3"), ExtResource("4"), ExtResource("5")])
+default_genes = Array[ExtResource("6")]([ExtResource("7"), ExtResource("8"), ExtResource("9")])
+recessive_pool = Array[ExtResource("6")]([ExtResource("10"), ExtResource("11")])
+sprite_sheet = ExtResource("12")
+egg_texture = ExtResource("13")
+icon = ExtResource("14")
+id = &"xenoraptor_alfa"

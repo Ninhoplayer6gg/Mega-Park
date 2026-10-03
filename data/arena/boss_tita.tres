@@ -1,0 +1,37 @@
+[gd_resource type="Resource" script_class="ArenaOpponentData" load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/arena_opponent_data.gd" id="1"]
+[ext_resource type="Resource" path="res://data/creatures/glaciadon.tres" id="2"]
+[ext_resource type="Resource" path="res://data/environments/glacial.tres" id="3"]
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="4"]
+[ext_resource type="Resource" path="res://data/abilities/glacier_quake.tres" id="5"]
+[ext_resource type="Script" path="res://scripts/data/boss_phase_data.gd" id="6"]
+
+[sub_resource type="Resource" id="sub_1"]
+script = ExtResource("6")
+hp_threshold = 0.5
+title = "FASE 2 · ABALO GLACIAL"
+stat_multipliers = {"defense": 1.2}
+new_abilities = Array[ExtResource("4")]([ExtResource("5")])
+energy_bonus = 2
+
+[resource]
+script = ExtResource("1")
+order = 21
+title = "Titã da Geleira"
+mode = &"boss"
+level = 7
+boss_hp_multiplier = 2.4
+intro = "Um Glaciadon ancestral desperta do gelo. Sua derrota revela segredos genéticos glaciais."
+unlock_recipe = &"cryoceratops"
+reward_species_dna = 50
+reward_materials = {"mat_cryo": 3}
+reward_credits = 1400
+reward_dna = 70
+reward_creature_xp = 220
+reward_player_xp = 200
+reward_rp = 30
+id = &"boss_tita"
+creature = ExtResource("2")
+environment = ExtResource("3")
+phases = Array[ExtResource("6")]([SubResource("sub_1")])

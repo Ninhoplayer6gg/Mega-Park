@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ResearchData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/research_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"gen_sequencing"
+display_name = "Sequenciamento Genômico"
+description = "Revela os genes ativos e recessivos das criaturas e habilita o sequenciamento no Laboratório Genético."
+icon_name = "gene_special"
+order = 1
+cost_rp = 10
+cost_credits = 0
+duration = 15.0
+prerequisites = Array[StringName]([])
+required_building = &""
+effects = {"unlock": "gene_sequencing"}

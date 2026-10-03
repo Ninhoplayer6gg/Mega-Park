@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MutationData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mutation_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Vulcânica"
+description = "Veias incandescentes: +4% de ataque e tipo Fogo."
+rarity = 2
+base_chance = 0.012
+tint = Color(1, 0.42, 0.23, 1)
+tint_amount = 0.42
+pulse = 0.35
+stat_modifiers = {"attack": 0.04}
+types_added = Array[StringName]([&"fire"])
+incompatible_with = Array[StringName]([&"glacial"])
+id = &"vulcanica"

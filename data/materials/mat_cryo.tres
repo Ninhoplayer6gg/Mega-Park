@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MaterialData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/material_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"mat_cryo"
+display_name = "Cristal Criogênico"
+description = "Cristal que conserva DNA congelado. Encontrado na Geleira Eterna."
+icon_name = "mat_cryo"
+rarity = 2

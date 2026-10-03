@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Colapso Estelar"
+description = "Libera a energia cósmica acumulada: 300% do ataque como dano cósmico."
+icon_name = "type_cosmic"
+kind = 3
+energy_cost = 7
+cooldown = 5
+power = 3.0
+damage_type = &"cosmic"
+vfx = &"zap"
+sfx = &"zap"
+id = &"stellar_collapse"

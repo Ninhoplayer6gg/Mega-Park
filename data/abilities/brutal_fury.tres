@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/status_effect_data.gd" id="2"]
+
+[sub_resource type="Resource" id="sub_1"]
+script = ExtResource("2")
+target = &"self"
+stat = &"attack"
+multiplier = 1.4
+duration = 3
+label = "Fúria +40%"
+
+[sub_resource type="Resource" id="sub_2"]
+script = ExtResource("2")
+target = &"self"
+stat = &"defense"
+multiplier = 0.9
+duration = 3
+label = "Guarda baixa -10%"
+
+[resource]
+script = ExtResource("1")
+display_name = "Fúria Brutal"
+description = "Entra em frenesi: ataque +40% por 3 rodadas, defesa -10%."
+icon_name = "attack"
+kind = 3
+energy_cost = 3
+cooldown = 4
+vfx = &"roar"
+sfx = &"roar_rex"
+effects = Array[ExtResource("2")]([SubResource("sub_1"), SubResource("sub_2")])
+id = &"brutal_fury"

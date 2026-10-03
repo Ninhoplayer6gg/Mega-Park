@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="GeneData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+group = &"elemental"
+id = &"gene_eletricidade"
+display_name = "Eletricidade"
+description = "Células eletrogênicas: +4% de velocidade. Elemento elétrico."
+icon_name = "energy"
+rarity = 1
+stat_modifiers = {"speed": 0.04}
+element = &"electric"
+behavior_tag = &""

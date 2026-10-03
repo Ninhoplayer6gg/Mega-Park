@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="GeneData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+group = &"elemental"
+id = &"gene_toxico"
+display_name = "Tóxico"
+description = "Toxinas naturais: +3% de ataque. Elemento tóxico."
+icon_name = "type_toxic"
+rarity = 1
+stat_modifiers = {"attack": 0.03}
+element = &"toxic"
+behavior_tag = &""

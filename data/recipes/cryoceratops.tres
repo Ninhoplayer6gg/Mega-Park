@@ -1,0 +1,33 @@
+[gd_resource type="Resource" script_class="HybridRecipe" load_steps=10 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/hybrid_recipe.gd" id="1"]
+[ext_resource type="Resource" path="res://data/creatures/cryoceratops.tres" id="2"]
+[ext_resource type="Script" path="res://scripts/data/creature_data.gd" id="3"]
+[ext_resource type="Resource" path="res://data/creatures/triceratopo_ancestral.tres" id="4"]
+[ext_resource type="Resource" path="res://data/creatures/glaciadon.tres" id="5"]
+[ext_resource type="Resource" path="res://data/genes/gene_resistencia.tres" id="6"]
+[ext_resource type="Resource" path="res://data/genes/gene_carapaca.tres" id="7"]
+[ext_resource type="Resource" path="res://data/genes/gene_gelo.tres" id="8"]
+[ext_resource type="Resource" path="res://data/genes/gene_regeneracao.tres" id="9"]
+
+[resource]
+script = ExtResource("1")
+display_name = "Cryoceratops"
+generic_dna = 50
+required_lab_level = 1
+required_research = Array[StringName]([&"hybrid_basics"])
+minimum_stability = 40.0
+creation_time = 40.0
+credit_cost = 1500
+required_materials = {"mat_cryo": 2}
+hidden_recipe = true
+discovery_requirements = {"dna_species": ["triceratopo_ancestral", "glaciadon"]}
+lore = "Combinação secreta entre um ceratopsídeo e um gigante glacial."
+id = &"cryoceratops"
+result_species = ExtResource("2")
+required_species = Array[ExtResource("3")]([ExtResource("4"), ExtResource("5")])
+required_dna_amounts = Array[int]([40, 40])
+primary_gene = ExtResource("6")
+secondary_gene = ExtResource("7")
+elemental_gene = ExtResource("8")
+special_gene = ExtResource("9")

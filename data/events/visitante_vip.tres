@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/event_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"visitante_vip"
+title = "Visitante Especial"
+description = "Uma celebridade da ciência quer conhecer suas criaturas mais raras."
+icon_name = "visitors"
+kind = &"special_visitor"
+weight = 0.8
+min_player_level = 2
+duration = 240.0
+resolve_cost = 0
+resolve_label = "Receber"
+params = {"credits_per_rare": 120, "base": 200}

@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/building_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/buildings/mutagen_center.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"mutagen_center"
+display_name = "Centro Mutagênico"
+description = "Induz mutações conhecidas com Soro Mutagênico e aumenta em 3% a chance de mutação na incubação."
+category = &"lab"
+node_type = &"generic"
+panel_type = &"mutagen"
+sort_order = 14
+size = Vector2i(2, 2)
+cost_credits = 1800
+energy_use = 4
+max_count = 1
+required_research = &"mutation_studies"
+params = {"mutation_bonus": 0.03}
+sprite = ExtResource("2")

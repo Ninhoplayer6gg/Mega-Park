@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="GeneData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/gene_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+group = &"special"
+id = &"gene_bioluminescencia"
+display_name = "Bioluminescência"
+description = "Emite luz própria; fotos noturnas valem mais."
+icon_name = "gene_special"
+rarity = 1
+stat_modifiers = {}
+element = &""
+behavior_tag = &"glow"

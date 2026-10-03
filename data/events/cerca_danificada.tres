@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="EventData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/event_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"cerca_danificada"
+title = "Cerca Danificada"
+description = "Um habitat teve a cerca danificada: produção -15% até o conserto."
+icon_name = "build"
+kind = &"fence_damaged"
+weight = 0.7
+min_player_level = 2
+duration = 360.0
+resolve_cost = 100
+resolve_label = "Consertar"
+params = {"production": 0.85}

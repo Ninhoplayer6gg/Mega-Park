@@ -3,7 +3,7 @@ extends Resource
 ## Battle action definition. Basic actions (attack, guard, reserve) are abilities too,
 ## so the battle system treats every action the same way.
 
-enum Kind { ATTACK, GUARD, RESERVE, ABILITY }
+enum Kind { ATTACK, GUARD, RESERVE, ABILITY, SWAP }
 
 @export var id: StringName
 @export var display_name := ""
@@ -25,6 +25,10 @@ enum Kind { ATTACK, GUARD, RESERVE, ABILITY }
 ## Higher priority acts first regardless of speed.
 @export var priority := 0
 @export var effects: Array[StatusEffectData] = []
+## Fraction of max HP healed on the user.
+@export var heal_ratio := 0.0
+## Combined attack: usable only when a benched ally of one of these species is still standing.
+@export var combo_partners: Array[StringName] = []
 @export_group("Presentation")
 @export var vfx: StringName = &"hit"
 @export var sfx: StringName = &"hit"

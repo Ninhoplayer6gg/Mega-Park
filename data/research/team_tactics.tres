@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ResearchData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/research_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"team_tactics"
+display_name = "Táticas de Equipe"
+description = "Libera batalhas de equipe 3v3 na Arena com sinergias e ataques combinados."
+icon_name = "team"
+order = 7
+cost_rp = 20
+cost_credits = 0
+duration = 25.0
+prerequisites = Array[StringName]([])
+required_building = &""
+effects = {"unlock": "team_battles"}

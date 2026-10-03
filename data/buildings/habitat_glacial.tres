@@ -1,0 +1,21 @@
+[gd_resource type="Resource" script_class="BuildingData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/building_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/buildings/icon_habitat_glacial.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"habitat_glacial"
+display_name = "Habitat Glacial"
+description = "Recinto refrigerado com neve e gelo para espécies glaciais. Abriga até 3 criaturas."
+category = &"habitat"
+node_type = &"habitat"
+panel_type = &"habitat"
+sort_order = 6
+size = Vector2i(10, 7)
+cost_credits = 1600
+energy_use = 3
+required_research = &"paleo_methods"
+habitat_type = &"glacial"
+habitat_capacity = 3
+icon = ExtResource("2")

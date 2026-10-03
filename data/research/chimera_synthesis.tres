@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="ResearchData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/research_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"chimera_synthesis"
+display_name = "Síntese Quimérica"
+description = "Permite construir a Câmara Quimérica e sintetizar Quimeras Supremas de 4 espécies."
+icon_name = "lab"
+order = 13
+cost_rp = 80
+cost_credits = 0
+duration = 90.0
+prerequisites = Array[StringName]([&"advanced_hybrid", &"stabilizers_2"])
+required_building = &""
+effects = {"unlock": "hybrid_4"}

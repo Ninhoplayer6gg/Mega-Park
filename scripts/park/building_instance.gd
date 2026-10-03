@@ -7,6 +7,8 @@ var building_id: StringName
 var cell := Vector2i.ZERO
 var data: BuildingData
 var placed_at := 0.0
+## Per-building state: {"upgrades": [ids]} for habitats, flags for events...
+var extra := {}
 
 
 func rect_cells() -> Array[Vector2i]:
@@ -22,7 +24,7 @@ func center_world() -> Vector2:
 
 
 func to_dict() -> Dictionary:
-	return {"uid": uid, "id": String(building_id), "x": cell.x, "y": cell.y, "placed_at": placed_at}
+	return {"uid": uid, "id": String(building_id), "x": cell.x, "y": cell.y, "placed_at": placed_at, "extra": extra.duplicate(true)}
 
 
 static func from_dict(d: Dictionary) -> BuildingInstance:
@@ -36,4 +38,6 @@ static func from_dict(d: Dictionary) -> BuildingInstance:
 	b.uid = str(d.get("uid", Uid.make("bd")))
 	b.cell = Vector2i(int(d.get("x", 0)), int(d.get("y", 0)))
 	b.placed_at = float(d.get("placed_at", 0.0))
+	var ex = d.get("extra", {})
+	b.extra = ex if ex is Dictionary else {}
 	return b

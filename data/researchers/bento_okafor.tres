@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ResearcherData" load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/researcher_data.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/portraits/veterinarian.png" id="2"]
+
+[resource]
+script = ExtResource("1")
+id = &"bento_okafor"
+display_name = "Dr. Bento Okafor"
+specialty = &"veterinary"
+specialty_name = "Veterinário"
+description = "Cuida do bem-estar das criaturas. Cada nível: +3 de felicidade; resolve estresse sem custo."
+portrait = ExtResource("2")
+hire_cost = 800
+level_cost_credits = 600
+level_cost_rp = 15
+max_level = 5
+bonus_per_level = {"happiness": 3.0}

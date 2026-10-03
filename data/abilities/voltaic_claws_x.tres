@@ -1,0 +1,27 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/status_effect_data.gd" id="2"]
+
+[sub_resource type="Resource" id="sub_1"]
+script = ExtResource("2")
+target = &"enemy"
+stat = &"speed"
+multiplier = 0.85
+duration = 2
+label = "Velocidade -15%"
+
+[resource]
+script = ExtResource("1")
+display_name = "Garras Voltaicas"
+description = "Rajada de garras elétricas (160%) que ignora 30% da defesa e reduz a velocidade inimiga."
+icon_name = "energy"
+kind = 3
+energy_cost = 3
+cooldown = 2
+power = 1.6
+damage_type = &"electric"
+vfx = &"zap"
+sfx = &"zap"
+effects = Array[ExtResource("2")]([SubResource("sub_1")])
+id = &"voltaic_claws_x"

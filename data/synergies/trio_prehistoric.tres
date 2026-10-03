@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="SynergyData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/synergy_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"trio_prehistoric"
+display_name = "Manada Ancestral"
+description = "3 pré-históricos: +5% de defesa."
+condition = &"category_count"
+params = {"category": "prehistoric", "count": 3}
+stat_modifiers = {"defense": 0.05}

@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="MissionData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/mission_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"m19_ecosystem"
+order = 19
+title = "Ecossistema Vivo"
+description = "Instale um recurso de ecossistema em um habitat."
+objective = &"eco_upgrade"
+objective_param = &""
+target = 1
+icon_name = "type_biological"
+reward_credits = 300
+reward_dna = 20
+reward_player_xp = 80

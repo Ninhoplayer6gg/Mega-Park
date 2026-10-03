@@ -37,6 +37,32 @@ const ROLES := {
 	&"support": "Suporte",
 }
 
+const TYPES := {
+	&"biological": ["Biológico", "type_biological"],
+	&"cosmic": ["Cósmico", "type_cosmic"],
+	&"glacial": ["Glacial", "type_glacial"],
+	&"electric": ["Elétrico", "energy"],
+	&"fire": ["Fogo", "type_fire"],
+	&"toxic": ["Tóxico", "type_toxic"],
+	&"psychic": ["Psíquico", "type_psychic"],
+	&"aquatic": ["Aquático", "type_aquatic"],
+}
+
+const SIZE_CLASSES := {&"small": "Pequeno", &"medium": "Médio", &"large": "Grande", &"giant": "Gigante"}
+
+const VARIANT_KINDS := {
+	&"alpha": "Alfa", &"regional": "Variante regional", &"evolution": "Evolução artificial",
+	&"prototype": "Protótipo genético",
+}
+
+const GENE_GROUPS := {&"physical": "Físico", &"elemental": "Elemental", &"special": "Especial"}
+
+const BEHAVIORS := {
+	&"idle": "Parado", &"walk": "Andando", &"rest": "Descansando", &"sleep": "Dormindo", &"eat": "Comendo",
+	&"drink": "Bebendo", &"roar": "Rugindo", &"play": "Brincando", &"observe": "Observando visitantes",
+	&"social": "Socializando", &"dispute": "Disputando território", &"rare": "Comportamento raro",
+}
+
 const STAT_LABELS := {
 	&"health": "Vida", &"attack": "Ataque", &"defense": "Defesa", &"speed": "Velocidade",
 	&"next_attack": "Próximo ataque",
@@ -53,6 +79,14 @@ static func rarity_color(r: int) -> Color:
 
 static func category_name(c: StringName) -> String:
 	return CATEGORIES.get(c, String(c).capitalize())
+
+
+static func type_name(t: StringName) -> String:
+	return TYPES.get(t, [String(t).capitalize()])[0]
+
+
+static func type_icon(t: StringName) -> String:
+	return TYPES.get(t, ["", "info"])[1]
 
 
 static func role_name(r: StringName) -> String:

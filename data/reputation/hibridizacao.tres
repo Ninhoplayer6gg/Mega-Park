@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ReputationStyleData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/reputation_style_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"hibridizacao"
+display_name = "Centro de Hibridização"
+description = "Muitos híbridos e receitas descobertas. Bônus: +3 de estabilidade."
+icon_name = "lab"
+metric = &"hybrids"
+bonus = {"stability": 3.0}

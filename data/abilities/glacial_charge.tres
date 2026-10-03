@@ -1,0 +1,26 @@
+[gd_resource type="Resource" script_class="AbilityData" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/ability_data.gd" id="1"]
+[ext_resource type="Script" path="res://scripts/data/status_effect_data.gd" id="2"]
+
+[sub_resource type="Resource" id="sub_1"]
+script = ExtResource("2")
+target = &"enemy"
+stat = &"speed"
+multiplier = 0.8
+duration = 2
+label = "Congelado -20%"
+
+[resource]
+script = ExtResource("1")
+display_name = "Investida Glacial"
+description = "Carga com chifres cristalinos (200%) que reduz a velocidade inimiga em 20%."
+icon_name = "type_glacial"
+kind = 3
+energy_cost = 4
+cooldown = 2
+power = 2.0
+vfx = &"hit"
+sfx = &"hit_heavy"
+effects = Array[ExtResource("2")]([SubResource("sub_1")])
+id = &"glacial_charge"

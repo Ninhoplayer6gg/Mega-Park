@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MaterialData" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/data/material_data.gd" id="1"]
+
+[resource]
+script = ExtResource("1")
+id = &"mat_amber"
+display_name = "Âmbar Antigo"
+description = "Resina fossilizada com microamostras. Necessária para reconstruções assistidas."
+icon_name = "mat_amber"
+rarity = 1
