@@ -20,6 +20,9 @@ const PANELS := {
 	"paleo": preload("res://scripts/ui/panels/paleo_panel.gd"),
 	"mutagen": preload("res://scripts/ui/panels/mutagen_panel.gd"),
 	"genetic_tree": preload("res://scripts/ui/panels/genetic_tree_panel.gd"),
+	"archive": preload("res://scripts/ui/panels/archive_panel.gd"),
+	"events": preload("res://scripts/ui/panels/events_panel.gd"),
+	"visitors": preload("res://scripts/ui/panels/visitors_panel.gd"),
 }
 
 var park: Node
@@ -40,6 +43,11 @@ var mission_badge: Label
 var _current_panel: GamePanel
 var _panel_stack: Array = []
 var presentation_layer: Control
+var rp_pill: Control
+var visitors_pill: Label
+var side_bar: VBoxContainer
+var events_badge: Label
+var photo_mode: PhotoMode
 var _present_queue: Array = []
 var _presenting: Presentation
 var _shown := {"credits": 0.0, "dna": 0.0}
@@ -62,6 +70,10 @@ func setup(park_node: Node) -> void:
 	_on_resources_changed()
 	_update_energy()
 	_update_missions()
+	GameClock.tick.connect(_update_science)
+	EventManager.events_changed.connect(_update_science)
+	ResearchManager.research_changed.connect(_update_science)
+	_update_science()
 	EventBus.mutation_found.connect(func(c): present("mutation", {"creature": c}))
 	EventBus.recipe_detected.connect(func(rid): present("detected", {"recipe": DataRegistry.get_recipe(rid)}))
 	EventBus.species_restored.connect(func(c): present("restored", {"creature": c}))
@@ -103,12 +115,41 @@ func _build() -> void:
 	top.add_child(UIKit.spacer())
 	credits_pill = _resource_pill("credits", 130)
 	dna_pill = _resource_pill("dna", 90)
+	rp_pill = _resource_pill("rp", 70)
 	energy_pill = _resource_pill("energy", 100)
-	for p in [credits_pill, dna_pill, energy_pill]:
+	for p in [credits_pill, dna_pill, rp_pill, energy_pill]:
 		top.add_child(p)
 	var settings_btn := UIKit.button("", "settings", "ButtonDark", Vector2(56, 52))
 	settings_btn.pressed.connect(func(): open_panel("settings"))
 	top.add_child(settings_btn)
+
+	# ---- side shortcuts (Arquivo Mega, photo mode, events, visitors)
+	side_bar = UIKit.vbox(8)
+	side_bar.set_anchors_preset(Control.PRESET_TOP_RIGHT)
+	side_bar.grow_horizontal = Control.GROW_DIRECTION_BEGIN
+	side_bar.offset_right = -12
+	side_bar.offset_top = 80
+	frame.add_child(side_bar)
+	for item in [["archive", "Arquivo Mega", func(): open_panel("archive")], ["camera", "Modo Foto", func(): start_photo_mode()],
+			["event", "Eventos", func(): open_panel("events")], ["visitors", "Visitantes", func(): open_panel("visitors")]]:
+		var b := UIKit.button("", item[0], "ButtonDark", Vector2(64, 60))
+		b.tooltip_text = item[1]
+		b.name = "Side_" + item[0]
+		b.pressed.connect(item[2])
+		side_bar.add_child(b)
+		if item[0] == "event":
+			events_badge = UIKit.label("", "SmallLabel", Color.WHITE, HORIZONTAL_ALIGNMENT_CENTER)
+			events_badge.add_theme_stylebox_override("normal", UITheme.notification_badge())
+			events_badge.add_theme_constant_override("outline_size", 4)
+			events_badge.custom_minimum_size = Vector2(26, 26)
+			events_badge.position = Vector2(-8, -6)
+			b.add_child(events_badge)
+		if item[0] == "visitors":
+			visitors_pill = UIKit.label("0", "SmallLabel", Color.WHITE, HORIZONTAL_ALIGNMENT_CENTER)
+			visitors_pill.add_theme_constant_override("outline_size", 4)
+			visitors_pill.position = Vector2(0, 40)
+			visitors_pill.custom_minimum_size = Vector2(64, 0)
+			b.add_child(visitors_pill)
 
 	# ---- mission tracker
 	mission_card = MissionTracker.new()
@@ -247,6 +288,14 @@ func _update_energy() -> void:
 	l.add_theme_color_override("font_color", UITheme.BAD if cap - used <= 0 else UITheme.TEXT)
 
 
+func _update_science() -> void:
+	rp_pill.find_child("Value", true, false).text = str(int(ResearchManager.rp))
+	visitors_pill.text = str(VisitorManager.visitors)
+	var n := EventManager.active.size()
+	events_badge.text = str(n)
+	events_badge.visible = n > 0
+
+
 func _update_missions() -> void:
 	var n := MissionManager.claimable_count()
 	mission_badge.text = str(n)
@@ -364,6 +413,7 @@ func start_build(data: BuildingData) -> void:
 func _on_build_mode(active: bool) -> void:
 	build_bar.visible = active
 	bottom_bar.visible = not active and not build_menu.visible
+	side_bar.visible = not active
 	mission_card.visible = not active
 	if not active:
 		mission_card.refresh()
@@ -371,7 +421,32 @@ func _on_build_mode(active: bool) -> void:
 
 # ------------------------------------------------------------------ panels
 func has_modal() -> bool:
-	return is_instance_valid(_current_panel) or is_instance_valid(_presenting)
+	return is_instance_valid(_current_panel) or is_instance_valid(_presenting) or is_instance_valid(photo_mode)
+
+
+# ------------------------------------------------------------------ photo mode
+func start_photo_mode() -> void:
+	if is_instance_valid(photo_mode):
+		return
+	close_all()
+	if build_menu.visible:
+		close_build_menu()
+	photo_mode = PhotoMode.new()
+	photo_mode.hud = self
+	photo_mode.exited.connect(_on_photo_exit)
+	bottom_bar.visible = false
+	side_bar.visible = false
+	mission_card.visible = false
+	panel_layer.add_child(photo_mode)
+	AudioManager.play_sfx(&"ui_open")
+
+
+func _on_photo_exit() -> void:
+	photo_mode = null
+	bottom_bar.visible = true
+	side_bar.visible = true
+	mission_card.visible = true
+	mission_card.refresh()
 
 
 func open_panel(kind: String, args := {}) -> GamePanel:

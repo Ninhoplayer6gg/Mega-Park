@@ -1,8 +1,9 @@
 class_name LabNode
 extends BuildingNode
-## Genetics buildings (labs, Núcleo de Hibridização, Câmara Quimérica, Centro Paleontológico).
-## While a synthesis or restoration runs, a gene capsule floats over the roof with a progress bar;
-## when it is finished the capsule glows and a bouncing arrow asks the player to collect it.
+## Science buildings (labs, Núcleo de Hibridização, Câmara Quimérica, Centro Paleontológico and the
+## Centro de Pesquisa). While a synthesis, restoration or research project runs, a gene capsule
+## floats over the roof with a progress bar; when it is finished the capsule glows and a bouncing
+## arrow asks the player to collect it.
 
 const CAPSULE := preload("res://assets/effects/gene_capsule.png")
 
@@ -60,6 +61,10 @@ func is_restoration_lab() -> bool:
 func job_state() -> String:
 	if instance == null:
 		return "idle"
+	if data.panel_type == &"research":
+		if ResearchManager.active.is_empty():
+			return "idle"
+		return "ready" if ResearchManager.is_ready() else "running"
 	if is_restoration_lab():
 		if GeneticsManager.restoration(instance.uid).is_empty():
 			return "idle"
@@ -72,6 +77,8 @@ func job_state() -> String:
 func job_progress() -> float:
 	if instance == null:
 		return 0.0
+	if data.panel_type == &"research":
+		return ResearchManager.progress()
 	if is_restoration_lab():
 		var r := GeneticsManager.restoration(instance.uid)
 		if r.is_empty():

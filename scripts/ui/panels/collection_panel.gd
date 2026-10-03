@@ -41,6 +41,9 @@ func refresh() -> void:
 			tab = t[0]
 			refresh())
 		_tabs.add_child(b)
+	var arch := UIKit.button("Arquivo Mega", "archive", "ButtonBlue", Vector2(0, 52))
+	arch.pressed.connect(func(): hud.open_panel("archive", {"stack": true}))
+	_tabs.add_child(arch)
 	UIKit.clear(_filters)
 	var cats := [[&"all", "Todas"]]
 	for k in GameEnums.CATEGORIES:
@@ -99,7 +102,7 @@ func _name_label(text: String) -> Label:
 func _owned_card(c: CreatureInstance) -> Control:
 	var parts := _base_card()
 	var v: VBoxContainer = parts[1]
-	v.add_child(CreaturePortrait.make(c.data, Vector2(220, 110)))
+	v.add_child(CreaturePortrait.of_creature(c, Vector2(220, 110)))
 	v.add_child(_name_label(c.display_name()))
 	var row := UIKit.hbox(6)
 	row.add_child(UIKit.icon_value("star", "Nv %d" % c.level, "BodyLabel", 18))

@@ -9,6 +9,7 @@ id = &"research_center"
 display_name = "Centro de Pesquisa"
 description = "Laboratório que sequencia DNA e decodifica sinais de outras dimensões."
 category = &"research"
+node_type = &"lab"
 panel_type = &"research"
 sort_order = 7
 size = Vector2i(3, 3)

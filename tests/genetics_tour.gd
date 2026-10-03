@@ -93,6 +93,7 @@ func _run() -> void:
 	expect(park.name == "Park", "park scene loaded")
 	var ctx := await _park_world(park)
 	await _lab_ui(park, ctx)
+	await _science_ui(park, ctx)
 	print("GTOUR finished with %d failures" % failures.size())
 	get_tree().quit(1 if failures.size() > 0 else 0)
 
@@ -294,4 +295,113 @@ func _lab_ui(park: Node, ctx: Dictionary) -> void:
 	await shot("mutagen_result")
 	print("GTOUR induced mutation: ", ctx.xeno.mutation_id)
 	await continue_presentation(park)
+	park.hud.close_all()
+
+
+# ------------------------------------------------------------------ phase 3: science, archive, photo
+func _science_ui(park: Node, ctx: Dictionary) -> void:
+	var rc := place(&"research_center", ctx.anchor + Vector2i(14, 2))
+	ResearchManager.add_rp(200, false)
+	park.hud.open_building(rc)
+	await wait(0.6)
+	await shot("research_projects")
+	var rp := current_panel(park)
+	expect(press(rp, "Iniciar"), "start a research project via UI")
+	var active := ResearchManager.active_research()
+	expect(active != null, "research running")
+	GameClock.advance(active.duration + 1)
+	await wait(1.3)
+	await shot("research_ready")
+	expect(press(current_panel(park), "Concluir pesquisa"), "complete research via UI")
+	expect(ResearchManager.is_done(active.id), "research completed: %s" % active.id)
+	var panel := current_panel(park)
+	panel.tab = "team"
+	panel.refresh()
+	await wait(0.4)
+	expect(press(panel, "Contratar"), "hire a researcher")
+	await wait(0.4)
+	await shot("research_team")
+	park.hud.close_all()
+	# hybrid lives in the park
+	var hybrid: CreatureInstance = null
+	for c in CreatureRoster.all():
+		if c.species_id == &"xenorex":
+			hybrid = c
+	var hab: BuildingInstance = ctx.hab
+	if CreatureRoster.in_habitat(hab.uid).size() >= hab.data.habitat_capacity:
+		CreatureRoster.move_to_storage(ctx.tri)
+	expect(CreatureRoster.assign_to_habitat(hybrid, hab.uid), "hybrid placed in the habitat: " + CreatureRoster.check_assign(hybrid, hab.uid))
+	await wait(1.5)
+	park.focus_building(hab.uid, 2.2)
+	await wait(2.0)
+	await shot("hybrid_in_park")
+	var actor: CreatureActor = park.find_actor(hybrid.uid)
+	expect(actor != null, "hybrid walks in the habitat")
+	park.select_creature(actor)
+	await wait(0.6)
+	await shot("creature_panel_hybrid")
+	var cp := current_panel(park)
+	cp.find_children("*", "ScrollContainer", true, false)[0].scroll_vertical = 520
+	await wait(0.3)
+	await shot("creature_panel_genetics")
+	park.hud.close_all()
+	park.hud.open_building(hab)
+	await wait(0.5)
+	var hp := current_panel(park)
+	hp.tab = "eco"
+	hp.refresh()
+	await wait(0.4)
+	await shot("habitat_ecosystem_tab")
+	park.hud.close_all()
+	# photo mode
+	park.hud.start_photo_mode()
+	await wait(0.5)
+	park.camera.focus_on(actor.global_position + Vector2(0, -30), 2.6)
+	await wait(1.2)
+	await shot("photo_mode")
+	var pm: PhotoMode = park.hud.photo_mode
+	expect(not pm.best_subject().is_empty(), "creature framed in the viewfinder")
+	await pm.take_photo()
+	await wait(0.8)
+	await shot("photo_result")
+	expect(ArchiveManager.photos.size() >= 1 and FileAccess.file_exists(ArchiveManager.photos[0].file), "photo saved to the album")
+	press(pm, "Sair")
+	await wait(0.4)
+	# Arquivo Mega
+	park.hud.side_bar.get_node("Side_archive").pressed.emit()
+	await wait(0.6)
+	var ap := current_panel(park)
+	ap.selected = &"xenorex"
+	ap.refresh()
+	await wait(0.5)
+	await shot("archive_xenorex")
+	ap.selected = &"aurorax"
+	ap.refresh()
+	await wait(0.3)
+	await shot("archive_unknown")
+	ap.tab = "photos"
+	ap.refresh()
+	await wait(0.4)
+	await shot("archive_album")
+	park.hud.close_all()
+	# events
+	var storm := EventManager.spawn(DataRegistry.events[&"tempestade"])
+	var egg := EventManager.spawn(DataRegistry.events[&"ovo_encontrado"])
+	await wait(1.0)
+	park.focus_building(hab.uid, 1.6)
+	await wait(1.0)
+	await shot("event_storm")
+	park.hud.side_bar.get_node("Side_event").pressed.emit()
+	await wait(0.6)
+	await shot("events_panel")
+	var dna := Economy.dna
+	expect(press(current_panel(park), "Recolher"), "resolve egg event")
+	expect(Economy.dna > dna and not EventManager.active.has(egg), "egg event rewards DNA")
+	await wait(0.6)
+	park.hud.close_all()
+	EventManager.resolve(storm)
+	# visitors and reputation
+	park.hud.side_bar.get_node("Side_visitors").pressed.emit()
+	await wait(0.6)
+	await shot("visitors_panel")
 	park.hud.close_all()

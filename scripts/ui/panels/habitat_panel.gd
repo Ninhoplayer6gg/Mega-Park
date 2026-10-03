@@ -1,7 +1,10 @@
 extends GamePanel
-## Habitat details: residents, production collection, adding creatures from storage, removal.
+## Habitat details: residents (happiness and relations), ecosystem features, production
+## collection, adding creatures from storage, removal.
 
 var building: BuildingInstance
+var tab := "residents"
+var _tabs: HBoxContainer
 var _list: VBoxContainer
 var _collect: Button
 var _cap_label: Label
@@ -10,7 +13,7 @@ var _cap_label: Label
 func configure() -> void:
 	title = building.data.display_name
 	icon_name = "creatures"
-	desired_size = Vector2(860, 600)
+	desired_size = Vector2(980, 620)
 
 
 func build() -> void:
@@ -25,6 +28,8 @@ func build() -> void:
 	var ht := DataRegistry.get_habitat_type(building.data.habitat_type)
 	if ht:
 		body.add_child(UIKit.wrap_label(ht.description, "SmallLabel", 400))
+	_tabs = UIKit.hbox(8)
+	body.add_child(_tabs)
 	var sc := UIKit.scroll()
 	_list = UIKit.vbox(8)
 	_list.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -38,13 +43,25 @@ func build() -> void:
 	body.add_child(bottom)
 	refresh()
 	CreatureRoster.roster_changed.connect(refresh)
+	ParkState.buildings_changed.connect(func():
+		if is_inside_tree():
+			refresh())
 	GameClock.tick.connect(_update_collect)
 
 
 func refresh() -> void:
 	var residents := CreatureRoster.in_habitat(building.uid)
 	_cap_label.text = "Criaturas: %d / %d" % [residents.size(), building.data.habitat_capacity]
+	UIKit.clear(_tabs)
+	_tabs.add_child(UIKit.tabs([["residents", "Residentes", "creatures"], ["eco", "Ecossistema (%d/%d)" % [ParkState.habitat_upgrades(building).size(), DataRegistry.habitat_upgrades.size()], "tree"]],
+		tab, func(id: String):
+			tab = id
+			refresh(), 48))
 	UIKit.clear(_list)
+	if tab == "eco":
+		_build_eco(residents)
+		_update_collect()
+		return
 	for c in residents:
 		_list.add_child(_resident_row(c))
 	var free := building.data.habitat_capacity - residents.size()
@@ -71,7 +88,7 @@ func _update_collect() -> void:
 func _resident_row(c: CreatureInstance) -> Control:
 	var card := UIKit.panel("Card")
 	var h := UIKit.hbox(12)
-	h.add_child(CreaturePortrait.make(c.data, Vector2(110, 72)))
+	h.add_child(CreaturePortrait.of_creature(c, Vector2(110, 72)))
 	var v := UIKit.vbox(2)
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var top := UIKit.hbox(8)
@@ -79,6 +96,14 @@ func _resident_row(c: CreatureInstance) -> Control:
 	top.add_child(UIKit.rarity_badge(c.data.rarity))
 	v.add_child(top)
 	v.add_child(UIKit.label("Nível %d · +%d créditos / %ds" % [c.level, c.income_per_cycle(), int(c.data.income_interval)], "SmallLabel"))
+	var mood := UIKit.hbox(10)
+	var h_val := SocialLogic.happiness(c)
+	mood.add_child(UIKit.resource_chip("happy" if h_val >= 50 else "stress", "Felicidade %d" % int(round(h_val)), h_val >= 40, 18))
+	mood.add_child(UIKit.label("x%s produção" % String.num(SocialLogic.production_multiplier(c), 2), "SmallLabel"))
+	var tense := CreatureRoster.relations_in(c, building.uid).filter(func(r): return r.relation.kind in [&"predatory", &"territorial", &"incompatible"])
+	if not tense.is_empty():
+		mood.add_child(UIKit.label("Tensão com %s" % tense[0].creature.display_name(), "SmallLabel", UITheme.BAD))
+	v.add_child(mood)
 	h.add_child(v)
 	var see := UIKit.button("Ver", "info", "ButtonBlue", Vector2(110, 56))
 	see.pressed.connect(func(): hud.open_creature(c, true))
@@ -90,7 +115,7 @@ func _resident_row(c: CreatureInstance) -> Control:
 func _storage_row(c: CreatureInstance) -> Control:
 	var card := UIKit.panel("CardSelected")
 	var h := UIKit.hbox(12)
-	h.add_child(CreaturePortrait.make(c.data, Vector2(110, 72)))
+	h.add_child(CreaturePortrait.of_creature(c, Vector2(110, 72)))
 	var v := UIKit.vbox(2)
 	v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	v.add_child(UIKit.label(c.display_name(), "ValueLabel"))
@@ -103,6 +128,52 @@ func _storage_row(c: CreatureInstance) -> Control:
 	h.add_child(add)
 	card.add_child(h)
 	return card
+
+
+func _build_eco(residents: Array) -> void:
+	var needs := {}
+	for c in residents:
+		for n in c.data.needs:
+			needs[n] = true
+	var installed: Array = ParkState.habitat_upgrades(building)
+	var info := "Recursos do ecossistema deixam as criaturas mais felizes, e criaturas felizes produzem mais."
+	if not needs.is_empty():
+		var kinds := {}
+		for uid in installed:
+			var u: HabitatUpgradeData = DataRegistry.habitat_upgrades.get(StringName(uid))
+			if u:
+				kinds[u.kind] = true
+		var missing := needs.keys().filter(func(n): return not kinds.has(n))
+		info += " Necessidades dos residentes atendidas: %d/%d." % [needs.size() - missing.size(), needs.size()]
+	_list.add_child(UIKit.wrap_label(info, "BodyLabel", 500))
+	for u in DataRegistry.habitat_upgrades.values():
+		var have := installed.has(String(u.id))
+		var card := UIKit.panel("CardSelected" if have else "Card")
+		var h := UIKit.hbox(12)
+		var tex: Texture2D = u.texture_for(building.data.habitat_type)
+		h.add_child(UIKit.texture(tex, Vector2(96, 64)) if tex else UIKit.icon(u.icon_name, 48))
+		var v := UIKit.vbox(2)
+		v.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		var title_row := UIKit.hbox(8)
+		title_row.add_child(UIKit.label(u.display_name, "ValueLabel"))
+		if needs.has(u.kind):
+			title_row.add_child(UIKit.tag("NECESSÁRIO", UITheme.GOLD))
+		v.add_child(title_row)
+		v.add_child(UIKit.wrap_label(u.description, "SmallLabel", 300))
+		h.add_child(v)
+		if have:
+			h.add_child(UIKit.tag("INSTALADO", UITheme.GOOD))
+		else:
+			var reason := ParkState.check_upgrade(building, u)
+			var b := UIKit.button("Instalar  %s" % GameEnums.format_number(u.cost_credits), "build", "ButtonGreen", Vector2(220, 56))
+			b.disabled = reason != ""
+			b.pressed.connect(func():
+				if ParkState.install_upgrade(building, u):
+					hud.show_toast("%s instalado!" % u.display_name, "tree", "good")
+					refresh())
+			h.add_child(b)
+		card.add_child(h)
+		_list.add_child(card)
 
 
 func _on_collect() -> void:

@@ -18,7 +18,7 @@ func _ready() -> void:
 		"test_three_and_four_species", "test_failure_and_prototype", "test_genetics_save_roundtrip",
 		"test_migration_v1_fixture", "test_hybrid_battle", "test_team_and_boss_battle", "test_evolution",
 		"test_restoration", "test_induced_mutation", "test_research_and_staff", "test_events_and_visitors",
-		"test_social_and_ecosystem",
+		"test_social_and_ecosystem", "test_photo_rewards", "test_archive_sections",
 	]
 	for t in tests:
 		_current = t
@@ -787,3 +787,44 @@ func test_social_and_ecosystem() -> void:
 	check(SocialLogic.happiness(tri) > h_before, "ecosystem raises happiness")
 	check(SocialLogic.production_multiplier(tri) > 0.9, "happy creatures produce more")
 	check(MissionManager.get_progress(DataRegistry.missions[&"m19_ecosystem"]) == 1, "ecosystem mission")
+
+
+func test_photo_rewards() -> void:
+	var b := _setup_lab_park()
+	PhotoLogic.reset_history()
+	var x := CreatureRoster.add_new(DataRegistry.get_creature(&"xenoraptor"))
+	CreatureRoster.assign_to_habitat(x, b[&"habitat_alien"].uid)
+	check(not ArchiveManager.knows(&"xenoraptor", &"photographed"), "not photographed yet")
+	var good := PhotoLogic.evaluate(x, &"sleep", 0.95, 0.45)
+	var bad := PhotoLogic.evaluate(x, &"walk", 0.1, 0.05)
+	check(good.score > bad.score * 2, "framing + behaviour matter (%d vs %d)" % [good.score, bad.score])
+	check(good.first and good.stars == 3, "first photo, 3 stars")
+	var credits := Economy.credits
+	var rec := PhotoLogic.commit(x, &"sleep", good, "")
+	check(Economy.credits == credits + good.credits, "photo pays credits")
+	check(ArchiveManager.knows(&"xenoraptor", &"photographed") and ArchiveManager.section_unlocked(&"xenoraptor", "biometrics"), "photo unlocks biometrics")
+	check(ArchiveManager.behaviors_seen.get(&"xenoraptor", []).has("sleep"), "behaviour recorded")
+	check(ArchiveManager.photos[0].uid == x.uid and rec.score == good.score, "album record")
+	var again := PhotoLogic.evaluate(x, &"sleep", 0.95, 0.45)
+	check(again.repeated and again.score < good.score / 5, "repeated photo is worth little")
+	check(MissionManager.get_progress(DataRegistry.missions[&"m16_photo"]) >= 1, "photo mission progress")
+	var snap := SaveManager.build_save_data()
+	check(snap.archive.photos.size() == 1, "photos saved")
+
+
+func test_archive_sections() -> void:
+	SaveManager.new_game()
+	check(ArchiveManager.is_registered(&"rex_primordial"), "starter species registered")
+	check(not ArchiveManager.is_registered(&"xenorex"), "hybrid unknown at start (MG-???)")
+	check(ArchiveManager.section_unlocked(&"rex_primordial", "identity") and not ArchiveManager.section_unlocked(&"rex_primordial", "genetics"), "only identity at first")
+	var c := CreatureRoster.add_new(DataRegistry.get_creature(&"rex_primordial"))
+	ArchiveManager.mark(&"rex_primordial", &"owned")
+	check(ArchiveManager.section_unlocked(&"rex_primordial", "habitat") and ArchiveManager.section_unlocked(&"rex_primordial", "abilities"), "owning unlocks habitat + abilities")
+	ArchiveManager.note_behavior(&"rex_primordial", &"sleep")
+	ArchiveManager.note_behavior(&"rex_primordial", &"roar")
+	check(ArchiveManager.section_unlocked(&"rex_primordial", "behavior"), "2 behaviours unlock behaviour section")
+	ArchiveManager.mark(&"rex_primordial", &"sequenced")
+	check(ArchiveManager.progress(&"rex_primordial") == 1.0, "all sections unlocked")
+	var codes := DataRegistry.archive_list().map(func(s): return s.archive_code)
+	check(codes[0] == "MG-001" and codes.has("MG-021"), "archive sorted by MG code")
+	check(c != null, "creature exists")

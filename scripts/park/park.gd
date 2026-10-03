@@ -13,6 +13,7 @@ extends Node2D
 var building_nodes := {}      # uid -> BuildingNode
 var decor_nodes := {}         # Vector2i -> Sprite2D
 var selected_actor: CreatureActor
+var event_layer: EventLayer
 
 
 func _ready() -> void:
@@ -24,6 +25,10 @@ func _ready() -> void:
 	var crowd := VisitorCrowd.new()
 	crowd.name = "Visitors"
 	objects.add_child(crowd)
+	event_layer = EventLayer.new()
+	event_layer.name = "EventLayer"
+	event_layer.setup(self)
+	effects.add_child(event_layer)
 	ParkState.buildings_changed.connect(_sync_buildings)
 	CreatureRoster.roster_changed.connect(_sync_creatures)
 	EventBus.creature_evolved.connect(func(_c, _f): _sync_creatures())
@@ -148,6 +153,10 @@ func _on_tap(world_pos: Vector2) -> void:
 		return
 	if build_controller.is_active():
 		build_controller.handle_tap(world_pos)
+		return
+	# 0. Event markers
+	if event_layer and event_layer.marker_at(world_pos) != "":
+		hud.open_panel("events")
 		return
 	# 1. Coin and ticket bubbles
 	for node in building_nodes.values():
