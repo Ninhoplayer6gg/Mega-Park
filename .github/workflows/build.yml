@@ -45,10 +45,17 @@ jobs:
         run: godot --headless --path . --import || true
 
       - name: Script check
-        run: godot --headless --path . res://tests/script_check.tscn
+        run: |
+          set -o pipefail
+          godot --headless --path . res://tests/script_check.tscn 2>&1 | tee script_check.log
+          if grep -qE "script_check: FAILED|SCRIPT ERROR|Parse Error" script_check.log; then
+            echo "::error::Script check found errors"; exit 1
+          fi
 
       - name: Test runner
-        run: godot --headless --path . res://tests/test_runner.tscn
+        run: |
+          set -o pipefail
+          godot --headless --path . res://tests/test_runner.tscn 2>&1 | tee test_runner.log
 
       - name: Configure Android export (debug signing)
         run: |
